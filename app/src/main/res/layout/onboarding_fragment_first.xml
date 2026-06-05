@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D0D0D"
+    android:padding="24dp">
+
+    <View
+        android:id="@+id/viewSquare"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:background="@drawable/square"
+        app:layout_constraintBottom_toTopOf="@+id/tvOnboarding11"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvOnboarding11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:text="Your brain is addicted.\nThat's changing now."
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="26sp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/tvOnboarding12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewSquare" />
+
+    <TextView
+        android:id="@+id/tvOnboarding12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Each notification is a dose of dopamine. The app will help you learn how to sit in silence and not reach for the phone."
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="#888888"
+        android:textSize="20sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/lineOnboarding1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboarding11" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineOnboarding1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70" />
+
+    <View
+        android:id="@+id/viewOnboarding1Left"
+        android:layout_width="36dp"
+        android:layout_height="12dp"
+        android:background="@drawable/chosen_onboarding"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding1GotIt"
+        app:layout_constraintEnd_toStartOf="@+id/viewOnboarding1Center"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding1" />
+
+    <View
+        android:id="@+id/viewOnboarding1Center"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/circle_onboarding"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding1GotIt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding1" />
+
+    <View
+        android:id="@+id/viewOnboarding1Right"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/circle_onboarding"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding1GotIt"
+        app:layout_constraintStart_toEndOf="@+id/viewOnboarding1Center"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOnboarding1GotIt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0D0D0D"
+        android:fontFamily="@font/inter_bold"
+        android:paddingVertical="16dp"
+        android:text="Got it"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_arrow_right"
+        app:iconGravity="textEnd"
+        app:iconSize="28dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding1Skip"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewOnboarding1Center"
+        app:strokeColor="#888888"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOnboarding1Skip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0D0D0D"
+        android:fontFamily="@font/inter_bold"
+        android:paddingVertical="16dp"
+        android:text="Skip"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOnboarding1GotIt"
+        app:strokeColor="#888888"
+        app:strokeWidth="1dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

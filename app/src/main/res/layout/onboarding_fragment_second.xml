@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D0D0D"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvOnboarding2First"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Permissions Required"
+        android:textAllCaps="true"
+        android:textColor="#999999"
+        android:textSize="24sp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/llOnboarding2Container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboarding2First" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineOnboarding2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70" />
+
+    <View
+        android:id="@+id/viewOnboarding2Center"
+        android:layout_width="36dp"
+        android:layout_height="12dp"
+        android:background="@drawable/chosen_onboarding"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding2Allow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding2" />
+
+    <View
+        android:id="@+id/viewOnboarding2Right"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/circle_onboarding"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding2Allow"
+        app:layout_constraintStart_toEndOf="@+id/viewOnboarding2Center"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding2" />
+
+    <View
+        android:id="@+id/viewOnboarding2Left"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/circle_onboarding"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding2Allow"
+        app:layout_constraintEnd_toStartOf="@+id/viewOnboarding2Center"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOnboarding2Allow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0D0D0D"
+        android:fontFamily="@font/inter_bold"
+        android:paddingVertical="16dp"
+        android:text="Allow"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_arrow_right"
+        app:iconGravity="textEnd"
+        app:iconSize="28dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding2NotNow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewOnboarding2Center"
+        app:strokeColor="#888888"
+        app:strokeWidth="1dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOnboarding2NotNow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0D0D0D"
+        android:fontFamily="@font/inter_bold"
+        android:paddingVertical="16dp"
+        android:text="Not now"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnOnboarding2Allow"
+        app:strokeColor="#888888"
+        app:strokeWidth="1dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

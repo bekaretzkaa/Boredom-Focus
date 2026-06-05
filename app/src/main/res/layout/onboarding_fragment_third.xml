@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D0D0D"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvOnboarding3Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Customize Your Experience"
+        android:textAllCaps="true"
+        android:textColor="#999999"
+        android:textSize="24sp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvOnboarding3Difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Difficulty"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="18sp"
+        android:textColor="#888888"
+        android:layout_marginTop="24dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboarding3Title" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardOnboarding3Beginner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#0D0D0D"
+        app:layout_constraintEnd_toStartOf="@+id/cardOnboarding3Fighter"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboarding3Difficulty"
+        app:strokeColor="@color/stroke_beginner"
+        app:strokeWidth="1.5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="Beginner"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="can quit\nanytime"
+                android:textColor="#555555" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardOnboarding3Fighter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#0D0D0D"
+        app:layout_constraintEnd_toStartOf="@+id/cardOnboarding3Hardcore"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cardOnboarding3Beginner"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboarding3Difficulty"
+        app:strokeColor="@color/stroke_fighter"
+        app:strokeWidth="1.5dp"
+        android:layout_marginHorizontal="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="Fighter"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="exit\nprompt"
+                android:textAlignment="center"
+                android:textColor="#555555" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardOnboarding3Hardcore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checkable="true"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="#0D0D0D"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cardOnboarding3Fighter"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboarding3Difficulty"
+        app:strokeColor="@color/stroke_hardcore"
+        app:strokeWidth="1.5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="Hardcore"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="exit\nlocked"
+                android:textAlignment="center"
+                android:textColor="#555555" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:id="@+id/tvOnboarding3DetoxDuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detox Duration"
+        android:fontFamily="@font/inter_regular"
+        android:textSize="18sp"
+        android:textColor="#888888"
+        android:layout_marginTop="24dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardOnboarding3Beginner" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cgOnboarding3Duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvOnboarding3DetoxDuration"
+        app:singleSelection="true">
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/chipOnboarding3Duration1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="50dp"
+            app:chipStartPadding="8dp"
+            app:chipEndPadding="8dp"
+            android:backgroundTint="#0D0D0D"
+            android:fontFamily="@font/inter_regular"
+            android:text="5 min"
+            android:textSize="18sp"
+            android:textColor="#555555"
+            app:chipCornerRadius="20dp"
+            app:chipStrokeColor="@color/stroke_beginner"
+            app:chipStrokeWidth="1.5dp"/>
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/chipOnboarding3Duration2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="50dp"
+            app:chipStartPadding="8dp"
+            app:chipEndPadding="8dp"
+            android:backgroundTint="#0D0D0D"
+            android:fontFamily="@font/inter_regular"
+            android:text="7.5 min"
+            android:textSize="18sp"
+            android:textColor="#555555"
+            app:chipCornerRadius="20dp"
+            app:chipStrokeColor="@color/stroke_beginner"
+            app:chipStrokeWidth="1.5dp"/>
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/chipOnboarding3Duration3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="50dp"
+            app:chipStartPadding="8dp"
+            app:chipEndPadding="8dp"
+            android:backgroundTint="#0D0D0D"
+            android:fontFamily="@font/inter_regular"
+            android:text="10 min"
+            android:textSize="18sp"
+            android:textColor="#555555"
+            app:chipCornerRadius="20dp"
+            app:chipStrokeColor="@color/stroke_beginner"
+            app:chipStrokeWidth="1.5dp"/>
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Choice"
+            android:id="@+id/chipOnboarding3Duration4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:chipMinHeight="50dp"
+            app:chipStartPadding="8dp"
+            app:chipEndPadding="8dp"
+            android:backgroundTint="#0D0D0D"
+            android:fontFamily="@font/inter_regular"
+            android:text="15 min"
+            android:textSize="18sp"
+            android:textColor="#555555"
+            app:chipCornerRadius="20dp"
+            app:chipStrokeColor="@color/stroke_beginner"
+            app:chipStrokeWidth="1.5dp"/>
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <TextView
+        android:id="@+id/tvOnboarding3Description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="You can change this in settings later"
+        android:textAlignment="center"
+        android:textColor="#555555"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/lineOnboarding3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cgOnboarding3Duration" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/lineOnboarding3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.82"/>
+
+    <View
+        android:id="@+id/viewOnboarding3Right"
+        android:layout_width="39dp"
+        android:layout_height="14dp"
+        android:background="@drawable/chosen_onboarding"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding3Start"
+        app:layout_constraintStart_toEndOf="@+id/viewOnboarding3Center"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding3" />
+
+    <View
+        android:id="@+id/viewOnboarding3Center"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/circle_onboarding"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding3Start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding3" />
+
+    <View
+        android:id="@+id/viewOnboarding3Left"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:background="@drawable/circle_onboarding"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding3Start"
+        app:layout_constraintEnd_toStartOf="@+id/viewOnboarding3Center"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding3" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnOnboarding3Start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#0D0D0D"
+        android:fontFamily="@font/inter_bold"
+        android:paddingVertical="16dp"
+        android:text="Start"
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_arrow_right"
+        app:iconGravity="textEnd"
+        app:iconSize="28dp"
+        app:iconTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewOnboarding3Left"
+        app:strokeColor="#888888"
+        app:strokeWidth="1dp"
+        tools:layout_editor_absoluteX="24dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
