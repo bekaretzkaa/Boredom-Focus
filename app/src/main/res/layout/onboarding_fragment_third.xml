@@ -269,8 +269,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.82"/>
-
+        app:layout_constraintGuide_percent="0.88"/>
+    <!--
     <View
         android:id="@+id/viewOnboarding3Right"
         android:layout_width="39dp"
@@ -302,6 +302,8 @@
         app:layout_constraintEnd_toStartOf="@+id/viewOnboarding3Center"
         app:layout_constraintTop_toTopOf="@+id/lineOnboarding3" />
 
+        -->
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnOnboarding3Start"
         android:layout_width="match_parent"
@@ -318,9 +320,11 @@
         app:iconSize="28dp"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewOnboarding3Left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding3"
         app:strokeColor="#888888"
-        app:strokeWidth="1dp"
-        tools:layout_editor_absoluteX="24dp" />
+        app:strokeWidth="1dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,4 +61,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // Dots Indicator
+    implementation(libs.tbuonomo.dotsindicator)
 }

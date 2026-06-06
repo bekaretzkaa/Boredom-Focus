@@ -12,4 +12,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dotsIndicatorOnboarding1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dotsColor="#444444"
+        app:selectedDotColor="@color/white"
+        app:dotsSize="12dp"
+        app:progressMode="true"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOnboardingMain1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineOnboardingMain1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.78"/>
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dotsIndicatorOnboarding2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:dotsSize="12dp"
+        app:dotsColor="#444444"
+        app:selectedDotColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/guidelineOnboardingMain2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineOnboardingMain2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.88"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

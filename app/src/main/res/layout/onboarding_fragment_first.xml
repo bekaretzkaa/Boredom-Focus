@@ -57,8 +57,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.78" />
 
+    <!--
     <View
         android:id="@+id/viewOnboarding1Left"
         android:layout_width="36dp"
@@ -89,6 +90,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnOnboarding1GotIt"
         app:layout_constraintStart_toEndOf="@+id/viewOnboarding1Center"
         app:layout_constraintTop_toTopOf="@+id/lineOnboarding1" />
+        -->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnOnboarding1GotIt"
@@ -109,7 +111,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewOnboarding1Center"
+        app:layout_constraintTop_toTopOf="@+id/lineOnboarding1"
         app:strokeColor="#888888"
         app:strokeWidth="1dp" />
 
