@@ -5,18 +5,24 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.animation.LinearInterpolator
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.ActivityDetoxTimerBinding
+import com.example.boredomfocus.viewmodel.DetoxTimerViewModel
+import kotlinx.coroutines.launch
 import kotlin.concurrent.timer
 
 class DetoxTimerActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetoxTimerBinding
+    private val viewModel: DetoxTimerViewModel by viewModels()
 
-    private var timerAnimator: ValueAnimator? = null
+    private lateinit var binding: ActivityDetoxTimerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,38 +41,29 @@ class DetoxTimerActivity : AppCompatActivity() {
             )
             insets
         }
+
+        observeUi()
+
+        if(!viewModel.isRunning) {
+            viewModel.startTimer(totalSeconds = 22)
+        }
     }
 
-    override fun onStart() {
-        super.onStart()
-        startTimer(22)
-    }
+    private fun observeUi() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.progress.collect {
+                        binding.progressViewDetoxTimer.progress = it
+                    }
+                }
 
-    private fun startTimer(totalSeconds: Int) {
-
-        timerAnimator?.cancel()
-
-        val totalMillis = totalSeconds * 1000L
-
-        timerAnimator = ValueAnimator.ofFloat(1f, 0f).apply {
-            duration = totalMillis
-            interpolator = LinearInterpolator()
-
-            addUpdateListener { animator ->
-                val progress = animator.animatedValue as Float
-                binding.progressViewDetoxTimer.progress = progress
-
-                val millisLest = (totalMillis * progress).toLong()
-
-                val totalSeconds = millisLest / 1000
-
-                val minutes = totalSeconds / 60
-                val seconds = totalSeconds % 60
-
-                binding.tvDetoxTimer.text = String.format("%02d:%02d", minutes, seconds)
+                launch {
+                    viewModel.time.collect {
+                        binding.tvDetoxTimer.text = it
+                    }
+                }
             }
-
-            start()
         }
     }
 }

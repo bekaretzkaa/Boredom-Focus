@@ -15,10 +15,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="focus record"
+        android:text="рекорд фокуса"
         android:textAllCaps="true"
         android:textColor="#444444"
-        android:textSize="14sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/tvStreak2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -45,9 +45,9 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
         android:paddingBottom="24dp"
-        android:text="longest time without phone"
+        android:text="лучшее время без телеофона"
         android:textColor="#444444"
-        android:textSize="18sp"
+        android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/llWednesday"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -257,7 +257,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.36" />
+        app:layout_constraintGuide_percent="0.40" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStartDetox"
@@ -266,7 +266,7 @@
         android:backgroundTint="@color/white"
         android:fontFamily="@font/inter_medium"
         android:padding="22dp"
-        android:text="Start detox"
+        android:text="Начать детокс"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="12dp"
@@ -314,7 +314,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="day streak\n"
+                android:text="стрик дней\n"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -356,7 +356,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="sessions\nin total"
+                android:text="сессий\nвсего"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -368,7 +368,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.68" />
+        app:layout_constraintGuide_percent="0.70" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardQuote"
@@ -376,7 +376,7 @@
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
-
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -388,13 +388,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="12dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_italic"
-                android:text="\«Discipline is a choice between what you want now and what you want most\»"
+                android:text="\«Дисциплина — это выбор между тем, чего хочешь сейчас, и тем, чего хочешь больше всего\»"
                 android:textColor="#777777"
                 android:textSize="20sp" />
 
@@ -402,7 +402,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="— Abraham Lincoln"
+                android:text="— Авраам Линкольн"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>
