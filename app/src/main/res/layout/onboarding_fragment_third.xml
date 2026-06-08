@@ -315,7 +315,7 @@
         android:textColor="@color/white"
         android:textSize="24sp"
         app:cornerRadius="12dp"
-        app:icon="@drawable/ic_arrow_right"
+        app:icon="@drawable/ic_arrow_right_up"
         app:iconGravity="textEnd"
         app:iconSize="28dp"
         app:iconTint="@color/white"

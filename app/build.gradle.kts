@@ -64,4 +64,6 @@ dependencies {
 
     // Dots Indicator
     implementation(libs.tbuonomo.dotsindicator)
+
+    implementation(libs.androidx.fragment.ktx)
 }

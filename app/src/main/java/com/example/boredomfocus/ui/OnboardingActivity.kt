@@ -1,22 +1,31 @@
-package com.example.boredomfocus
+package com.example.boredomfocus.ui
 
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
+import com.example.boredomfocus.OnboardingFragmentAdapter
 import com.example.boredomfocus.databinding.ActivityOnboardingBinding
+import com.example.boredomfocus.ui.fragment.OnboardingFragmentFirst
+import com.example.boredomfocus.ui.fragment.OnboardingFragmentSecond
+import com.example.boredomfocus.ui.fragment.OnboardingFragmentThird
+import com.example.boredomfocus.viewmodel.OnboardingViewModel
+import kotlinx.coroutines.launch
 
 class OnboardingActivity : AppCompatActivity() {
+
+    private val viewModel: OnboardingViewModel by viewModels()
 
     private lateinit var binding: ActivityOnboardingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
 
 
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
@@ -57,5 +66,14 @@ class OnboardingActivity : AppCompatActivity() {
                 }
             }
         })
+
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.navigateToPage.collect { pageIndex ->
+                    binding.viewPagerOnboarding.setCurrentItem(pageIndex, true)
+                }
+            }
+        }
     }
 }
