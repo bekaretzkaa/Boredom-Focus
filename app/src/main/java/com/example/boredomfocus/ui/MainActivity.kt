@@ -6,7 +6,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.boredomfocus.permission.PermissionManager
 import com.example.boredomfocus.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             )
             insets
         }
-
-        startActivity(Intent(this, OnboardingActivity::class.java))
+        startActivity(Intent(this, DetoxTimerActivity::class.java))
+//        startActivity(Intent(this, OnboardingActivity::class.java))
     }
 }

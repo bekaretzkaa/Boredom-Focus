@@ -285,15 +285,15 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
         app:cardBackgroundColor="#1A1A1A"
-        app:strokeColor="#1A1A1A"
         app:cardCornerRadius="16dp"
-
         app:layout_constraintBottom_toTopOf="@+id/line2"
+
         app:layout_constraintEnd_toStartOf="@+id/cardSession"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnStartDetox">
+        app:layout_constraintTop_toBottomOf="@+id/btnStartDetox"
+        app:strokeColor="#1A1A1A">
 
         <LinearLayout
             android:id="@+id/llRecord"
@@ -301,21 +301,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
                 android:text="7"
                 android:textColor="@color/white"
-                android:textSize="24sp"
-                />
+                android:textSize="24sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
                 android:text="day streak\n"
-                android:textSize="14sp"
-                android:textColor="#555555"/>
+                android:textColor="#555555"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -326,15 +327,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         app:cardBackgroundColor="#1A1A1A"
-        app:strokeColor="#1A1A1A"
         app:cardCornerRadius="16dp"
-
         app:layout_constraintBottom_toTopOf="@+id/line2"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toEndOf="@+id/cardRecord"
-        app:layout_constraintTop_toBottomOf="@+id/btnStartDetox">
+        app:layout_constraintTop_toBottomOf="@+id/btnStartDetox"
+        app:strokeColor="#1A1A1A">
 
         <LinearLayout
             android:id="@+id/llSession"
@@ -342,21 +343,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
                 android:text="23"
                 android:textColor="@color/white"
-                android:textSize="24sp"
-                />
+                android:textSize="24sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
                 android:text="sessions\nin total"
-                android:textSize="14sp"
-                android:textColor="#555555"/>
+                android:textColor="#555555"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -370,15 +372,13 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardQuote"
-        android:layout_width="0dp"
+        android:layout_width="363dp"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
 
-        app:layout_constraintBottom_toTopOf="@+id/line3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/line2"
         app:strokeColor="#1A1A1A">
