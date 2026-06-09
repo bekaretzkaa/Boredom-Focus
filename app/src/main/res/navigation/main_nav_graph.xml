@@ -16,4 +16,16 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.boredomfocus.ui.SettingsFragment"/>
 
+    <fragment
+        android:id="@+id/detoxTimerFragment"
+        android:name="com.example.boredomfocus.ui.DetoxTimerFragment"/>
+
+    <fragment
+        android:id="@+id/stopwatchFragment"
+        android:name="com.example.boredomfocus.ui.StopwatchFragment"/>
+
+    <fragment
+        android:id="@+id/focusResultFragment"
+        android:name="com.example.boredomfocus.ui.FocusResultFragment"/>
+
 </navigation>

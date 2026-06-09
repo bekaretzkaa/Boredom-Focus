@@ -19,6 +19,9 @@ class DetoxTimerViewModel : ViewModel() {
     private val _progress = MutableStateFlow(1f)
     val progress: StateFlow<Float> = _progress
 
+    private val _finished = MutableStateFlow(false)
+    val finished: StateFlow<Boolean> = _finished
+
     private var timerJob: Job? = null
 
     private var durationMillis = 0L
@@ -52,7 +55,10 @@ class DetoxTimerViewModel : ViewModel() {
 
                 _time.value = String.format("%02d:%02d", minutes, seconds)
 
-                if(remainingMillis <= 0) break
+                if(remainingMillis <= 0) {
+                    _finished.value = true
+                    break
+                }
 
                 delay(16)
             }

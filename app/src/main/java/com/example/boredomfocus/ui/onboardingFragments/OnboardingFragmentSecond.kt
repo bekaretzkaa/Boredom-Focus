@@ -1,4 +1,4 @@
-package com.example.boredomfocus.ui.fragment
+package com.example.boredomfocus.ui.onboardingFragments
 
 import android.os.Build
 import android.os.Bundle
@@ -15,7 +15,6 @@ import com.example.boredomfocus.databinding.OnboardingFragmentSecondBinding
 import com.example.boredomfocus.permission.PermissionStatus
 import com.example.boredomfocus.permission.PermissionViewModel
 import com.example.boredomfocus.viewmodel.OnboardingViewModel
-import java.security.Permission
 
 class OnboardingFragmentSecond : Fragment(R.layout.onboarding_fragment_second) {
 

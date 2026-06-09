@@ -74,14 +74,16 @@
                     android:id="@+id/ivHomeIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/home_selected" />
+                    android:src="@drawable/home_selector"
+                    android:duplicateParentState="true"/>
 
                 <View
                     android:id="@+id/viewHomeDivider"
                     android:layout_width="32dp"
                     android:layout_height="2dp"
                     android:layout_marginTop="4dp"
-                    android:background="@color/white" />
+                    android:background="@drawable/nav_divider_selector"
+                    android:duplicateParentState="true"/>
             </LinearLayout>
 
             <LinearLayout
@@ -98,14 +100,16 @@
                     android:id="@+id/ivStatisticsIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/statistics_unselected" />
+                    android:src="@drawable/statistics_selector"
+                    android:duplicateParentState="true"/>
 
                 <View
                     android:id="@+id/viewStatisticsDivider"
                     android:layout_width="32dp"
                     android:layout_height="2dp"
                     android:layout_marginTop="4dp"
-                    android:background="#0D0D0D" />
+                    android:background="@drawable/nav_divider_selector"
+                    android:duplicateParentState="true"/>
             </LinearLayout>
 
             <LinearLayout
@@ -122,14 +126,16 @@
                     android:id="@+id/ivSettingsIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/settings_unselected" />
+                    android:src="@drawable/settings_selector"
+                    android:duplicateParentState="true"/>
 
                 <View
                     android:id="@+id/viewSettingsDivider"
                     android:layout_width="32dp"
                     android:layout_height="2dp"
                     android:layout_marginTop="4dp"
-                    android:background="#0D0D0D" />
+                    android:background="@drawable/nav_divider_selector"
+                    android:duplicateParentState="true"/>
             </LinearLayout>
 
         </LinearLayout>

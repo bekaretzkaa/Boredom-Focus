@@ -1,4 +1,4 @@
-package com.example.boredomfocus.ui.fragment
+package com.example.boredomfocus.ui.onboardingFragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

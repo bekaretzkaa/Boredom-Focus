@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        startActivity(Intent(this, OnboardingActivity::class.java))
+
         val navHost = supportFragmentManager.findFragmentById(binding.mainFragmentContainer.id) as NavHostFragment
         navController = navHost.navController
 
@@ -47,10 +49,22 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener {
                 _, destination, _ ->
             when (destination.id) {
-                R.id.homeFragment -> showBottomNav()
-                R.id.statisticsFragment -> showBottomNav()
-                R.id.settingsFragment -> showBottomNav()
-                else -> hideBottomNav()
+                R.id.homeFragment -> {
+                    showBottomNav()
+                    selectHome()
+                }
+                R.id.statisticsFragment -> {
+                    showBottomNav()
+                    selectStatistics()
+                }
+                R.id.settingsFragment -> {
+                    showBottomNav()
+                    selectSettings()
+                }
+                else -> {
+                    hideBottomNav()
+                    clearSelection()
+                }
             }
         }
     }
@@ -76,7 +90,7 @@ class MainActivity : AppCompatActivity() {
             .setPopUpTo(navController.graph.startDestinationId, inclusive = false, saveState = true)
             .build()
         
-        navController.navigate(destinationId, null, navOptions)
+        navController.navigate(resId = destinationId, args = null, navOptions = navOptions)
     }
 
     private fun showBottomNav() {
@@ -85,5 +99,29 @@ class MainActivity : AppCompatActivity() {
 
     private fun hideBottomNav() {
         binding.bottomNavContainer.isVisible = false
+    }
+
+    private fun selectHome() {
+        binding.llNavHome.isSelected = true
+        binding.llNavStatistics.isSelected = false
+        binding.llNavSettings.isSelected = false
+    }
+
+    private fun selectStatistics() {
+        binding.llNavHome.isSelected = false
+        binding.llNavStatistics.isSelected = true
+        binding.llNavSettings.isSelected = false
+    }
+
+    private fun selectSettings() {
+        binding.llNavHome.isSelected = false
+        binding.llNavStatistics.isSelected = false
+        binding.llNavSettings.isSelected = true
+    }
+
+    private fun clearSelection() {
+        binding.llNavHome.isSelected = false
+        binding.llNavStatistics.isSelected = false
+        binding.llNavSettings.isSelected = false
     }
 }

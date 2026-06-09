@@ -11,9 +11,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewpager2.widget.ViewPager2
 import com.example.boredomfocus.OnboardingFragmentAdapter
 import com.example.boredomfocus.databinding.ActivityOnboardingBinding
-import com.example.boredomfocus.ui.fragment.OnboardingFragmentFirst
-import com.example.boredomfocus.ui.fragment.OnboardingFragmentSecond
-import com.example.boredomfocus.ui.fragment.OnboardingFragmentThird
+import com.example.boredomfocus.ui.onboardingFragments.OnboardingFragmentFirst
+import com.example.boredomfocus.ui.onboardingFragments.OnboardingFragmentSecond
+import com.example.boredomfocus.ui.onboardingFragments.OnboardingFragmentThird
 import com.example.boredomfocus.viewmodel.OnboardingViewModel
 import kotlinx.coroutines.launch
 

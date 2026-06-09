@@ -2,12 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0D0D0D"
     android:padding="24dp"
-    tools:context=".ui.DetoxTimerActivity">
+    android:background="#0D0D0D"
+    tools:context=".ui.DetoxTimerFragment">
 
     <View
         android:id="@+id/viewRedDot"
