@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BoredomFocus">
         <activity
+            android:name=".ui.FocusResultActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.StopwatchActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.DetoxTimerActivity"
             android:exported="false" />
         <activity

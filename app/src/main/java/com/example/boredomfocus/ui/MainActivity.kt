@@ -28,7 +28,8 @@ class MainActivity : AppCompatActivity() {
             )
             insets
         }
-        startActivity(Intent(this, DetoxTimerActivity::class.java))
+        startActivity(Intent(this, StopwatchActivity::class.java))
+//        startActivity(Intent(this, DetoxTimerActivity::class.java))
 //        startActivity(Intent(this, OnboardingActivity::class.java))
     }
 }
