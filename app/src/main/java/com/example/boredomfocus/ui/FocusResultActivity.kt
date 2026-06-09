@@ -6,16 +6,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.boredomfocus.R
+import com.example.boredomfocus.databinding.ActivityFocusResultBinding
 
 class FocusResultActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityFocusResultBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_focus_result)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+
+        binding = ActivityFocusResultBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            val customPadding = (24 * resources.displayMetrics.density).toInt()
+            v.setPadding(
+                systemBars.left + customPadding,
+                systemBars.top + customPadding,
+                systemBars.right + customPadding,
+                systemBars.bottom
+            )
             insets
+        }
+
+        binding.btnToHome.setOnClickListener {
+            finish()
         }
     }
 }
