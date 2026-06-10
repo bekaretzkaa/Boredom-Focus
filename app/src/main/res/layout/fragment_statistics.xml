@@ -1,31 +1,589 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="24dp"
     android:background="#0D0D0D"
     tools:context=".ui.StatisticsFragment">
 
-    <TextView
-        android:id="@+id/tvStatistics"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is statistics"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/StatisticsBottomNavLine"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/lineStatistics"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/tvStatistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Статистика"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/StatisticsChips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvStatistics">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipStatisticsWeek"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#0D0D0D"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Неделя"
+                    android:textColor="#555555"
+                    android:textSize="18sp"
+                    app:chipCornerRadius="12dp"
+                    app:chipEndPadding="8dp"
+                    app:chipMinHeight="50dp"
+                    app:chipStartPadding="8dp"
+                    app:chipStrokeColor="@color/stroke_beginner"
+                    app:chipStrokeWidth="1.5dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipStatisticsMonth"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:backgroundTint="#0D0D0D"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Месяц"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    app:chipCornerRadius="12dp"
+                    app:chipEndPadding="8dp"
+                    app:chipMinHeight="50dp"
+                    app:chipStartPadding="8dp"
+                    app:chipStrokeColor="@color/stroke_beginner"
+                    app:chipStrokeWidth="1.5dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipStatisticsAllTime"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:backgroundTint="#0D0D0D"
+                    android:fontFamily="@font/inter_regular"
+                    android:text="Всё время"
+                    android:textColor="#555555"
+                    android:textSize="18sp"
+                    app:chipCornerRadius="12dp"
+                    app:chipEndPadding="8dp"
+                    app:chipMinHeight="50dp"
+                    app:chipStartPadding="8dp"
+                    app:chipStrokeColor="@color/stroke_beginner"
+                    app:chipStrokeWidth="1.5dp" />
+
+            </LinearLayout>
+
+            <GridLayout
+                android:id="@+id/glStatisticsCards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:columnCount="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/StatisticsChips">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStatisticsFocusRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="4dp"
+                    app:cardBackgroundColor="#1A1A1A"
+                    app:cardCornerRadius="16dp"
+                    app:strokeColor="#141414">
+
+                    <LinearLayout
+                        android:id="@+id/cardStatisticsFocusRecordContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:paddingEnd="0dp">
+
+                        <TextView
+                            android:id="@+id/tvStatisticsFocusRecordTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="14:32"
+                            android:textColor="#639922"
+                            android:textSize="36sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsFocusRecordWord"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="рекорд фокуса"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsFocusRecordComparison"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="↑ лучший за всё время"
+                            android:textColor="#639922"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStatisticsFocusAverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="4dp"
+                    app:cardBackgroundColor="#1A1A1A"
+                    app:cardCornerRadius="16dp"
+                    app:strokeColor="#141414">
+
+                    <LinearLayout
+                        android:id="@+id/cardStatisticsFocusAverageContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:paddingEnd="0dp">
+
+                        <TextView
+                            android:id="@+id/tvStatisticsFocusAverageTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="05:14"
+                            android:textColor="@color/white"
+                            android:textSize="36sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsFocusAverageWord"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="среднее фокуса"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsFocusAverageComparison"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="↑ +0:50 от прошлого"
+                            android:textColor="#639922"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStatisticsSessions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    app:cardBackgroundColor="#1A1A1A"
+                    app:cardCornerRadius="16dp"
+                    app:strokeColor="#141414">
+
+                    <LinearLayout
+                        android:id="@+id/cardStatisticsSessionsContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:paddingEnd="0dp">
+
+                        <TextView
+                            android:id="@+id/tvStatisticsSessionsCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="7"
+                            android:textColor="@color/white"
+                            android:textSize="36sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsSessionsCountWord"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="сессий за месяц"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsSessionsComparison"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="↓ −3 от прошлого"
+                            android:textColor="#E24B4A"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStatisticsDetoxEnded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    app:cardBackgroundColor="#1A1A1A"
+                    app:cardCornerRadius="16dp"
+                    app:strokeColor="#141414">
+
+                    <LinearLayout
+                        android:id="@+id/cardStatisticsDetoxEndedContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="12dp"
+                        android:paddingEnd="0dp">
+
+                        <TextView
+                            android:id="@+id/tvStatisticsDetoxPercent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="91%"
+                            android:textColor="#86827c"
+                            android:textSize="36sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsDetoxPercentWordWord"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="детоксов завершено"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tvStatisticsDetoxPercentComparison"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="↓ −5% от прошлого"
+                            android:textColor="#E24B4A"
+                            android:textSize="14sp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </GridLayout>
+
+            <TextView
+                android:id="@+id/tvStatisticWeekWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="эта неделя"
+                android:textAllCaps="true"
+                android:textColor="#444444"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/glStatisticsCards" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardStatisticsWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:layout_marginTop="12dp"
+                app:cardBackgroundColor="#1A1A1A"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvStatisticWeekWord"
+                app:strokeColor="#141414">
+
+                <LinearLayout
+                    android:id="@+id/cardStatisticsWeekContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/viewMonday"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_filled" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="пн"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/viewTuesday"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_filled" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="вт"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/viewWednesday"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_filled" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="ср"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/viewThursday"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_filled" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="чт"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/viewFriday"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_filled" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="пт"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/viewSaturday"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_filled" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="сб"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <View
+                            android:id="@+id/viewSunday"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:background="@drawable/circle_empty" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter_regular"
+                            android:text="вс"
+                            android:textColor="#444444"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:id="@+id/llStatisticsViewContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardStatisticsWeek">
+
+                <View
+                    android:id="@+id/viewGreenSquare"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/green_square" />
+
+                <TextView
+                    android:id="@+id/tvStatisticsViewFocus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="фокус"
+                    android:textColor="#444444"
+                    android:textSize="18sp" />
+
+                <View
+                    android:id="@+id/viewRedSquare"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/red_square" />
+
+                <TextView
+                    android:id="@+id/tvStatisticsViewDetox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="детокс"
+                    android:textColor="#444444"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSessionsStatistics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llStatisticsViewContent"
+                tools:listitem="@layout/item_session" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+    
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/StatisticsBottomNavLine"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/lineStatistics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.90" />
-
+        app:layout_constraintGuide_percent="0.90"/>
+    
 </androidx.constraintlayout.widget.ConstraintLayout>

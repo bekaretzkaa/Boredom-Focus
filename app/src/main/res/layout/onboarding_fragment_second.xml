@@ -39,39 +39,6 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.78" />
-    <!--
-    <View
-        android:id="@+id/viewOnboarding2Center"
-        android:layout_width="36dp"
-        android:layout_height="12dp"
-        android:background="@drawable/chosen_onboarding"
-        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding2Allow"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lineOnboarding2" />
-
-    <View
-        android:id="@+id/viewOnboarding2Right"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:background="@drawable/circle_onboarding"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding2Allow"
-        app:layout_constraintStart_toEndOf="@+id/viewOnboarding2Center"
-        app:layout_constraintTop_toTopOf="@+id/lineOnboarding2" />
-
-    <View
-        android:id="@+id/viewOnboarding2Left"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:background="@drawable/circle_onboarding"
-        android:layout_marginRight="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnOnboarding2Allow"
-        app:layout_constraintEnd_toStartOf="@+id/viewOnboarding2Center"
-        app:layout_constraintTop_toTopOf="@+id/lineOnboarding2" />
-
-        -->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnOnboarding2Allow"

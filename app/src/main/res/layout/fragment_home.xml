@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:paddingBottom="24dp"
+        android:paddingBottom="12dp"
         android:text="лучшее время без телеофона"
         android:textColor="#444444"
         android:textSize="22sp"
@@ -52,203 +52,185 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvStreak2" />
 
-
     <LinearLayout
-        android:id="@+id/llMonday"
-        android:layout_width="0dp"
+        android:id="@+id/cardWeek"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:padding="12dp"
         app:layout_constraintBottom_toTopOf="@+id/line1"
-        app:layout_constraintEnd_toStartOf="@+id/llTuesday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak3">
+        app:layout_constraintTop_toBottomOf="@+id/tvStreak3"
+        tools:layout_editor_absoluteX="24dp">
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/circle_filled" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="mon"
-            android:textColor="#444444"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llTuesday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/line1"
-        app:layout_constraintEnd_toStartOf="@+id/llWednesday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/llMonday"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak3">
+            <View
+                android:id="@+id/viewMonday"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/circle_filled" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/circle_filled" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="пн"
+                android:textColor="#444444"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="tue"
-            android:textColor="#444444"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llWednesday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/line1"
-        app:layout_constraintEnd_toStartOf="@+id/llThursday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/llTuesday"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak3">
+            <View
+                android:id="@+id/viewTuesday"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/circle_filled" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/circle_filled" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="вт"
+                android:textColor="#444444"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="wed"
-            android:textColor="#444444"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llThursday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/line1"
-        app:layout_constraintEnd_toStartOf="@+id/llFriday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/llWednesday"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak3">
+            <View
+                android:id="@+id/viewWednesday"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/circle_filled" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/circle_filled" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="ср"
+                android:textColor="#444444"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="thu"
-            android:textColor="#444444"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llFriday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/line1"
-        app:layout_constraintEnd_toStartOf="@+id/llSaturday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/llThursday"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak3">
+            <View
+                android:id="@+id/viewThursday"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/circle_filled" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/circle_empty" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="чт"
+                android:textColor="#444444"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="fri"
-            android:textColor="#444444"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llSaturday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/line1"
-        app:layout_constraintEnd_toStartOf="@+id/llSunday"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/llFriday"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak3">
+            <View
+                android:id="@+id/viewFriday"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/circle_filled" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/circle_empty" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="пт"
+                android:textColor="#444444"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="sat"
-            android:textColor="#444444"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/llSunday"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/llThursday"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/llSaturday"
-        app:layout_constraintTop_toBottomOf="@+id/llSaturday">
+            <View
+                android:id="@+id/viewSaturday"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/circle_filled" />
 
-        <View
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginBottom="4dp"
-            android:background="@drawable/circle_empty" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="сб"
+                android:textColor="#444444"
+                android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter_regular"
-            android:text="sun"
-            android:textColor="#444444"
-            android:textSize="12sp" />
-    </LinearLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
+            <View
+                android:id="@+id/viewSunday"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:background="@drawable/circle_empty" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/inter_regular"
+                android:text="вс"
+                android:textColor="#444444"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/line1"
