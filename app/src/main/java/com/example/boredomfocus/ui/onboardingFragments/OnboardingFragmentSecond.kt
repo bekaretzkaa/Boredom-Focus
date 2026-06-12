@@ -62,16 +62,16 @@ class OnboardingFragmentSecond : Fragment(R.layout.onboarding_fragment_second) {
         val permissionsList = listOf(
             PermissionItem(
                 "dnd",
-                "Mode «Do not disturb»",
-                "Blocks notifications during your detox. Otherwise, it defeats the purpose.",
+                "Режим «Не беспокоить»",
+                "Блокирует уведомления во время детокса. Без этого смысл пропадает.",
                 R.drawable.ic_notification_off,
                 R.drawable.bg_ic_notification_off,
                 status.doNotDisturb
             ),
             PermissionItem(
                 "notifications",
-                "Notifications",
-                "Daily session reminder. Just one, promise.",
+                "Уведомления",
+                "Ежедневное напоминание о сессии. Только одно, обещаем.",
                 R.drawable.ic_notification,
                 R.drawable.bg_ic_notification,
                 status.postNotifications

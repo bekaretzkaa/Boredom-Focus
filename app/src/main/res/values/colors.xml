@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray_border">#2A2A2A</color>
+
+    <color name="card_unselected">#2A2A2A</color>
+    <color name="difficulty_green">#4CAF50</color>
+    <color name="difficulty_orange">#FF9800</color>
+    <color name="difficulty_red">#F44336</color>
+
+    <color name="difficulty_green_bg">#104CAF50</color>
+    <color name="difficulty_orange_bg">#10FF9800</color>
+    <color name="difficulty_red_bg">#10F44336</color>
 </resources>

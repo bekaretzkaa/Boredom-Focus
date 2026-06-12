@@ -5,21 +5,361 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#0D0D0D"
-    android:padding="24dp"
     tools:context=".ui.SettingsFragment">
 
-    <TextView
-        android:id="@+id/tvSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="This is settings"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/SettingsBottomNavLine"
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/SettingsBottomNavLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintHorizontal_bias="0.5">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/tvSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Настройки"
+                android:textColor="@color/white"
+                android:textSize="32sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSettingsSessionWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="сессия"
+                android:textAllCaps="true"
+                android:textColor="#444444"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSettings" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSettingsSession"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#161616"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSettingsSessionWord"
+                app:strokeColor="#303030">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardSettingsSessionContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsTimeIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_ic_notification_off"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsTimeIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_time" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsTimeWord1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Длина детокса"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsTimeIconContainer"
+                        app:layout_constraintTop_toTopOf="@+id/flSettingsTimeIconContainer" />
+
+                    <TextView
+                        android:id="@+id/tvSettingsTimeWord2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="В минутах"
+                        android:textColor="#444444"
+                        android:textSize="16sp"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsTimeIconContainer"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSettingsTimeWord1" />
+
+                    <LinearLayout
+                        android:id="@+id/llSettingsTimeButtons"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsTimeIconContainer"
+                        app:layout_constraintTop_toBottomOf="@+id/flSettingsTimeIconContainer">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardTimeFive"
+                            style="@style/DurationChoiceStyle">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="5"
+                                android:textSize="21sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardTimeSeven"
+                            style="@style/DurationChoiceStyle">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="7"
+                                android:textSize="22sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardTimeTen"
+                            style="@style/DurationChoiceStyle">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="10"
+                                android:textSize="22sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardTimeFifteen"
+                            style="@style/DurationChoiceStyle">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/inter_medium"
+                                android:gravity="center"
+                                android:text="15"
+                                android:textSize="22sp" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsDifficultyIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="26dp"
+                        android:background="@drawable/bg_icon_orange"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/llSettingsTimeButtons">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsDifficultyIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_fire" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsDifficultyWord1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Сложность"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsDifficultyIconContainer"
+                        app:layout_constraintTop_toTopOf="@+id/flSettingsDifficultyIconContainer" />
+
+                    <TextView
+                        android:id="@+id/tvSettingsDifficultyWord2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Управляет блокировкой выхода"
+                        android:textColor="#444444"
+                        android:textSize="16sp"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsDifficultyIconContainer"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSettingsDifficultyWord1" />
+
+                    <LinearLayout
+                        android:id="@+id/llSettingsDifficultyButtons"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        android:paddingVertical="4dp"
+                        android:paddingHorizontal="4dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/flSettingsDifficultyIconContainer">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardDifficultyBeginner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="16dp"
+                            app:strokeColor="@color/card_unselected"
+                            app:strokeWidth="2dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:paddingVertical="22dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvDifficultyBeginner"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_bold"
+                                    android:text="Новичок"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDifficultyBeginner2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:gravity="center"
+                                    android:layout_marginTop="4dp"
+                                    android:text="выйти\nсвободно"
+                                    android:textColor="#666666"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardDifficultyFighter"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="12dp"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="16dp"
+                            app:strokeColor="@color/card_unselected"
+                            app:strokeWidth="2dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:paddingVertical="22dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvDifficultyFighter"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_bold"
+                                    android:text="Боец"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDifficultyFighter2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:gravity="center"
+                                    android:layout_marginTop="4dp"
+                                    android:text="диалог\nвыхода"
+                                    android:textColor="#666666"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardDifficultyHardcore"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="16dp"
+                            app:strokeColor="@color/card_unselected"
+                            app:strokeWidth="2dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:paddingVertical="22dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvDifficultyHardcore"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_bold"
+                                    android:text="Хардкор"
+                                    android:textColor="@color/white"
+                                    android:textSize="18sp" />
+
+                                <TextView
+                                    android:id="@+id/tvDifficultyHardcore2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/inter_regular"
+                                    android:gravity="center"
+                                    android:layout_marginTop="4dp"
+                                    android:text="выход\nзакрыт"
+                                    android:textColor="#666666"
+                                    android:textSize="14sp" />
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                    </LinearLayout>
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/SettingsBottomNavLine"

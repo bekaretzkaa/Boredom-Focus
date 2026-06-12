@@ -116,6 +116,11 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun updateChartCard(item: ChartItem) {
         binding.tvChartItemLabel.text = item.label
 
