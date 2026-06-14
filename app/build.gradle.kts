@@ -6,9 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.boredomfocus"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.example.boredomfocus"
@@ -63,6 +61,9 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    // DataStore
+    implementation(libs.androidx.datastore.preferences)
 
     // Dots Indicator
     implementation(libs.tbuonomo.dotsindicator)

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#0D0D0D"
-    tools:context=".ui.SettingsFragment">
+    tools:context=".feature.settings.presentation.SettingsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
@@ -441,7 +441,7 @@
                         app:layout_constraintStart_toEndOf="@+id/flSettingsDndIconContainer"
                         app:layout_constraintTop_toBottomOf="@+id/tvSettingsDndWord1" />
 
-                    <com.example.boredomfocus.utils.CustomToggleSwitch
+                    <com.example.boredomfocus.core.ui.customview.CustomToggleSwitch
                         android:id="@+id/switchDnd"
                         android:layout_width="60dp"
                         android:layout_height="32dp"
@@ -502,7 +502,7 @@
                         app:layout_constraintStart_toEndOf="@+id/flSettingsLockIconContainer"
                         app:layout_constraintTop_toBottomOf="@+id/tvSettingsLockWord1" />
 
-                    <com.example.boredomfocus.utils.CustomToggleSwitch
+                    <com.example.boredomfocus.core.ui.customview.CustomToggleSwitch
                         android:id="@+id/switchLock"
                         android:layout_width="60dp"
                         android:layout_height="32dp"
@@ -578,7 +578,7 @@
                         app:layout_constraintStart_toEndOf="@+id/flSettingsNotificationIconContainer"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <com.example.boredomfocus.utils.CustomToggleSwitch
+                    <com.example.boredomfocus.core.ui.customview.CustomToggleSwitch
                         android:id="@+id/switchNotification"
                         android:layout_width="60dp"
                         android:layout_height="32dp"

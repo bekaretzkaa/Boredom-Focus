@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="#0D0D0D"
-    tools:context=".ui.DetoxTimerFragment">
+    tools:context=".feature.detox.presentation.DetoxTimerFragment">
 
     <View
         android:id="@+id/viewRedDot"
@@ -36,7 +36,7 @@
         app:layout_constraintStart_toEndOf="@+id/viewRedDot"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.boredomfocus.ui.CircularProgressView
+    <com.example.boredomfocus.core.ui.customview.CircularProgressView
         android:id="@+id/progressViewDetoxTimer"
         android:layout_width="260dp"
         android:layout_height="260dp"

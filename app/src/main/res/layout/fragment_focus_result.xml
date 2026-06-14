@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="#0D0D0D"
-    tools:context=".ui.FocusResultFragment">
+    tools:context=".feature.focusresult.presentation.FocusResultFragment">
 
     <TextView
         android:id="@+id/tvSessionEnded"

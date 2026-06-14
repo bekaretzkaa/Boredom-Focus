@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#0D0D0D"
-    tools:context=".ui.StatisticsFragment">
+    tools:context=".feature.statistics.presentation.StatisticsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
@@ -563,7 +563,7 @@
 
             </LinearLayout>
 
-            <com.example.boredomfocus.ui.DetoxFocusChartView
+            <com.example.boredomfocus.core.ui.customview.DetoxFocusChartView
                 android:id="@+id/detoxFocusBarChartView"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"

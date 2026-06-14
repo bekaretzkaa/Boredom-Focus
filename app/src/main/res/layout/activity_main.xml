@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#0D0D0D"
     android:paddingBottom="24dp"
-    tools:context=".ui.MainActivity">
+    tools:context=".app.MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainFragmentContainer"

@@ -6,26 +6,26 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.boredomfocus.ui.HomeFragment"/>
+        android:name="com.example.boredomfocus.feature.home.presentation.HomeFragment"/>
 
     <fragment
         android:id="@+id/statisticsFragment"
-        android:name="com.example.boredomfocus.ui.StatisticsFragment"/>
+        android:name="com.example.boredomfocus.feature.statistics.presentation.StatisticsFragment"/>
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.boredomfocus.ui.SettingsFragment"/>
+        android:name="com.example.boredomfocus.feature.settings.presentation.SettingsFragment"/>
 
     <fragment
         android:id="@+id/detoxTimerFragment"
-        android:name="com.example.boredomfocus.ui.DetoxTimerFragment"/>
+        android:name="com.example.boredomfocus.feature.detox.presentation.DetoxTimerFragment"/>
 
     <fragment
         android:id="@+id/stopwatchFragment"
-        android:name="com.example.boredomfocus.ui.StopwatchFragment"/>
+        android:name="com.example.boredomfocus.feature.stopwatch.presentation.StopwatchFragment"/>
 
     <fragment
         android:id="@+id/focusResultFragment"
-        android:name="com.example.boredomfocus.ui.FocusResultFragment"/>
+        android:name="com.example.boredomfocus.feature.focusresult.presentation.FocusResultFragment"/>
 
 </navigation>
