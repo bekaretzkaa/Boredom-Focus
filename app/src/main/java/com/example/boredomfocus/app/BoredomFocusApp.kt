@@ -1,4 +1,7 @@
 package com.example.boredomfocus.app
 
-class BoredomFocusApp {
-}
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class BoredomFocusApp : Application()
