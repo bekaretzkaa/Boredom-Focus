@@ -56,7 +56,7 @@ class CustomToggleSwitch @JvmOverloads constructor(
     }
 
     private fun addThumb() {
-        val thumbSize = 28.dpToPx()
+        val thumbSize = 24.dpToPx()
 
         val params = LayoutParams(thumbSize, thumbSize).apply {
             gravity = Gravity.START or Gravity.CENTER_VERTICAL

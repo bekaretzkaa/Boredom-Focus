@@ -61,7 +61,8 @@
                     android:id="@+id/cardSettingsSessionContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="16dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="20dp">
 
                     <FrameLayout
                         android:id="@+id/flSettingsTimeIconContainer"
@@ -86,7 +87,7 @@
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/inter_medium"
                         android:text="Длина детокса"
-                        android:textColor="@color/white"
+                        android:textColor="#C3C3C3"
                         android:textSize="20sp"
                         app:layout_constraintStart_toEndOf="@+id/flSettingsTimeIconContainer"
                         app:layout_constraintTop_toTopOf="@+id/flSettingsTimeIconContainer" />
@@ -175,9 +176,9 @@
                     <View
                         android:id="@+id/viewSessionLine"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#2A2A2A"
-                        android:layout_marginTop="14dp"
+                        android:layout_height="1dp"
+                        android:background="#1A1A1A"
+                        android:layout_marginTop="12dp"
                         app:layout_constraintTop_toBottomOf="@+id/llSettingsTimeButtons"
                         tools:layout_editor_absoluteX="16dp" />
 
@@ -185,7 +186,7 @@
                         android:id="@+id/flSettingsDifficultyIconContainer"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:layout_marginTop="14dp"
+                        android:layout_marginTop="12dp"
                         android:background="@drawable/bg_icon_orange"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/viewSessionLine">
@@ -204,7 +205,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_medium"
                         android:text="Сложность"
-                        android:textColor="@color/white"
+                        android:textColor="#C3C3C3"
                         android:textSize="20sp"
                         android:layout_marginStart="12dp"
                         app:layout_constraintStart_toEndOf="@+id/flSettingsDifficultyIconContainer"
@@ -256,7 +257,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/inter_bold"
                                     android:text="Новичок"
-                                    android:textColor="@color/white"
+                                    android:textColor="#C3C3C3"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -299,7 +300,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/inter_bold"
                                     android:text="Боец"
-                                    android:textColor="@color/white"
+                                    android:textColor="#C3C3C3"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -340,7 +341,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/inter_bold"
                                     android:text="Хардкор"
-                                    android:textColor="@color/white"
+                                    android:textColor="#C3C3C3"
                                     android:textSize="18sp" />
 
                                 <TextView
@@ -383,8 +384,8 @@
                 android:id="@+id/cardSettingsBlockage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#161616"
                 android:layout_marginTop="8dp"
+                android:backgroundTint="#161616"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -395,7 +396,8 @@
                     android:id="@+id/cardSettingsBlockageContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="16dp">
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="20dp">
 
                     <FrameLayout
                         android:id="@+id/flSettingsDndIconContainer"
@@ -421,7 +423,7 @@
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/inter_medium"
                         android:text="Режим «не беспокоить»"
-                        android:textColor="@color/white"
+                        android:textColor="#C3C3C3"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toStartOf="@+id/switchDnd"
                         app:layout_constraintStart_toEndOf="@+id/flSettingsDndIconContainer"
@@ -435,14 +437,14 @@
                         android:text="Блокирует уведомления во время сессии"
                         android:textColor="#444444"
                         android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@id/switchDnd"
                         app:layout_constraintStart_toEndOf="@+id/flSettingsDndIconContainer"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSettingsDndWord1" 
-                        app:layout_constraintEnd_toStartOf="@id/switchDnd"/>
+                        app:layout_constraintTop_toBottomOf="@+id/tvSettingsDndWord1" />
 
                     <com.example.boredomfocus.utils.CustomToggleSwitch
                         android:id="@+id/switchDnd"
-                        android:layout_width="64dp"
-                        android:layout_height="36dp"
+                        android:layout_width="60dp"
+                        android:layout_height="32dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tvSettingsDndWord2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tvSettingsDndWord1"
@@ -451,9 +453,9 @@
                     <View
                         android:id="@+id/viewBlockageLine"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="#2A2A2A"
+                        android:layout_height="1dp"
                         android:layout_marginTop="12dp"
+                        android:background="#1A1A1A"
                         app:layout_constraintTop_toBottomOf="@+id/tvSettingsDndWord2"
                         tools:layout_editor_absoluteX="16dp" />
 
@@ -461,7 +463,6 @@
                         android:id="@+id/flSettingsLockIconContainer"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
-                        android:layout_marginTop="13dp"
                         android:background="@drawable/bg_ic_lock"
                         app:layout_constraintBottom_toBottomOf="@+id/tvSettingsLockWord2"
                         app:layout_constraintStart_toStartOf="parent"
@@ -483,7 +484,7 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/inter_medium"
                         android:text="Блок кнопки «назад»"
-                        android:textColor="@color/white"
+                        android:textColor="#C3C3C3"
                         android:textSize="20sp"
                         app:layout_constraintEnd_toStartOf="@+id/switchDnd"
                         app:layout_constraintStart_toEndOf="@+id/flSettingsLockIconContainer"
@@ -493,22 +494,350 @@
                         android:id="@+id/tvSettingsLockWord2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
                         android:text="Недоступно в режиме «Новичок»"
                         android:textColor="#444444"
                         android:textSize="16sp"
-                        android:layout_marginStart="12dp"
                         app:layout_constraintEnd_toStartOf="@id/switchDnd"
                         app:layout_constraintStart_toEndOf="@+id/flSettingsLockIconContainer"
                         app:layout_constraintTop_toBottomOf="@+id/tvSettingsLockWord1" />
 
                     <com.example.boredomfocus.utils.CustomToggleSwitch
                         android:id="@+id/switchLock"
-                        android:layout_width="64dp"
-                        android:layout_height="36dp"
+                        android:layout_width="60dp"
+                        android:layout_height="32dp"
                         app:layout_constraintBottom_toBottomOf="@+id/tvSettingsLockWord2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/tvSettingsLockWord1"
                         app:switchChecked="false" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvSettingsNotificationWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="напоминания"
+                android:textAllCaps="true"
+                android:textColor="#444444"
+                android:textSize="16sp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardSettingsBlockage" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSettingsNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#161616"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSettingsNotificationWord"
+                app:strokeColor="#0D0D0D">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardSettingsNotificationContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="20dp">
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsNotificationIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_ic_notification"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvSettingsNotificationWord1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvSettingsNotificationWord1">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsNotificationIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_notification" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsNotificationWord1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Ежедневное напоминание"
+                        android:textColor="#C3C3C3"
+                        android:textSize="20sp"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintBottom_toTopOf="@id/viewNotificationLine"
+                        app:layout_constraintEnd_toStartOf="@+id/switchNotification"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsNotificationIconContainer"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.example.boredomfocus.utils.CustomToggleSwitch
+                        android:id="@+id/switchNotification"
+                        android:layout_width="60dp"
+                        android:layout_height="32dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvSettingsNotificationWord1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvSettingsNotificationWord1"
+                        app:switchChecked="false" />
+
+                    <View
+                        android:id="@+id/viewNotificationLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#1A1A1A"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSettingsNotificationWord1" />
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsNotificationTimeIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_ic_notification"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvSettingsNotificationTimeWord1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvSettingsNotificationTimeWord1">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsNotificationTimeIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_time_green" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsNotificationTimeWord1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Время\nнапоминания"
+                        android:textColor="#C3C3C3"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tvSettingsNotificationTimeWord2"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsNotificationTimeIconContainer"
+                        app:layout_constraintTop_toTopOf="@id/viewNotificationLine" />
+
+                    <TextView
+                        android:id="@+id/tvSettingsNotificationTimeWord2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="21:00 »"
+                        android:textColor="#444444"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvSettingsNotificationTimeWord1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvSettingsNotificationTimeWord1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvSettingsAppWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="о приложении"
+                android:textAllCaps="true"
+                android:textColor="#444444"
+                android:textSize="16sp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardSettingsNotification" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSettingsApp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#161616"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSettingsAppWord"
+                app:strokeColor="#0D0D0D">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardSettingsAppContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="20dp">
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsInfoIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_ic_lock"
+                        app:layout_constraintBottom_toTopOf="@id/viewAppLine"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsInfoIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_info" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsInfoWord1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Версия"
+                        android:textColor="#C3C3C3"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@id/flSettingsInfoIconContainer"
+                        app:layout_constraintEnd_toStartOf="@+id/tvSettingsInfoWord2"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsInfoIconContainer"
+                        app:layout_constraintTop_toTopOf="@id/flSettingsInfoIconContainer" />
+
+                    <TextView
+                        android:id="@+id/tvSettingsInfoWord2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="1.0.0"
+                        android:textColor="#444444"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvSettingsInfoWord1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvSettingsInfoWord1" />
+
+                    <View
+                        android:id="@+id/viewAppLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#1A1A1A"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/flSettingsInfoIconContainer" />
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsStarIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_ic_lock"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewAppLine">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsStarIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_star" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsStarWord1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Оценить в Google Play"
+                        android:textColor="#C3C3C3"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/flSettingsStarIconContainer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsInfoIconContainer"
+                        app:layout_constraintTop_toTopOf="@+id/flSettingsStarIconContainer" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvSettingsDeleteWord1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="опасная зона"
+                android:textAllCaps="true"
+                android:textColor="#7D2D2C"
+                android:textSize="16sp"
+                android:layout_marginTop="18dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardSettingsApp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSettingsDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#161616"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSettingsDeleteWord1"
+                app:strokeColor="#0D0D0D">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardSettingsDeleteContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="20dp">
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsDeleteIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="@drawable/bg_ic_notification_off"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvSettingsDeleteWord3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvSettingsDeleteWord2">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsDeleteIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_delete" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsDeleteWord2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Сбросить всю статистику"
+                        android:textColor="#e04a49"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsDeleteIconContainer"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvSettingsDeleteWord3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Стрик, история, рекорды — всё"
+                        android:textColor="#444444"
+                        android:textSize="16sp"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/flSettingsDeleteIconContainer"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSettingsDeleteWord2" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
