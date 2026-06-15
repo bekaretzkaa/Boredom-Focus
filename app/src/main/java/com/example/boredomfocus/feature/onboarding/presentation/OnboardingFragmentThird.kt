@@ -3,12 +3,24 @@ package com.example.boredomfocus.feature.onboarding.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.boredomfocus.R
+import com.example.boredomfocus.core.settings.domain.model.AppSettings
+import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
+import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.core.ui.selector.AnimatedCardGroupSelector
 import com.example.boredomfocus.core.ui.selector.AnimatedCardSelector
 import com.example.boredomfocus.databinding.OnboardingFragmentThirdBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
+
+    private val viewModel: OnboardingViewModel by viewModels()
 
     private var _binding: OnboardingFragmentThirdBinding? = null
     private val binding get() = _binding!!
@@ -23,9 +35,15 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
         _binding = OnboardingFragmentThirdBinding.bind(view)
 
         binding.btnOnboarding3Start.setOnClickListener {
+//            viewModel.completeOnboarding()
             requireActivity().finish()
         }
 
+        setupDurationSelector()
+        setupDifficultySelector()
+    }
+
+    private fun setupDurationSelector() {
         val durationCards = listOf(
             binding.cardTimeFive,
             binding.cardTimeSeven,
@@ -41,13 +59,15 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
             selectedScale = 1.04f,
             duration = 120L,
             onSelected = { selectedIndex ->
-                selectedDuration = when (selectedIndex) {
-                    0 -> 5
-                    1 -> 7
-                    2 -> 10
-                    3 -> 15
-                    else -> 5
+                val duration = when(selectedIndex) {
+                    0 -> DetoxDuration.FIVE_MINUTES
+                    1 -> DetoxDuration.SEVEN_MINUTES
+                    2 -> DetoxDuration.TEN_MINUTES
+                    3 -> DetoxDuration.FIFTEEN_MINUTES
+                    else -> DetoxDuration.FIVE_MINUTES
                 }
+
+                viewModel.saveDetoxDuration(duration)
             }
         )
 
@@ -58,7 +78,9 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
         }
 
         durationSelector?.select(0)
+    }
 
+    private fun setupDifficultySelector() {
         difficultySelector = AnimatedCardSelector(
             context = requireContext(),
             unselectedStrokeColorRes = R.color.card_unselected,
@@ -83,15 +105,16 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
                 )
             ),
             onSelected = { selectedIndex ->
-                selectedDifficulty = when (selectedIndex) {
-                    0 -> "beginner"
-                    1 -> "fighter"
-                    2 -> "hardcore"
-                    else -> "beginner"
+                val difficulty = when (selectedIndex) {
+                    0 -> Difficulty.BEGINNER
+                    1 -> Difficulty.FIGHTER
+                    2 -> Difficulty.HARDCORE
+                    else -> Difficulty.BEGINNER
                 }
+
+                viewModel.saveDifficulty(difficulty)
             }
         )
-        difficultySelector?.select(0)
 
         binding.cardDifficultyBeginner.setOnClickListener {
             difficultySelector?.select(0)
@@ -102,6 +125,8 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
         binding.cardDifficultyHardcore.setOnClickListener {
             difficultySelector?.select(2)
         }
+
+        difficultySelector?.select(0)
     }
 
     override fun onDestroyView() {

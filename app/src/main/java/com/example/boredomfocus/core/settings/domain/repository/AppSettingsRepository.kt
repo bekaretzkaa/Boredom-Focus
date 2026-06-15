@@ -9,6 +9,10 @@ interface AppSettingsRepository {
 
     fun getSettings(): Flow<AppSettings>
 
+    fun isOnboardingCompleted(): Flow<Boolean>
+
+    suspend fun setOnboardingCompleted(completed: Boolean)
+
     suspend fun saveDetoxDuration(detoxDuration: DetoxDuration)
 
     suspend fun saveDifficulty(difficulty: Difficulty)

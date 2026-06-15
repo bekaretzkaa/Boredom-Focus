@@ -15,8 +15,10 @@ import com.example.boredomfocus.feature.onboarding.presentation.OnboardingFragme
 import com.example.boredomfocus.feature.onboarding.presentation.OnboardingFragmentSecond
 import com.example.boredomfocus.feature.onboarding.presentation.OnboardingFragmentThird
 import com.example.boredomfocus.feature.onboarding.presentation.OnboardingViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class OnboardingActivity : AppCompatActivity() {
 
     private val viewModel: OnboardingViewModel by viewModels()

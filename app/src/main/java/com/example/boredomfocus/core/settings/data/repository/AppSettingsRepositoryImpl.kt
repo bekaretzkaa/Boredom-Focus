@@ -1,8 +1,10 @@
 package com.example.boredomfocus.core.settings.data.repository
 
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -22,6 +24,7 @@ class AppSettingsRepositoryImpl @Inject constructor(
     private object Keys {
         val DETOX_DURATION = stringPreferencesKey("detox_duration")
         val DIFFICULTY = stringPreferencesKey("difficulty")
+        val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
     }
 
     override fun getSettings(): Flow<AppSettings> {
@@ -51,6 +54,26 @@ class AppSettingsRepositoryImpl @Inject constructor(
                     difficulty = difficulty
                 )
             }
+    }
+
+    override fun isOnboardingCompleted(): Flow<Boolean> {
+        return dataStore.data
+            .catch { exception ->
+                if(exception is IOException) {
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                preferences[Keys.ONBOARDING_COMPLETED] ?: false
+            }
+    }
+
+    override suspend fun setOnboardingCompleted(completed: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[Keys.ONBOARDING_COMPLETED] = completed
+        }
     }
 
     override suspend fun saveDetoxDuration(detoxDuration: DetoxDuration) {

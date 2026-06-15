@@ -3,22 +3,31 @@ package com.example.boredomfocus.app
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.ActivityMainBinding
 import com.example.boredomfocus.feature.onboarding.presentation.OnboardingActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
     private lateinit var navController: NavController
+    private val viewModel: MainViewModel by viewModels()
+
+    private var onboardingStarted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,13 +46,32 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        startActivity(Intent(this, OnboardingActivity::class.java))
+        observeOnboarding()
 
         val navHost = supportFragmentManager.findFragmentById(binding.mainFragmentContainer.id) as NavHostFragment
         navController = navHost.navController
 
         setupBottomNavigation()
         observeDestinations()
+    }
+
+    private fun observeOnboarding() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isOnboardingCompleted.collect { isCompleted ->
+
+                    if(isCompleted == null) return@collect
+
+                    if(!isCompleted && !onboardingStarted) {
+
+                        onboardingStarted = true
+
+                        startActivity(Intent(this@MainActivity, OnboardingActivity::class.java))
+                    }
+
+                }
+            }
+        }
     }
 
     private fun observeDestinations() {
