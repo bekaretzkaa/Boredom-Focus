@@ -24,4 +24,11 @@ class DailyStatsRepositoryImpl @Inject constructor(
     ): Flow<List<DailyStatsEntity>> {
         return dailyStatsDao.getDailyStatsBetween(startDay, endDay)
     }
+
+    override fun getFocusWeekStatsBetween(
+        startDay: Long,
+        endDay: Long
+    ): Flow<Long> {
+        return dailyStatsDao.getFocusWeekStatsBetween(startDay, endDay)
+    }
 }

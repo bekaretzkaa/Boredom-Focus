@@ -136,7 +136,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
                             android:text="14:32"
-                            android:textColor="#639922"
+                            android:textColor="@color/white"
                             android:textSize="36sp" />
 
                         <TextView
@@ -310,18 +310,34 @@
 
             </GridLayout>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardStatisticsOverall"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_columnWeight="1"
+                app:cardBackgroundColor="#1A1A1A"
+                app:cardCornerRadius="16dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/glStatisticsCards"
+                app:strokeColor="#141414">
+
+            </com.google.android.material.card.MaterialCardView>
+
             <TextView
                 android:id="@+id/tvStatisticWeekWord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:fontFamily="@font/inter_medium"
                 android:text="эта неделя"
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="16sp"
+                android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/glStatisticsCards" />
+                app:layout_constraintTop_toBottomOf="@+id/cardStatisticsOverall" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardStatisticsWeek"

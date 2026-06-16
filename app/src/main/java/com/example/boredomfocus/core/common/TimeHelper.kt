@@ -1,9 +1,12 @@
 package com.example.boredomfocus.core.common
 
 import java.time.DayOfWeek
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
+import java.util.Locale
 
 data class WeekRangeMillis(
     val startMillis: Long,
@@ -46,4 +49,27 @@ fun getCalendarWeekRangeDay(
         startDay = startOfThisWeek.toEpochDay(),
         endDay = startOfNextWeek.toEpochDay()
     )
+}
+
+fun formatDateFromEpochMillis(
+    epochMillis: Long,
+    zoneId: ZoneId = ZoneId.systemDefault()
+): String {
+    val date = Instant.ofEpochMilli(epochMillis)
+        .atZone(zoneId)
+        .toLocalDate()
+
+    val today = LocalDate.now(zoneId)
+    val yesterday = today.minusDays(1)
+
+    return when (date) {
+        today -> "Сегодня"
+        yesterday -> "Вчера"
+        else -> {
+            val formatter = DateTimeFormatter
+                .ofPattern("d MMMM", Locale("ru"))
+
+            date.format(formatter)
+        }
+    }
 }

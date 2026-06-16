@@ -24,6 +24,9 @@ interface SessionDao {
     """)
     fun getStatsSummaryBetween(fromTimeStamp: Long, toTimeStamp: Long): Flow<StatsSummary>
 
+    @Query("SELECT * FROM sessions ORDER BY date DESC LIMIT :count")
+    fun getLastSessions(count: Int) : Flow<List<SessionEntity>>
+
     @Query("SELECT MAX(focus_seconds) FROM sessions")
     fun getAllTimeFocusRecord(): Flow<Long?>
 

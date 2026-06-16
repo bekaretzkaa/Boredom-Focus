@@ -9,7 +9,11 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
+import com.example.boredomfocus.data.local.entity.DailyStatsEntity
+import java.time.DayOfWeek
+import java.time.LocalDate
+import java.time.format.TextStyle
+import java.util.Locale
 import kotlin.math.max
 import kotlin.math.min
 
@@ -18,12 +22,14 @@ class DetoxFocusChartView @JvmOverloads constructor(
     attrs: AttributeSet? = null,
 ) : View(context, attrs) {
 
-    private val items = mutableListOf<ChartItem>()
+    private val items = mutableListOf<DailyStatsEntity?>()
     private var selectedIndex = -1
 
     private val detoxPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val focusPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    private val disabledPaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     private val detoxRect = RectF()
     private val focusRect = RectF()
@@ -35,12 +41,18 @@ class DetoxFocusChartView @JvmOverloads constructor(
     private val barBounds = mutableListOf<RectF>()
     private val barAlphas = mutableListOf<Float>()
     private val barScales = mutableListOf<Float>()
-    var onBarSelected: ((ChartItem) -> Unit)? = null
+
+    var onBarSelected: ((DailyStatsEntity) -> Unit)? = null
     var onSelectionCleared: (() -> Unit)? = null
 
     init {
         detoxPaint.color = Color.parseColor("#E04A49")
         focusPaint.color = Color.parseColor("#639922")
+
+        disabledPaint.apply {
+            color = Color.parseColor("#D9D9D9")
+            alpha = 90
+        }
 
         textPaint.apply {
             color = Color.parseColor("#666666")
@@ -49,23 +61,27 @@ class DetoxFocusChartView @JvmOverloads constructor(
         }
     }
 
-    fun submitData(data: List<ChartItem>) {
+    fun submitData(data: List<DailyStatsEntity?>) {
         items.clear()
         items.addAll(data)
 
+        if (selectedIndex !in items.indices || items.getOrNull(selectedIndex) == null) {
+            selectedIndex = -1
+        }
+
         barAlphas.clear()
         barScales.clear()
+
         repeat(items.size) {
             barAlphas.add(0.3f)
             barScales.add(1f)
         }
 
-        if(selectedIndex >= 0) {
+        if (selectedIndex >= 0) {
             barAlphas[selectedIndex] = 1f
         }
 
         startChartAnimation()
-
         invalidate()
     }
 
@@ -76,26 +92,24 @@ class DetoxFocusChartView @JvmOverloads constructor(
 
         barBounds.clear()
 
-        val maxValue = items.maxOf {
-            max(it.focusMinutes, it.detoxMinutes)
-        }
+        val maxValue = items
+            .filterNotNull()
+            .maxOfOrNull { item ->
+                max(
+                    item.totalDetoxMinutes.toFloat(),
+                    item.totalFocusSeconds / 60f
+                )
+            } ?: 0f
+
+        val safeMaxValue = max(maxValue, 1f)
 
         val chartHeight = height * 0.75f
-
         val itemWidth = width.toFloat() / items.size
-
         val groupWidth = itemWidth * 0.9f
 
         items.forEachIndexed { index, item ->
 
             val centerX = itemWidth * index + itemWidth / 2
-
-            val focusHeight =
-                chartHeight * item.focusMinutes / maxValue * chartAnimationProgress * barScales[index]
-
-            val detoxHeight =
-                chartHeight * item.detoxMinutes / maxValue * chartAnimationProgress * barScales[index]
-
             val groupStart = centerX - groupWidth / 2
 
             val detoxLeft = groupStart
@@ -103,6 +117,57 @@ class DetoxFocusChartView @JvmOverloads constructor(
 
             val focusLeft = detoxRight + 4f
             val focusRight = groupStart + groupWidth
+
+            barBounds.add(
+                RectF(
+                    detoxLeft,
+                    0f,
+                    focusRight,
+                    chartHeight
+                )
+            )
+
+            val label = getLabelByIndex(index)
+
+            if (item == null) {
+                drawDisabledBar(
+                    canvas = canvas,
+                    detoxLeft = detoxLeft,
+                    detoxRight = detoxRight,
+                    focusLeft = focusLeft,
+                    focusRight = focusRight,
+                    chartHeight = chartHeight,
+                    centerX = centerX,
+                    label = label
+                )
+
+                return@forEachIndexed
+            }
+
+            if (item.isEmptyDay()) {
+                drawEmptyActiveBar(
+                    canvas = canvas,
+                    detoxLeft = detoxLeft,
+                    detoxRight = detoxRight,
+                    focusLeft = focusLeft,
+                    focusRight = focusRight,
+                    chartHeight = chartHeight,
+                    centerX = centerX,
+                    label = label,
+                    isSelected = selectedIndex == index
+                )
+
+                return@forEachIndexed
+            }
+
+            val detoxMinutes = item.totalDetoxMinutes.toFloat()
+            val focusMinutes = item.totalFocusSeconds / 60f
+
+            val focusHeight =
+                chartHeight * focusMinutes / safeMaxValue * chartAnimationProgress * barScales[index]
+
+            val detoxHeight =
+                chartHeight * detoxMinutes / safeMaxValue * chartAnimationProgress * barScales[index]
 
             focusRect.set(
                 focusLeft,
@@ -119,7 +184,6 @@ class DetoxFocusChartView @JvmOverloads constructor(
             )
 
             if (selectedIndex == index) {
-
                 val alpha = (barAlphas[index] * 255).toInt()
 
                 focusPaint.alpha = alpha
@@ -131,9 +195,7 @@ class DetoxFocusChartView @JvmOverloads constructor(
                     focusRight,
                     chartHeight
                 )
-
             } else {
-
                 focusPaint.alpha = 80
                 detoxPaint.alpha = 80
             }
@@ -152,49 +214,95 @@ class DetoxFocusChartView @JvmOverloads constructor(
                 focusPaint
             )
 
+            textPaint.alpha = 255
+
             canvas.drawText(
-                item.label,
+                label,
                 centerX,
                 height - 10f,
                 textPaint
             )
-
-            barBounds.add(
-                RectF(
-                    detoxLeft,
-                    0f,
-                    focusRight,
-                    chartHeight
-                )
-            )
         }
     }
 
+    private fun drawDisabledBar(
+        canvas: Canvas,
+        detoxLeft: Float,
+        detoxRight: Float,
+        focusLeft: Float,
+        focusRight: Float,
+        chartHeight: Float,
+        centerX: Float,
+        label: String
+    ) {
+        val placeholderHeight = 8f
+
+        detoxRect.set(
+            detoxLeft,
+            chartHeight - placeholderHeight,
+            detoxRight,
+            chartHeight
+        )
+
+        focusRect.set(
+            focusLeft,
+            chartHeight - placeholderHeight,
+            focusRight,
+            chartHeight
+        )
+
+        canvas.drawRoundRect(
+            detoxRect,
+            6f,
+            6f,
+            disabledPaint
+        )
+
+        canvas.drawRoundRect(
+            focusRect,
+            6f,
+            6f,
+            disabledPaint
+        )
+
+        textPaint.alpha = 100
+
+        canvas.drawText(
+            label,
+            centerX,
+            height - 10f,
+            textPaint
+        )
+
+        textPaint.alpha = 255
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if(event.action == MotionEvent.ACTION_DOWN) {
+        if (event.action == MotionEvent.ACTION_DOWN) {
             barBounds.forEachIndexed { index, rect ->
 
-                if(rect.contains(event.x, event.y)) {
-                    if(selectedIndex == index) {
+                val item = items.getOrNull(index) ?: return@forEachIndexed
+
+                if (rect.contains(event.x, event.y)) {
+                    if (selectedIndex == index) {
                         clearSelection()
                     } else {
                         animateSelection(index)
-                        onBarSelected?.invoke(items[index])
+                        onBarSelected?.invoke(item)
                     }
 
                     return true
                 }
-
             }
         }
 
         return super.onTouchEvent(event)
     }
 
-    fun startChartAnimation() {
-
+    private fun startChartAnimation() {
         ValueAnimator.ofFloat(0f, 1f).apply {
             duration = 800
+
             addUpdateListener {
                 chartAnimationProgress = it.animatedValue as Float
                 invalidate()
@@ -202,23 +310,21 @@ class DetoxFocusChartView @JvmOverloads constructor(
 
             start()
         }
-
     }
 
     private fun animateSelection(newIndex: Int) {
-        if(selectedIndex == newIndex) return
+        if (selectedIndex == newIndex) return
 
         val oldIndex = selectedIndex
+        selectedIndex = newIndex
 
         ValueAnimator.ofFloat(0f, 1f).apply {
-
             duration = 250
 
             addUpdateListener {
-
                 val progress = it.animatedValue as Float
 
-                if(oldIndex >= 0) {
+                if (oldIndex >= 0) {
                     barAlphas[oldIndex] = 1f - progress * 0.7f
                     barScales[oldIndex] = 1.08f - progress * 0.08f
                 }
@@ -227,33 +333,115 @@ class DetoxFocusChartView @JvmOverloads constructor(
                 barScales[newIndex] = 1f + progress * 0.12f
 
                 invalidate()
-
             }
 
             start()
         }
-        selectedIndex = newIndex
     }
 
     private fun clearSelection() {
         val oldIndex = selectedIndex
 
-        if(oldIndex < 0) return
+        if (oldIndex < 0) return
+
+        selectedIndex = -1
 
         ValueAnimator.ofFloat(1f, 0.3f).apply {
             duration = 200
 
             addUpdateListener {
                 val alpha = it.animatedValue as Float
+
                 barAlphas[oldIndex] = alpha
                 barScales[oldIndex] = 1f + (alpha - 0.3f) / 0.7f * 0.08f
 
                 invalidate()
             }
+
             start()
         }
 
-        selectedIndex = -1
         onSelectionCleared?.invoke()
+    }
+
+    private fun getLabelByIndex(index: Int): String {
+        return when (index) {
+            0 -> "ПН"
+            1 -> "ВТ"
+            2 -> "СР"
+            3 -> "ЧТ"
+            4 -> "ПТ"
+            5 -> "СБ"
+            6 -> "ВС"
+            else -> ""
+        }
+    }
+
+    private fun DailyStatsEntity.isEmptyDay(): Boolean {
+        return totalDetoxMinutes == 0L && totalFocusSeconds == 0L
+    }
+
+    private fun drawEmptyActiveBar(
+        canvas: Canvas,
+        detoxLeft: Float,
+        detoxRight: Float,
+        focusLeft: Float,
+        focusRight: Float,
+        chartHeight: Float,
+        centerX: Float,
+        label: String,
+        isSelected: Boolean
+    ) {
+        val placeholderHeight = if (isSelected) 14f else 10f
+        val alpha = if (isSelected) 255 else 120
+
+        detoxRect.set(
+            detoxLeft,
+            chartHeight - placeholderHeight,
+            detoxRight,
+            chartHeight
+        )
+
+        focusRect.set(
+            focusLeft,
+            chartHeight - placeholderHeight,
+            focusRight,
+            chartHeight
+        )
+
+        detoxPaint.alpha = alpha
+        focusPaint.alpha = alpha
+
+        detoxPaint.style = Paint.Style.STROKE
+        focusPaint.style = Paint.Style.STROKE
+
+        detoxPaint.strokeWidth = 3f
+        focusPaint.strokeWidth = 3f
+
+        canvas.drawRoundRect(
+            detoxRect,
+            6f,
+            6f,
+            detoxPaint
+        )
+
+        canvas.drawRoundRect(
+            focusRect,
+            6f,
+            6f,
+            focusPaint
+        )
+
+        detoxPaint.style = Paint.Style.FILL
+        focusPaint.style = Paint.Style.FILL
+
+        textPaint.alpha = 255
+
+        canvas.drawText(
+            label,
+            centerX,
+            height - 10f,
+            textPaint
+        )
     }
 }

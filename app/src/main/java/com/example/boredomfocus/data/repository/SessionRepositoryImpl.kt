@@ -22,6 +22,10 @@ class SessionRepositoryImpl @Inject constructor(
         return sessionDao.getStatsSummaryBetween(fromTimeStamp, toTimeStamp)
     }
 
+    override fun getLastSessions(count: Int): Flow<List<SessionEntity>> {
+        return sessionDao.getLastSessions(count)
+    }
+
     override fun getAllTimeFocusRecord(): Flow<Long?> {
         return sessionDao.getAllTimeFocusRecord()
     }

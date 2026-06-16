@@ -19,4 +19,6 @@ interface DailyStatsDao {
     @Query("SELECT * FROM daily_stats WHERE date >= :startDay AND date < :endDay ORDER BY date ASC")
     fun getDailyStatsBetween(startDay: Long, endDay: Long): Flow<List<DailyStatsEntity>>
 
+    @Query("SELECT SUM(total_focus_seconds) FROM daily_stats WHERE date >= :startDay AND date < :endDay")
+    fun getFocusWeekStatsBetween(startDay: Long, endDay: Long): Flow<Long>
 }

@@ -19,11 +19,14 @@ import androidx.transition.TransitionManager
 import androidx.transition.Visibility
 import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
 import com.example.boredomfocus.R
+import com.example.boredomfocus.data.local.entity.DailyStatsEntity
 import com.example.boredomfocus.feature.statistics.presentation.adapter.SessionAdapter
 import com.example.boredomfocus.feature.statistics.presentation.model.SessionListItem
 import com.example.boredomfocus.databinding.FragmentStatisticsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.DayOfWeek
+import java.time.LocalDate
 
 @AndroidEntryPoint
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
@@ -47,41 +50,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         observeUiState()
 
-        val sessions = listOf(
-            SessionListItem.Header("Сегодня"),
-
-            SessionListItem.Session(
-                300,
-                935
-            ),
-            SessionListItem.Session(
-                600,
-                1233
-            ),
-
-            SessionListItem.Header("9 июня"),
-
-            SessionListItem.Session(
-                300,
-                2100
-            ),
-            SessionListItem.Session(
-                600,
-                780
-            ),
-
-            SessionListItem.Header("8 июня"),
-
-            SessionListItem.Session(
-                300,
-                633
-            ),
-            SessionListItem.Session(
-                900,
-                4256
-            ),
-        )
-
         sessionAdapter = SessionAdapter()
 
         binding.cardChosenChartItem.visibility = View.GONE
@@ -90,20 +58,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = sessionAdapter
         }
-
-        sessionAdapter.submitList(sessions)
-
-        binding.detoxFocusBarChartView.submitData(
-            listOf(
-                ChartItem("ПН", 120, 200, 2),
-                ChartItem("ВТ", 180, 220, 1),
-                ChartItem("СР", 90, 210, 3),
-                ChartItem("ЧТ", 250, 220, 5),
-                ChartItem("ПТ", 150, 180, 1),
-                ChartItem("СБ", 190, 200, 2),
-                ChartItem("ВС", 320, 210, 1)
-            )
-        )
 
         binding.detoxFocusBarChartView.onBarSelected = { item ->
 
@@ -175,11 +129,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 if(entity.streakCounted) {
                     days[index].setBackgroundResource(R.drawable.circle_filled)
                 } else {
-                    days[index].setBackgroundResource(R.drawable.circle_filled_gray)
+                    days[index].setBackgroundResource(R.drawable.circle_missed_red)
                 }
             }
         }
 
+        binding.detoxFocusBarChartView.submitData(state.dailyStats)
+
+        sessionAdapter.submitList(state.lastSessions)
 
         isRenderingFromState = false
     }
@@ -188,9 +145,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val currentValue = current ?: 0L
         val lastValue = last ?: 0L
 
-        if(record != null && currentValue >= record) {
-            tv.text = "↑ лучший за всё время"
-            tv.setTextColor(ContextCompat.getColor(tv.context, R.color.green_basic))
+        if(record != null) {
+            if(currentValue >= record) {
+                tv.text = "↑ лучший за всё время"
+                tv.setTextColor(ContextCompat.getColor(tv.context, R.color.green_basic))
+                binding.tvStatisticsFocusRecordTime.setTextColor(ContextCompat.getColor(tv.context, R.color.green_basic))
+            } else {
+                binding.tvStatisticsFocusRecordTime.setTextColor(ContextCompat.getColor(tv.context, R.color.white))
+            }
         } else {
             val diff = if (currentValue > lastValue) currentValue - lastValue else lastValue - currentValue
             tv.text = if (currentValue > lastValue) "↑ +${formatSeconds(diff)} от прошлого" else "↓ −${formatSeconds(diff)} от прошлого"
@@ -231,25 +193,26 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         )
     }
 
-    private fun updateChartCard(item: ChartItem) {
-        binding.tvChartItemLabel.text = item.label
+    private fun updateChartCard(item: DailyStatsEntity) {
+
+        binding.tvChartItemLabel.text = item.getDayLabel()
 
         animateMinutesText(
             binding.tvChartItemFocusTime,
             currentFocusMinutes,
-            item.focusMinutes
+            (item.totalFocusSeconds / 60).toInt()
         )
 
         animateMinutesText(
             binding.tvChartItemDetoxTime,
             currentDetoxMinutes,
-            item.detoxMinutes
+            item.totalDetoxMinutes.toInt()
         )
 
-        currentFocusMinutes = item.focusMinutes
-        currentDetoxMinutes = item.detoxMinutes
+        currentFocusMinutes = (item.totalFocusSeconds / 60).toInt()
+        currentDetoxMinutes = item.totalDetoxMinutes.toInt()
 
-        binding.tvChartItemSessionCount.text = "${item.sessionsCount} сессий"
+        binding.tvChartItemSessionCount.text = "${item.sessionCount} сессий"
     }
 
     private fun formatMinutes(totalMinutes: Int): String {
@@ -273,14 +236,15 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
-    private fun showDetailsCard(item: ChartItem) {
+    private fun showDetailsCard(item: DailyStatsEntity) {
+
+        binding.tvChartItemLabel.text = item.getDayLabel()
 
         currentFocusMinutes = 0
         currentDetoxMinutes = 0
 
-        binding.tvChartItemLabel.text = item.label
         binding.tvChartItemSessionCount.text =
-            "${item.sessionsCount} сессий"
+            "${item.sessionCount} сессий"
 
         binding.tvChartItemFocusTime.text = "0 мин"
         binding.tvChartItemDetoxTime.text = "0 мин"
@@ -378,6 +342,18 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 textView.text = formatMinutes(value)
             }
             start()
+        }
+    }
+
+    private fun DailyStatsEntity.getDayLabel(): String {
+        return when (LocalDate.ofEpochDay(date).dayOfWeek) {
+            DayOfWeek.MONDAY -> "ПН"
+            DayOfWeek.TUESDAY -> "ВТ"
+            DayOfWeek.WEDNESDAY -> "СР"
+            DayOfWeek.THURSDAY -> "ЧТ"
+            DayOfWeek.FRIDAY -> "ПТ"
+            DayOfWeek.SATURDAY -> "СБ"
+            DayOfWeek.SUNDAY -> "ВС"
         }
     }
 }
