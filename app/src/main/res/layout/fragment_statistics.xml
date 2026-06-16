@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/statisticsContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="24dp">
@@ -313,7 +314,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardStatisticsOverall"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
                 app:cardBackgroundColor="#1A1A1A"
                 app:cardCornerRadius="16dp"
@@ -323,6 +324,75 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/glStatisticsCards"
                 app:strokeColor="#141414">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cardStatisticsOverallContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/tvStatisticsOverallTimeWord1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="всего фокуса за неделю"
+                        android:textColor="#444444"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toStartOf="@+id/viewOverallGrayLine"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvStatisticsOverallTimeWord2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="14:32"
+                        android:textColor="#639922"
+                        android:textSize="26sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvStatisticsOverallTimeWord1" />
+
+                    <View
+                        android:id="@+id/viewOverallGrayLine"
+                        android:layout_width="2dp"
+                        android:layout_height="0dp"
+                        android:background="#333333"
+                        android:layout_marginVertical="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.5" />
+
+                    <TextView
+                        android:id="@+id/tvStatisticsAverageTimeWord1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="в среднем время фокуса в день"
+                        android:textColor="#444444"
+                        android:textSize="16sp"
+                        android:layout_marginStart="12dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/viewOverallGrayLine"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvStatisticsAverageTimeWord2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="06:14"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
+                        app:layout_constraintStart_toStartOf="@+id/tvStatisticsAverageTimeWord1"
+                        app:layout_constraintTop_toBottomOf="@+id/tvStatisticsAverageTimeWord1" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 

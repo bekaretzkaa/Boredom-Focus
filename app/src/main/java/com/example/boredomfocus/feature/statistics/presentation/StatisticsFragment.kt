@@ -90,7 +90,12 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    render(state)
+                    if(state.isLoading) {
+                        binding.statisticsContent.visibility = View.INVISIBLE
+                    } else {
+                        binding.statisticsContent.visibility = View.VISIBLE
+                        render(state)
+                    }
                 }
             }
         }
@@ -111,6 +116,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         binding.tvStatisticsDetoxPercent.text = "${state.statsSummary?.completionRate ?: 0.00}%"
         compareDetoxPercentage(binding.tvStatisticsDetoxPercentComparison,state.statsSummary?.completionRate, state.statsSummaryLast?.completionRate)
 
+
+        binding.tvStatisticsOverallTimeWord2.text = formatSeconds(state.totalFocusTimePeriod ?: 0L)
+        binding.tvStatisticsAverageTimeWord2.text = formatSeconds(state.averageFocusTimePeriod ?: 0L)
 
         val days = listOf(
             binding.viewMonday,

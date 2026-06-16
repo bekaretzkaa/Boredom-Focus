@@ -18,12 +18,14 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 data class StatisticsUiState(
+    val isLoading: Boolean = true,
     val statsSummary: StatsSummary? = null,
     val statsSummaryLast: StatsSummary? = null,
     val allTimeFocusRecord: Long? = null,
     val lastSessions: List<SessionListItem> = listOf(),
     val dailyStats: List<DailyStatsEntity?> = listOf(),
     val totalFocusTimePeriod: Long? = null,
+    val averageFocusTimePeriod: Long? = null
 )
 
 data class SessionGroupFlow(
@@ -84,7 +86,7 @@ class StatisticsViewModel @Inject constructor(
     private val dailyStatsGroup =
         combine(
             dailyStatsRepository.getDailyStatsBetween(currentWeekRangeDay.startDay, currentWeekRangeDay.endDay),
-            dailyStatsRepository.getFocusWeekStatsBetween(currentWeekRange.startMillis, currentWeekRange.endMillis)
+            dailyStatsRepository.getFocusWeekStatsBetween(currentWeekRangeDay.startDay, currentWeekRangeDay.endDay)
         ) { dailyStats, focusTime ->
             val updatedDailyStats = mutableListOf<DailyStatsEntity?>()
             updatedDailyStats.addAll(dailyStats)
@@ -104,16 +106,18 @@ class StatisticsViewModel @Inject constructor(
             dailyStatsGroup
         ) { sessionGroup, dailyStatsGroup ->
             StatisticsUiState(
+                isLoading = false,
                 statsSummary = sessionGroup.statsSummary,
                 statsSummaryLast = sessionGroup.statsSummaryLast,
                 allTimeFocusRecord = sessionGroup.allTimeFocusRecord,
                 lastSessions = sessionGroup.lastSessions,
                 dailyStats = dailyStatsGroup.dailyStats,
-                totalFocusTimePeriod = dailyStatsGroup.totalFocusTimePeriod
+                totalFocusTimePeriod = dailyStatsGroup.totalFocusTimePeriod,
+                averageFocusTimePeriod = dailyStatsGroup.averageFocusTimePeriod
             )
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            StatisticsUiState()
+            StatisticsUiState(isLoading = true)
         )
 }
