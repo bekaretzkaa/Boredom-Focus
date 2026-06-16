@@ -12,4 +12,7 @@
     <color name="difficulty_green_bg">#104CAF50</color>
     <color name="difficulty_orange_bg">#10FF9800</color>
     <color name="difficulty_red_bg">#10F44336</color>
+
+    <color name="green_basic">#639922</color>
+    <color name="red_basic">#E24B4A</color>
 </resources>

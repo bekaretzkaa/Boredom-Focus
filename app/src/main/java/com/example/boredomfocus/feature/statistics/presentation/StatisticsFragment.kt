@@ -1,23 +1,34 @@
 package com.example.boredomfocus.feature.statistics.presentation
 
 import android.animation.ValueAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import androidx.transition.Visibility
 import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
 import com.example.boredomfocus.R
 import com.example.boredomfocus.feature.statistics.presentation.adapter.SessionAdapter
 import com.example.boredomfocus.feature.statistics.presentation.model.SessionListItem
 import com.example.boredomfocus.databinding.FragmentStatisticsBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
+    private val viewModel: StatisticsViewModel by viewModels()
     private var _binding: FragmentStatisticsBinding? = null
     private val binding get() = _binding!!
 
@@ -28,9 +39,13 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private var currentDetoxMinutes = 0
     private var currentFocusMinutes = 0
 
+    private var isRenderingFromState = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentStatisticsBinding.bind(view)
+
+        observeUiState()
 
         val sessions = listOf(
             SessionListItem.Header("Сегодня"),
@@ -117,6 +132,105 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         _binding = null
     }
 
+    private fun observeUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    render(state)
+                }
+            }
+        }
+    }
+
+    private fun render(state: StatisticsUiState) {
+        isRenderingFromState = true
+
+        binding.tvStatisticsFocusRecordTime.text = formatSeconds(state.statsSummary?.bestFocus ?: 0L)
+        compareTime(binding.tvStatisticsFocusRecordComparison, state.statsSummary?.bestFocus, state.statsSummaryLast?.bestFocus, state.allTimeFocusRecord)
+
+        binding.tvStatisticsFocusAverageTime.text = formatSeconds(state.statsSummary?.averageFocus?.toLong() ?: 0L)
+        compareTime(binding.tvStatisticsFocusAverageComparison, state.statsSummary?.averageFocus?.toLong(), state.statsSummaryLast?.averageFocus?.toLong(), null)
+
+        binding.tvStatisticsSessionsCount.text = state.statsSummary?.totalSessions.toString()
+        compareSession(binding.tvStatisticsSessionsComparison,state.statsSummary?.totalSessions, state.statsSummaryLast?.totalSessions)
+
+        binding.tvStatisticsDetoxPercent.text = "${state.statsSummary?.completionRate ?: 0.00}%"
+        compareDetoxPercentage(binding.tvStatisticsDetoxPercentComparison,state.statsSummary?.completionRate, state.statsSummaryLast?.completionRate)
+
+
+        val days = listOf(
+            binding.viewMonday,
+            binding.viewTuesday,
+            binding.viewWednesday,
+            binding.viewThursday,
+            binding.viewFriday,
+            binding.viewSaturday,
+            binding.viewSunday
+        )
+
+        state.dailyStats.forEachIndexed { index, entity ->
+            if(entity == null) {
+                days[index].setBackgroundResource(R.drawable.circle_empty)
+            } else {
+                if(entity.streakCounted) {
+                    days[index].setBackgroundResource(R.drawable.circle_filled)
+                } else {
+                    days[index].setBackgroundResource(R.drawable.circle_filled_gray)
+                }
+            }
+        }
+
+
+        isRenderingFromState = false
+    }
+
+    private fun compareTime(tv: TextView, current: Long?, last: Long?, record: Long?) {
+        val currentValue = current ?: 0L
+        val lastValue = last ?: 0L
+
+        if(record != null && currentValue >= record) {
+            tv.text = "↑ лучший за всё время"
+            tv.setTextColor(ContextCompat.getColor(tv.context, R.color.green_basic))
+        } else {
+            val diff = if (currentValue > lastValue) currentValue - lastValue else lastValue - currentValue
+            tv.text = if (currentValue > lastValue) "↑ +${formatSeconds(diff)} от прошлого" else "↓ −${formatSeconds(diff)} от прошлого"
+            tv.setTextColor(
+                ContextCompat.getColor(
+                    tv.context,
+                    if (currentValue > lastValue) R.color.green_basic else R.color.red_basic
+                )
+            )
+        }
+    }
+
+    private fun compareSession(tv: TextView, current: Int?, last: Int?) {
+        val currentValue = current ?: 0
+        val lastValue = last ?: 0
+
+        val diff = if(currentValue > lastValue) currentValue - lastValue else lastValue - currentValue
+        tv.text = if(currentValue > lastValue) "↑ +$diff от прошлого" else "↓ −$diff от прошлого"
+        tv.setTextColor(
+            ContextCompat.getColor(
+                tv.context,
+                if (currentValue > lastValue) R.color.green_basic else R.color.red_basic
+            )
+        )
+    }
+
+    private fun compareDetoxPercentage(tv: TextView, current: Double?, last: Double?) {
+        val currentValue = current ?: 0.0
+        val lastValue = last ?: 0.0
+
+        val diff = if(currentValue > lastValue) currentValue - lastValue else lastValue - currentValue
+        tv.text = if(currentValue > lastValue) "↑ +${String.format("%.2f", diff)}% от прошлого" else "↓ −${String.format("%.2f", diff)}% от прошлого"
+        tv.setTextColor(
+            ContextCompat.getColor(
+                tv.context,
+                if (currentValue > lastValue) R.color.green_basic else R.color.red_basic
+            )
+        )
+    }
+
     private fun updateChartCard(item: ChartItem) {
         binding.tvChartItemLabel.text = item.label
 
@@ -144,6 +258,19 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         if(hours == 0) return "$minutes мин"
         return "$hours ч $minutes мин"
+    }
+
+    private fun formatSeconds(totalSeconds: Long): String {
+        if(totalSeconds > 3600) {
+            val hours = totalSeconds / 3600
+            val minutes = (totalSeconds % 3600) / 60
+            val seconds = totalSeconds % 60
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            val minutes = totalSeconds / 60
+            val seconds = totalSeconds % 60
+            return String.format("%02d:%02d", minutes, seconds)
+        }
     }
 
     private fun showDetailsCard(item: ChartItem) {
