@@ -29,6 +29,10 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.YearMonth
+import java.time.ZoneId
+import java.time.format.TextStyle
+import java.util.Locale
 import javax.inject.Inject
 
 data class StatisticsUiState(
@@ -197,15 +201,15 @@ class StatisticsViewModel @Inject constructor(
                 StatisticsPeriod.MONTH -> {
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
                     for(i in updatedPeriodStats.size+1..5) {
-                        updatedPeriodStats.add(ChartItem("$i нед", -1, -1, -1))
+                        updatedPeriodStats.add(ChartItem("$i НЕД", -1, -1, -1))
                     }
                     averageFocusTime = focusTime / 30
                 }
                 StatisticsPeriod.ALL_TIME -> {
-                    updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
-                    for(i in updatedPeriodStats.size+1..3) {
-                        updatedPeriodStats.add(ChartItem("$i мес", -1, -1, -1))
+                    for(i in periodStats.size..2) {
+                        updatedPeriodStats.add(ChartItem(getMonthName(getYearMonthByOffset(i)), -1, -1, -1))
                     }
+                    updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
                     averageFocusTime = focusTime / 360
                 }
             }
@@ -249,7 +253,7 @@ class StatisticsViewModel @Inject constructor(
             }
             is MonthWeekStatsResult -> {
                 ChartItem(
-                    label = "${item.weekIndex + 1} нед",
+                    label = "${item.weekIndex + 1} НЕД",
                     detoxMinutes = item.totalDetoxMinutes.toInt(),
                     focusMinutes = (item.totalFocusSeconds / 60).toInt(),
                     sessionsCount = item.sessionCount
@@ -257,7 +261,7 @@ class StatisticsViewModel @Inject constructor(
             }
             is MonthStatsResult -> {
                 ChartItem(
-                    label = item.yearMonth,
+                    label = getMonthName(item.yearMonth),
                     detoxMinutes = item.totalDetoxMinutes.toInt(),
                     focusMinutes = (item.totalFocusSeconds / 60).toInt(),
                     sessionsCount = item.sessionCount
@@ -274,26 +278,41 @@ class StatisticsViewModel @Inject constructor(
 
     private fun epochDayToRussianWeekDay(epochDay: Long): String {
         return when (LocalDate.ofEpochDay(epochDay).dayOfWeek) {
-            DayOfWeek.MONDAY -> "пн"
-            DayOfWeek.TUESDAY -> "вт"
-            DayOfWeek.WEDNESDAY -> "ср"
-            DayOfWeek.THURSDAY -> "чт"
-            DayOfWeek.FRIDAY -> "пт"
-            DayOfWeek.SATURDAY -> "сб"
-            DayOfWeek.SUNDAY -> "вс"
+            DayOfWeek.MONDAY -> "ПН"
+            DayOfWeek.TUESDAY -> "ВТ"
+            DayOfWeek.WEDNESDAY -> "СР"
+            DayOfWeek.THURSDAY -> "ЧТ"
+            DayOfWeek.FRIDAY -> "ПТ"
+            DayOfWeek.SATURDAY -> "СБ"
+            DayOfWeek.SUNDAY -> "ВС"
         }
     }
 
     private fun toRussionWeekDay(day: Int): String {
         return when(day) {
-            1 -> "пн"
-            2 -> "вт"
-            3 -> "ср"
-            4 -> "чт"
-            5 -> "пт"
-            6 -> "сб"
-            7 -> "вс"
+            1 -> "ПН"
+            2 -> "ВТ"
+            3 -> "СР"
+            4 -> "ЧТ"
+            5 -> "ПТ"
+            6 -> "СБ"
+            7 -> "ВС"
             else -> ""
         }
+    }
+
+    private fun getMonthName(yearMonth: String): String {
+        return YearMonth.parse(yearMonth)
+            .month
+            .getDisplayName(TextStyle.FULL_STANDALONE, Locale("ru"))
+    }
+
+    private fun getYearMonthByOffset(
+        monthOffset: Int = 0,
+        zoneId: ZoneId = ZoneId.systemDefault()
+    ): String {
+        return YearMonth.now(zoneId)
+            .minusMonths(monthOffset.toLong())
+            .toString()
     }
 }

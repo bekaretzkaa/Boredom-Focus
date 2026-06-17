@@ -36,6 +36,9 @@ class DetoxFocusChartView @JvmOverloads constructor(
 
     private var chartAnimationProgress = 0f
 
+    private var selectionAnimator: ValueAnimator? = null
+    private var chartAnimator: ValueAnimator? = null
+
     private val barBounds = mutableListOf<RectF>()
     private val barAlphas = mutableListOf<Float>()
     private val barScales = mutableListOf<Float>()
@@ -60,9 +63,16 @@ class DetoxFocusChartView @JvmOverloads constructor(
         }
     }
 
-    fun submitData(data: List<ChartItem>) {
+    fun submitData(
+        data: List<ChartItem>,
+        resetSelection: Boolean = false
+    ) {
         items.clear()
         items.addAll(data)
+
+        if (resetSelection) {
+            selectedIndex = -1
+        }
 
         if (selectedIndex !in items.indices || items.getOrNull(selectedIndex)?.isFutureDay() == true) {
             selectedIndex = -1
@@ -78,6 +88,7 @@ class DetoxFocusChartView @JvmOverloads constructor(
 
         if (selectedIndex >= 0) {
             barAlphas[selectedIndex] = 1f
+            barScales[selectedIndex] = 1.12f
         }
 
         startChartAnimation()
@@ -317,7 +328,9 @@ class DetoxFocusChartView @JvmOverloads constructor(
     }
 
     private fun startChartAnimation() {
-        ValueAnimator.ofFloat(0f, 1f).apply {
+        chartAnimator?.cancel()
+
+        chartAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
             duration = 800
 
             addUpdateListener {
@@ -332,10 +345,12 @@ class DetoxFocusChartView @JvmOverloads constructor(
     private fun animateSelection(newIndex: Int) {
         if (selectedIndex == newIndex) return
 
+        selectionAnimator?.cancel()
+
         val oldIndex = selectedIndex
         selectedIndex = newIndex
 
-        ValueAnimator.ofFloat(0f, 1f).apply {
+        selectionAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
             duration = 250
 
             addUpdateListener {
@@ -358,14 +373,34 @@ class DetoxFocusChartView @JvmOverloads constructor(
         }
     }
 
-    private fun clearSelection() {
+    fun clearSelection(
+        notify: Boolean = true,
+        animate: Boolean = true
+    ) {
+        selectionAnimator?.cancel()
+
         val oldIndex = selectedIndex
 
         if (oldIndex < 0) return
 
         selectedIndex = -1
 
-        ValueAnimator.ofFloat(1f, 0.3f).apply {
+        if (!animate) {
+            if (oldIndex < barAlphas.size) {
+                barAlphas[oldIndex] = 0.3f
+                barScales[oldIndex] = 1f
+            }
+
+            invalidate()
+
+            if (notify) {
+                onSelectionCleared?.invoke()
+            }
+
+            return
+        }
+
+        selectionAnimator = ValueAnimator.ofFloat(1f, 0.3f).apply {
             duration = 200
 
             addUpdateListener {
@@ -382,7 +417,9 @@ class DetoxFocusChartView @JvmOverloads constructor(
             start()
         }
 
-        onSelectionCleared?.invoke()
+        if (notify) {
+            onSelectionCleared?.invoke()
+        }
     }
 
     private fun ChartItem.isFutureDay(): Boolean {
