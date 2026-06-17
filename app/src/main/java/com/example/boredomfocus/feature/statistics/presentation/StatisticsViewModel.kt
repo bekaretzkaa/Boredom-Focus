@@ -10,6 +10,7 @@ import com.example.boredomfocus.core.common.getCalendarMonthRange
 import com.example.boredomfocus.core.common.getCalendarMonthRangeDay
 import com.example.boredomfocus.core.common.getCalendarWeekRange
 import com.example.boredomfocus.core.common.getCalendarWeekRangeDay
+import com.example.boredomfocus.core.common.getLastThreeCalendarMonthsRangeDay
 import com.example.boredomfocus.data.local.dao.MonthStatsResult
 import com.example.boredomfocus.data.local.dao.MonthWeekStatsResult
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
@@ -77,8 +78,8 @@ class StatisticsViewModel @Inject constructor(
     private val previousMonthRangeMillis = getCalendarMonthRange(-1)
     private val currentMonthDaysRangeDays = getCalendarMonthRangeDay(0)
 
-    private val currentYearRangeMillis = 0
-    private val currentYearDaysRangeDays = 0
+    private val allTimeRangeMillis = RangeMillis(0L, System.currentTimeMillis())
+    private val currentYearDaysRangeDays = getLastThreeCalendarMonthsRangeDay()
 
     private var selectedPeriod = MutableStateFlow(StatisticsPeriod.WEEK)
 
@@ -108,9 +109,9 @@ class StatisticsViewModel @Inject constructor(
                 StatisticsPeriod.ALL_TIME -> {
                     buildPeriodState(
                         period = StatisticsPeriod.ALL_TIME,
-                        currentRangeMillis = currentWeekRangeMillis, // TODO
-                        previousRangeMillis = previousWeekRangeMillis, // TODO
-                        currentRangeDays = currentWeekDaysRangeDays, // TODO
+                        currentRangeMillis = allTimeRangeMillis,
+                        previousRangeMillis = allTimeRangeMillis,
+                        currentRangeDays = currentYearDaysRangeDays,
                         currentRangeWeekDays = currentWeekDaysRangeDays
                     )
                 }
@@ -174,7 +175,7 @@ class StatisticsViewModel @Inject constructor(
                     dailyStatsRepository.getStatsByMonths(currentRangeDays.startDay, currentRangeDays.endDay)
                 }
             },
-            dailyStatsRepository.getFocusStatsBetween(currentRangeDays.startDay, currentRangeDays.endDay)
+            dailyStatsRepository.getFocusStatsBetween(if(period == StatisticsPeriod.ALL_TIME) 0 else currentRangeDays.startDay, currentRangeDays.endDay)
         ) { dailyStats, periodStats, focusTime ->
             val updatedDailyStats = mutableListOf<DailyStatsEntity?>()
             updatedDailyStats.addAll(dailyStats)
@@ -183,6 +184,7 @@ class StatisticsViewModel @Inject constructor(
             }
 
             val updatedPeriodStats = mutableListOf<ChartItem>()
+            var averageFocusTime = 0L
 
             when(period) {
                 StatisticsPeriod.WEEK -> {
@@ -190,18 +192,21 @@ class StatisticsViewModel @Inject constructor(
                     for(i in updatedPeriodStats.size+1..7) {
                         updatedPeriodStats.add(ChartItem(toRussionWeekDay(i), -1, -1, -1))
                     }
+                    averageFocusTime = focusTime / 7
                 }
                 StatisticsPeriod.MONTH -> {
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
                     for(i in updatedPeriodStats.size+1..5) {
                         updatedPeriodStats.add(ChartItem("$i нед", -1, -1, -1))
                     }
+                    averageFocusTime = focusTime / 30
                 }
                 StatisticsPeriod.ALL_TIME -> {
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
                     for(i in updatedPeriodStats.size+1..3) {
                         updatedPeriodStats.add(ChartItem("$i мес", -1, -1, -1))
                     }
+                    averageFocusTime = focusTime / 360
                 }
             }
 
@@ -209,7 +214,7 @@ class StatisticsViewModel @Inject constructor(
                 dailyStats = updatedDailyStats,
                 periodStats = updatedPeriodStats,
                 totalFocusTimePeriod = focusTime,
-                averageFocusTimePeriod = focusTime / 7
+                averageFocusTimePeriod = averageFocusTime
             )
         }
 

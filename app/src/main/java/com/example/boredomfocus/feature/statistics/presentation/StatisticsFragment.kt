@@ -3,6 +3,7 @@ package com.example.boredomfocus.feature.statistics.presentation
 import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
@@ -110,16 +111,30 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         isRenderingFromState = true
 
         binding.tvStatisticsFocusRecordTime.text = formatSeconds(state.statsSummary?.bestFocus ?: 0L)
+        binding.tvStatisticsFocusAverageTime.text = formatSeconds(state.statsSummary?.averageFocus?.toLong() ?: 0L)
+        binding.tvStatisticsSessionsCount.text = state.statsSummary?.totalSessions.toString()
+        binding.tvStatisticsSessionsCountWord.text = when(state.selectedPeriod) {
+            StatisticsPeriod.WEEK -> "сессий за неделю"
+            StatisticsPeriod.MONTH -> "сессий за месяц"
+            StatisticsPeriod.ALL_TIME -> "всего сессий"
+        }
+        binding.tvStatisticsDetoxPercent.text = "${state.statsSummary?.completionRate?.toInt() ?: 0}%"
         compareTime(binding.tvStatisticsFocusRecordComparison, state.statsSummary?.bestFocus, state.statsSummaryLast?.bestFocus, state.allTimeFocusRecord)
 
-        binding.tvStatisticsFocusAverageTime.text = formatSeconds(state.statsSummary?.averageFocus?.toLong() ?: 0L)
-        compareTime(binding.tvStatisticsFocusAverageComparison, state.statsSummary?.averageFocus?.toLong(), state.statsSummaryLast?.averageFocus?.toLong(), null)
+        if(state.selectedPeriod == StatisticsPeriod.ALL_TIME) {
+            binding.tvStatisticsFocusAverageComparison.text = "за всё время"
+            binding.tvStatisticsFocusAverageComparison.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_basic))
 
-        binding.tvStatisticsSessionsCount.text = state.statsSummary?.totalSessions.toString()
-        compareSession(binding.tvStatisticsSessionsComparison,state.statsSummary?.totalSessions, state.statsSummaryLast?.totalSessions)
+            binding.tvStatisticsDetoxPercentComparison.text = "за всё время"
+            binding.tvStatisticsDetoxPercentComparison.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_basic))
 
-        binding.tvStatisticsDetoxPercent.text = "${state.statsSummary?.completionRate ?: 0.00}%"
-        compareDetoxPercentage(binding.tvStatisticsDetoxPercentComparison,state.statsSummary?.completionRate, state.statsSummaryLast?.completionRate)
+            binding.tvStatisticsSessionsComparison.text = "с первого дня"
+            binding.tvStatisticsSessionsComparison.setTextColor(ContextCompat.getColor(requireContext(), R.color.gray_basic))
+        } else {
+            compareTime(binding.tvStatisticsFocusAverageComparison, state.statsSummary?.averageFocus?.toLong(), state.statsSummaryLast?.averageFocus?.toLong(), null)
+            compareSession(binding.tvStatisticsSessionsComparison,state.statsSummary?.totalSessions, state.statsSummaryLast?.totalSessions)
+            compareDetoxPercentage(binding.tvStatisticsDetoxPercentComparison,state.statsSummary?.completionRate, state.statsSummaryLast?.completionRate)
+        }
 
 
         binding.tvStatisticsOverallTimeWord2.text = formatSeconds(state.totalFocusTimePeriod ?: 0L)
@@ -165,19 +180,19 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 tv.text = "↑ лучший за всё время"
                 tv.setTextColor(ContextCompat.getColor(tv.context, R.color.green_basic))
                 binding.tvStatisticsFocusRecordTime.setTextColor(ContextCompat.getColor(tv.context, R.color.green_basic))
+                return
             } else {
                 binding.tvStatisticsFocusRecordTime.setTextColor(ContextCompat.getColor(tv.context, R.color.white))
             }
-        } else {
-            val diff = if (currentValue > lastValue) currentValue - lastValue else lastValue - currentValue
-            tv.text = if (currentValue > lastValue) "↑ +${formatSeconds(diff)} от прошлого" else "↓ −${formatSeconds(diff)} от прошлого"
-            tv.setTextColor(
-                ContextCompat.getColor(
-                    tv.context,
-                    if (currentValue > lastValue) R.color.green_basic else R.color.red_basic
-                )
-            )
         }
+        val diff = if (currentValue > lastValue) currentValue - lastValue else lastValue - currentValue
+        tv.text = if (currentValue > lastValue) "↑ +${formatSeconds(diff)} от прошлого" else "↓ −${formatSeconds(diff)} от прошлого"
+        tv.setTextColor(
+            ContextCompat.getColor(
+                tv.context,
+                if (currentValue > lastValue) R.color.green_basic else R.color.red_basic
+            )
+        )
     }
 
     private fun compareSession(tv: TextView, current: Int?, last: Int?) {
@@ -199,7 +214,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val lastValue = last ?: 0.0
 
         val diff = if(currentValue > lastValue) currentValue - lastValue else lastValue - currentValue
-        tv.text = if(currentValue > lastValue) "↑ +${String.format("%.2f", diff)}% от прошлого" else "↓ −${String.format("%.2f", diff)}% от прошлого"
+        tv.text = if(currentValue > lastValue) "↑ +${String.format("%.1f", diff)}% от прошлого" else "↓ −${String.format("%.2f", diff)}% от прошлого"
         tv.setTextColor(
             ContextCompat.getColor(
                 tv.context,

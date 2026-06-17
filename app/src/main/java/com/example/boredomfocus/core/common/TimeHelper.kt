@@ -84,6 +84,22 @@ fun getCalendarMonthRangeDay(
     )
 }
 
+fun getLastThreeCalendarMonthsRangeDay(
+    zoneId: ZoneId = ZoneId.systemDefault()
+): RangeDays {
+    val startOfCurrentMonth = LocalDate.now(zoneId)
+        .withDayOfMonth(1)
+
+    val startOfThreeMonthsAgo = startOfCurrentMonth.minusMonths(2)
+
+    val startOfNextMonth = startOfCurrentMonth.plusMonths(1)
+
+    return RangeDays(
+        startDay = startOfThreeMonthsAgo.toEpochDay(),
+        endDay = startOfNextMonth.toEpochDay()
+    )
+}
+
 fun formatDateFromEpochMillis(
     epochMillis: Long,
     zoneId: ZoneId = ZoneId.systemDefault()
