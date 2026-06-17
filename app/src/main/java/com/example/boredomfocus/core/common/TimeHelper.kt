@@ -8,12 +8,12 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAdjusters
 import java.util.Locale
 
-data class WeekRangeMillis(
+data class RangeMillis(
     val startMillis: Long,
     val endMillis: Long
 )
 
-data class WeekRangeDays(
+data class RangeDays(
     val startDay: Long,
     val endDay: Long
 )
@@ -21,7 +21,7 @@ data class WeekRangeDays(
 fun getCalendarWeekRange(
     weekOffset: Long = 0,
     zoneId: ZoneId = ZoneId.systemDefault()
-) : WeekRangeMillis {
+) : RangeMillis {
     val startOfThisWeek = LocalDate.now(zoneId)
         .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
         .plusWeeks(weekOffset)
@@ -29,7 +29,7 @@ fun getCalendarWeekRange(
 
     val startOfNextWeek = startOfThisWeek.plusWeeks(1)
 
-    return WeekRangeMillis(
+    return RangeMillis(
         startMillis = startOfThisWeek.toInstant().toEpochMilli(),
         endMillis = startOfNextWeek.toInstant().toEpochMilli()
     )
@@ -38,16 +38,49 @@ fun getCalendarWeekRange(
 fun getCalendarWeekRangeDay(
     weekOffset: Long = 0,
     zoneId: ZoneId = ZoneId.systemDefault()
-) : WeekRangeDays {
+) : RangeDays {
     val startOfThisWeek = LocalDate.now(zoneId)
         .with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY))
         .plusWeeks(weekOffset)
 
     val startOfNextWeek = startOfThisWeek.plusWeeks(1)
 
-    return WeekRangeDays(
+    return RangeDays(
         startDay = startOfThisWeek.toEpochDay(),
         endDay = startOfNextWeek.toEpochDay()
+    )
+}
+
+fun getCalendarMonthRange(
+    monthOffset: Long = 0,
+    zoneId: ZoneId = ZoneId.systemDefault()
+): RangeMillis {
+    val startOfMonth = LocalDate.now(zoneId)
+        .withDayOfMonth(1)
+        .plusMonths(monthOffset)
+        .atStartOfDay(zoneId)
+
+    val startOfNextMonth = startOfMonth.plusMonths(1)
+
+    return RangeMillis(
+        startMillis = startOfMonth.toInstant().toEpochMilli(),
+        endMillis = startOfNextMonth.toInstant().toEpochMilli()
+    )
+}
+
+fun getCalendarMonthRangeDay(
+    monthOffset: Long = 0,
+    zoneId: ZoneId = ZoneId.systemDefault()
+): RangeDays {
+    val startOfMonth = LocalDate.now(zoneId)
+        .withDayOfMonth(1)
+        .plusMonths(monthOffset)
+
+    val startOfNextMonth = startOfMonth.plusMonths(1)
+
+    return RangeDays(
+        startDay = startOfMonth.toEpochDay(),
+        endDay = startOfNextMonth.toEpochDay()
     )
 }
 

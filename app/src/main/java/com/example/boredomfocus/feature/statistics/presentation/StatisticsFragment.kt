@@ -23,6 +23,7 @@ import com.example.boredomfocus.data.local.entity.DailyStatsEntity
 import com.example.boredomfocus.feature.statistics.presentation.adapter.SessionAdapter
 import com.example.boredomfocus.feature.statistics.presentation.model.SessionListItem
 import com.example.boredomfocus.databinding.FragmentStatisticsBinding
+import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -43,6 +44,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private var currentFocusMinutes = 0
 
     private var isRenderingFromState = false
+
+    private var selectedPeriod = StatisticsPeriod.WEEK
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -79,6 +82,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             cardVisible = false
 
         }
+
+        setupStatisticsChips()
     }
 
     override fun onDestroyView() {
@@ -137,12 +142,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 if(entity.streakCounted) {
                     days[index].setBackgroundResource(R.drawable.circle_filled)
                 } else {
-                    days[index].setBackgroundResource(R.drawable.circle_missed_red)
+                    days[index].setBackgroundResource(R.drawable.circle_missed)
                 }
             }
         }
 
-        binding.detoxFocusBarChartView.submitData(state.dailyStats)
+        selectStatisticsPeriod(state.selectedPeriod)
+
+        binding.detoxFocusBarChartView.submitData(state.periodStats)
 
         sessionAdapter.submitList(state.lastSessions)
 
@@ -201,26 +208,26 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         )
     }
 
-    private fun updateChartCard(item: DailyStatsEntity) {
+    private fun updateChartCard(item: ChartItem) {
 
-        binding.tvChartItemLabel.text = item.getDayLabel()
+        binding.tvChartItemLabel.text = item.label
 
         animateMinutesText(
             binding.tvChartItemFocusTime,
             currentFocusMinutes,
-            (item.totalFocusSeconds / 60).toInt()
+            item.focusMinutes
         )
 
         animateMinutesText(
             binding.tvChartItemDetoxTime,
             currentDetoxMinutes,
-            item.totalDetoxMinutes.toInt()
+            item.detoxMinutes
         )
 
-        currentFocusMinutes = (item.totalFocusSeconds / 60).toInt()
-        currentDetoxMinutes = item.totalDetoxMinutes.toInt()
+        currentFocusMinutes = item.focusMinutes
+        currentDetoxMinutes = item.detoxMinutes
 
-        binding.tvChartItemSessionCount.text = "${item.sessionCount} сессий"
+        binding.tvChartItemSessionCount.text = "${item.sessionsCount} сессий"
     }
 
     private fun formatMinutes(totalMinutes: Int): String {
@@ -244,15 +251,15 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
-    private fun showDetailsCard(item: DailyStatsEntity) {
+    private fun showDetailsCard(item: ChartItem) {
 
-        binding.tvChartItemLabel.text = item.getDayLabel()
+        binding.tvChartItemLabel.text = item.label
 
         currentFocusMinutes = 0
         currentDetoxMinutes = 0
 
         binding.tvChartItemSessionCount.text =
-            "${item.sessionCount} сессий"
+            "${item.sessionsCount} сессий"
 
         binding.tvChartItemFocusTime.text = "0 мин"
         binding.tvChartItemDetoxTime.text = "0 мин"
@@ -363,5 +370,82 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             DayOfWeek.SATURDAY -> "СБ"
             DayOfWeek.SUNDAY -> "ВС"
         }
+    }
+
+    private fun setupStatisticsChips() = with(binding) {
+        cardWeek.setOnClickListener {
+            viewModel.selectPeriod(StatisticsPeriod.WEEK)
+        }
+
+        cardMonth.setOnClickListener {
+            viewModel.selectPeriod(StatisticsPeriod.MONTH)
+        }
+
+        cardAllTime.setOnClickListener {
+            viewModel.selectPeriod(StatisticsPeriod.ALL_TIME)
+        }
+    }
+
+    private fun selectStatisticsPeriod(period: StatisticsPeriod) {
+        selectedPeriod = period
+
+        renderChip(
+            card = binding.cardWeek,
+            textView = binding.tvWeek,
+            isSelected = period == StatisticsPeriod.WEEK
+        )
+
+        renderChip(
+            card = binding.cardMonth,
+            textView = binding.tvMonth,
+            isSelected = period == StatisticsPeriod.MONTH
+        )
+
+        renderChip(
+            card = binding.cardAllTime,
+            textView = binding.tvAllTime,
+            isSelected = period == StatisticsPeriod.ALL_TIME
+        )
+
+        when (period) {
+            StatisticsPeriod.WEEK -> {
+                // viewModel.loadWeekStats()
+                // или viewModel.changePeriod(StatisticsPeriod.WEEK)
+            }
+
+            StatisticsPeriod.MONTH -> {
+                // viewModel.loadMonthStats()
+            }
+
+            StatisticsPeriod.ALL_TIME -> {
+                // viewModel.loadAllTimeStats()
+            }
+        }
+    }
+
+    private fun renderChip(
+        card: MaterialCardView,
+        textView: TextView,
+        isSelected: Boolean
+    ) {
+        val selectedBackground = Color.parseColor("#1A1A1A")
+        val unselectedBackground = Color.parseColor("#0D0D0D")
+
+        val selectedStroke = Color.parseColor("#3A3A3A")
+        val unselectedStroke = Color.parseColor("#1F1F1F")
+
+        val selectedText = Color.WHITE
+        val unselectedText = Color.parseColor("#5F5F5F")
+
+        card.setCardBackgroundColor(
+            if (isSelected) selectedBackground else unselectedBackground
+        )
+
+        card.strokeColor =
+            if (isSelected) selectedStroke else unselectedStroke
+
+        textView.setTextColor(
+            if (isSelected) selectedText else unselectedText
+        )
     }
 }

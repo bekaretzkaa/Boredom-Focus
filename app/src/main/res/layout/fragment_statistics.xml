@@ -45,58 +45,73 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvStatistics">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipStatisticsWeek"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardWeek"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="#0D0D0D"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Неделя"
-                    android:textColor="#555555"
-                    android:textSize="18sp"
-                    app:chipCornerRadius="12dp"
-                    app:chipEndPadding="8dp"
-                    app:chipMinHeight="50dp"
-                    app:chipStartPadding="8dp"
-                    app:chipStrokeColor="@color/stroke_beginner"
-                    app:chipStrokeWidth="1.5dp" />
+                    app:cardBackgroundColor="#0D0D0D"
+                    app:strokeColor="@color/stroke_beginner"
+                    app:strokeWidth="1.5dp"
+                    android:clickable="true"
+                    android:focusable="true">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipStatisticsMonth"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:backgroundTint="#0D0D0D"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Месяц"
-                    android:textColor="@color/white"
-                    android:textSize="18sp"
-                    app:chipCornerRadius="12dp"
-                    app:chipEndPadding="8dp"
-                    app:chipMinHeight="50dp"
-                    app:chipStartPadding="8dp"
-                    app:chipStrokeColor="@color/stroke_beginner"
-                    app:chipStrokeWidth="1.5dp" />
+                    <TextView
+                        android:id="@+id/tvWeek"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Неделя"
+                        android:textSize="18sp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:fontFamily="@font/inter_regular"/>
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipStatisticsAllTime"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardMonth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#0D0D0D"
+                    app:strokeColor="@color/stroke_beginner"
+                    app:strokeWidth="1.5dp"
                     android:layout_marginStart="12dp"
-                    android:backgroundTint="#0D0D0D"
-                    android:fontFamily="@font/inter_regular"
-                    android:text="Всё время"
-                    android:textColor="#555555"
-                    android:textSize="18sp"
-                    app:chipCornerRadius="12dp"
-                    app:chipEndPadding="8dp"
-                    app:chipMinHeight="50dp"
-                    app:chipStartPadding="8dp"
-                    app:chipStrokeColor="@color/stroke_beginner"
-                    app:chipStrokeWidth="1.5dp" />
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:id="@+id/tvMonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Месяц"
+                        android:textSize="18sp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:fontFamily="@font/inter_regular"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardAllTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#0D0D0D"
+                    app:strokeColor="@color/stroke_beginner"
+                    app:strokeWidth="1.5dp"
+                    android:layout_marginStart="12dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:id="@+id/tvAllTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Всё время"
+                        android:textSize="18sp"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="12dp"
+                        android:fontFamily="@font/inter_regular"/>
+
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 

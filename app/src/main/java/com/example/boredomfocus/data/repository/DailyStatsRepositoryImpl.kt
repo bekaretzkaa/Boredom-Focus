@@ -1,6 +1,8 @@
 package com.example.boredomfocus.data.repository
 
 import com.example.boredomfocus.data.local.dao.DailyStatsDao
+import com.example.boredomfocus.data.local.dao.MonthStatsResult
+import com.example.boredomfocus.data.local.dao.MonthWeekStatsResult
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import kotlinx.coroutines.flow.Flow
@@ -25,10 +27,24 @@ class DailyStatsRepositoryImpl @Inject constructor(
         return dailyStatsDao.getDailyStatsBetween(startDay, endDay)
     }
 
-    override fun getFocusWeekStatsBetween(
+    override fun getMonthStatsByWeeks(
+        monthStartDay: Long,
+        monthEndDay: Long
+    ): Flow<List<MonthWeekStatsResult>> {
+        return dailyStatsDao.getMonthStatsByWeeks(monthStartDay, monthEndDay)
+    }
+
+    override fun getStatsByMonths(
+        startMonthDay: Long,
+        endMonthDay: Long
+    ): Flow<List<MonthStatsResult>> {
+        return dailyStatsDao.getStatsByMonths(startMonthDay, endMonthDay)
+    }
+
+    override fun getFocusStatsBetween(
         startDay: Long,
         endDay: Long
     ): Flow<Long> {
-        return dailyStatsDao.getFocusWeekStatsBetween(startDay, endDay)
+        return dailyStatsDao.getFocusStatsBetween(startDay, endDay)
     }
 }
