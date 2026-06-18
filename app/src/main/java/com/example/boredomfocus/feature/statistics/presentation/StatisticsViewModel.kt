@@ -11,9 +11,9 @@ import com.example.boredomfocus.core.common.getCalendarMonthRangeDay
 import com.example.boredomfocus.core.common.getCalendarWeekRange
 import com.example.boredomfocus.core.common.getCalendarWeekRangeDay
 import com.example.boredomfocus.core.common.getLastThreeCalendarMonthsRangeDay
-import com.example.boredomfocus.data.local.dao.MonthStatsResult
-import com.example.boredomfocus.data.local.dao.MonthWeekStatsResult
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
+import com.example.boredomfocus.data.local.model.MonthStatsResult
+import com.example.boredomfocus.data.local.model.MonthWeekStatsResult
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository
 import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
@@ -173,24 +173,24 @@ class StatisticsViewModel @Inject constructor(
             when(period) {
                 StatisticsPeriod.WEEK -> {
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
+                    averageFocusTime = focusTime / updatedPeriodStats.size
                     for(i in updatedPeriodStats.size+1..7) {
                         updatedPeriodStats.add(ChartItem(toRussionWeekDay(i), -1, -1, -1))
                     }
-                    averageFocusTime = focusTime / 7
                 }
                 StatisticsPeriod.MONTH -> {
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
                     for(i in updatedPeriodStats.size+1..5) {
                         updatedPeriodStats.add(ChartItem("$i НЕД", -1, -1, -1))
                     }
-                    averageFocusTime = focusTime / 30
+                    averageFocusTime = focusTime / (LocalDate.now().toEpochDay() - currentRangeDays.startDay)
                 }
                 StatisticsPeriod.ALL_TIME -> {
                     for(i in periodStats.size..2) {
                         updatedPeriodStats.add(ChartItem(getMonthName(getYearMonthByOffset(i)), -1, -1, -1))
                     }
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
-                    averageFocusTime = focusTime / 360
+                    averageFocusTime = focusTime / (LocalDate.now().toEpochDay() - (dailyStatsRepository.getFirstDate() ?: 0))
                 }
             }
 

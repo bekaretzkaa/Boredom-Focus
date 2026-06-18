@@ -160,8 +160,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             else -> ""
         }
 
-        binding.tvStatisticsDetoxPercent.text =
-            "${summary?.completionRate?.toInt() ?: 0}%"
+        if(summary?.completionRate?.toInt() ?: 0 == 100) {
+            binding.tvStatisticsDetoxPercent.text = "100%"
+            binding.tvStatisticsDetoxPercent.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
+        } else {
+            binding.tvStatisticsDetoxPercent.text =
+                "${summary?.completionRate?.toInt() ?: 0}%"
+            binding.tvStatisticsDetoxPercent.setTextColor(ContextCompat.getColor(requireContext(), R.color.detox_percent))
+        }
 
         compareTime(
             tv = binding.tvStatisticsFocusRecordComparison,
@@ -234,14 +240,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             binding.tvStatisticsOverallTimeWord2,
             previousState.totalFocusTimePeriod ?: 0L,
             state.totalFocusTimePeriod ?: 0L,
-            600
+            800
         )
 
         animateLongValue(
             binding.tvStatisticsAverageTimeWord2,
             previousState.averageFocusTimePeriod ?: 0L,
             state.averageFocusTimePeriod ?: 0L,
-            600
+            800
         )
 
         previousState = state
@@ -260,10 +266,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         binding.tvStatisticsSessionsComparison.setTextColor(gray)
 
         binding.tvStatisticsFocusRecordComparison.text = "лучший за всё время"
-        binding.tvStatisticsFocusRecordComparison.setTextColor(gray)
+        binding.tvStatisticsFocusRecordComparison.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
 
         binding.tvStatisticsFocusRecordTime.setTextColor(
-            ContextCompat.getColor(requireContext(), R.color.white)
+            ContextCompat.getColor(requireContext(), R.color.green_basic)
         )
     }
 
@@ -328,7 +334,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (currentValue == lastValue) {
-            tv.text = "без изменений"
+            tv.text = "— стабильно"
             tv.setTextColor(ContextCompat.getColor(tv.context, R.color.gray_basic))
             return
         }
@@ -359,7 +365,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val lastValue = last ?: 0
 
         if (currentValue == lastValue) {
-            tv.text = "без изменений"
+            tv.text = "— стабильно"
             tv.setTextColor(ContextCompat.getColor(tv.context, R.color.gray_basic))
             return
         }
@@ -390,7 +396,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val lastValue = last ?: 0.0
 
         if (currentValue == lastValue) {
-            tv.text = "без изменений"
+            tv.text = "— стабильно"
             tv.setTextColor(ContextCompat.getColor(tv.context, R.color.gray_basic))
             return
         }

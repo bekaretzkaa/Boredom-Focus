@@ -6,23 +6,9 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.boredomfocus.core.common.RangeDays
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
+import com.example.boredomfocus.data.local.model.MonthStatsResult
+import com.example.boredomfocus.data.local.model.MonthWeekStatsResult
 import kotlinx.coroutines.flow.Flow
-
-data class MonthWeekStatsResult(
-    val weekIndex: Int,
-    val weekStartDay: Long,
-    val weekEndDay: Long,
-    val totalDetoxMinutes: Long,
-    val totalFocusSeconds: Long,
-    val sessionCount: Int
-)
-data class MonthStatsResult(
-    val yearMonth: String,
-    val monthStartDay: Long,
-    val totalDetoxMinutes: Long,
-    val totalFocusSeconds: Long,
-    val sessionCount: Int
-)
 
 @Dao
 interface DailyStatsDao {
@@ -84,4 +70,7 @@ interface DailyStatsDao {
 
     @Query("SELECT SUM(total_focus_seconds) FROM daily_stats WHERE date >= :startDay AND date < :endDay")
     fun getFocusStatsBetween(startDay: Long, endDay: Long): Flow<Long>
+
+    @Query("SELECT MIN(date) FROM daily_stats")
+    suspend fun getFirstDate(): Int?
 }
