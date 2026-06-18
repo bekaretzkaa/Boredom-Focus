@@ -18,6 +18,7 @@ import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository
 import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
 import com.example.boredomfocus.feature.statistics.presentation.model.SessionListItem
+import com.example.boredomfocus.feature.statistics.presentation.model.StatisticsPeriod
 import com.example.boredomfocus.feature.statistics.presentation.model.StatsSummary
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -34,40 +35,19 @@ import java.time.ZoneId
 import java.time.format.TextStyle
 import java.util.Locale
 import javax.inject.Inject
-
-data class StatisticsUiState(
-    val selectedPeriod: StatisticsPeriod = StatisticsPeriod.WEEK,
-    val isLoading: Boolean = true,
-    val statsSummary: StatsSummary? = null,
-    val statsSummaryLast: StatsSummary? = null,
-    val allTimeFocusRecord: Long? = null,
-    val lastSessions: List<SessionListItem> = listOf(),
-    val dailyStats: List<DailyStatsEntity?> = listOf(),
-    val periodStats: List<ChartItem> = listOf(),
-    val totalFocusTimePeriod: Long? = null,
-    val averageFocusTimePeriod: Long? = null
-)
-
-data class SessionGroupFlow(
+private data class SessionGroupFlow(
     val statsSummary: StatsSummary? = null,
     val statsSummaryLast: StatsSummary? = null,
     val allTimeFocusRecord: Long? = null,
     val lastSessions: List<SessionListItem> = listOf()
 )
 
-data class DailyStatsGroupFlow(
+private data class DailyStatsGroupFlow(
     val dailyStats: List<DailyStatsEntity?> = listOf(),
     val periodStats: List<ChartItem> = listOf(),
     val totalFocusTimePeriod: Long? = null,
     val averageFocusTimePeriod: Long? = null
 )
-
-enum class StatisticsPeriod {
-    WEEK,
-    MONTH,
-    ALL_TIME
-}
-
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     private val sessionRepository: SessionRepository,

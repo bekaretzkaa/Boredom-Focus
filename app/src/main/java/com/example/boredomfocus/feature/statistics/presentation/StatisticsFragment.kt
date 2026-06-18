@@ -1,6 +1,7 @@
 package com.example.boredomfocus.feature.statistics.presentation
 
 import android.animation.ValueAnimator
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,11 +26,15 @@ import com.example.boredomfocus.data.local.entity.DailyStatsEntity
 import com.example.boredomfocus.feature.statistics.presentation.adapter.SessionAdapter
 import com.example.boredomfocus.feature.statistics.presentation.model.SessionListItem
 import com.example.boredomfocus.databinding.FragmentStatisticsBinding
+import com.example.boredomfocus.feature.statistics.presentation.model.StatisticsPeriod
 import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.util.logging.Formatter
+import kotlin.time.Duration
 
 @AndroidEntryPoint
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
@@ -45,6 +51,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private var currentDetoxMinutes = 0
     private var currentFocusMinutes = 0
+
+    private var previousState = StatisticsUiState()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -142,12 +150,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             StatisticsPeriod.WEEK -> "сессий за неделю"
             StatisticsPeriod.MONTH -> "сессий за месяц"
             StatisticsPeriod.ALL_TIME -> "всего сессий"
+            else -> ""
         }
 
         binding.tvStatisticsOverallTimeWord1.text = when (period) {
             StatisticsPeriod.WEEK -> "всего фокуса за неделю"
             StatisticsPeriod.MONTH -> "всего фокуса за месяц"
             StatisticsPeriod.ALL_TIME -> "всего фокуса за всё время"
+            else -> ""
         }
 
         binding.tvStatisticsDetoxPercent.text =
@@ -200,6 +210,41 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         binding.detoxFocusBarChartView.submitData(state.periodStats)
 
         sessionAdapter.submitList(state.lastSessions)
+
+        animateStatsCards()
+
+        binding.tvStatisticsSessionsCount.animateIntText(previousState.statsSummary?.totalSessions, summary?.totalSessions ?: 0)
+        binding.tvStatisticsDetoxPercent.animateIntText(previousState.statsSummary?.completionRate?.toInt(), summary?.completionRate?.toInt() ?: 0, "%")
+
+        animateLongValue(
+            binding.tvStatisticsFocusRecordTime,
+            previousState.statsSummary?.bestFocus ?: 0L,
+            summary?.bestFocus ?: 0L,
+            800
+        )
+
+        animateLongValue(
+            binding.tvStatisticsFocusAverageTime,
+            previousState.statsSummary?.averageFocus?.toLong() ?: 0L,
+            summary?.averageFocus?.toLong() ?: 0L,
+            800
+        )
+
+        animateLongValue(
+            binding.tvStatisticsOverallTimeWord2,
+            previousState.totalFocusTimePeriod ?: 0L,
+            state.totalFocusTimePeriod ?: 0L,
+            600
+        )
+
+        animateLongValue(
+            binding.tvStatisticsAverageTimeWord2,
+            previousState.averageFocusTimePeriod ?: 0L,
+            state.averageFocusTimePeriod ?: 0L,
+            600
+        )
+
+        previousState = state
     }
 
     private fun renderAllTimeComparisons() {
@@ -500,6 +545,55 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
+    private fun TextView.animateIntText(
+        from: Int?,
+        to: Int,
+        suffix: String = ""
+    ) {
+        ValueAnimator.ofInt(from ?: 0, to).apply {
+            duration = 800
+            interpolator = FastOutSlowInInterpolator()
+
+            addUpdateListener { animator ->
+                text = "${animator.animatedValue}$suffix"
+            }
+
+            start()
+        }
+    }
+
+    private fun animateLongValue(
+        tv: TextView,
+        from: Long,
+        to: Long,
+        duration: Long = 500
+    ) {
+        ValueAnimator.ofFloat(0f, 1f).apply {
+            this.duration = duration
+            interpolator = FastOutSlowInInterpolator()
+
+            addUpdateListener { animator ->
+                val progress = animator.animatedValue as Float
+                val currentValue = from + ((to - from) * progress).toLong()
+
+                tv.text = formatter(currentValue)
+            }
+            start()
+        }
+    }
+
+    private fun formatter(seconds: Long): String {
+        val hours = seconds / 3600
+        val minutes = (seconds % 3600) / 60
+        val secs = seconds % 60
+
+        return if (hours > 0) {
+            "%02d:%02d:%02d".format(hours, minutes, secs)
+        } else {
+            "%02d:%02d".format(minutes, secs)
+        }
+    }
+
     private fun formatMinutes(totalMinutes: Int): String {
         val hours = totalMinutes / 60
         val minutes = totalMinutes % 60
@@ -603,4 +697,35 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             if (isSelected) selectedText else unselectedText
         )
     }
+
+    private fun animateStatsCards() {
+        val cards = listOf(
+            binding.cardStatisticsFocusRecord,
+            binding.cardStatisticsFocusAverage,
+            binding.cardStatisticsSessions,
+            binding.cardStatisticsDetoxEnded,
+            binding.cardStatisticsOverall
+        )
+
+        cards.forEachIndexed { index, card ->
+            card.alpha = 0f
+            card.translationY = 12.dp.toFloat()
+            card.scaleX = 0.97f
+            card.scaleY = 0.97f
+
+            card.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(index * 55L)
+                .setDuration(300L)
+                .setInterpolator(FastOutSlowInInterpolator())
+                .start()
+        }
+    }
+
+    private val Int.dp: Int
+        get() = (this * Resources.getSystem().displayMetrics.density).toInt()
+
 }
