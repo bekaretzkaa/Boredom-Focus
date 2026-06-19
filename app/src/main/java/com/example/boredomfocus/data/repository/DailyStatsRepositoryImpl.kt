@@ -51,4 +51,15 @@ class DailyStatsRepositoryImpl @Inject constructor(
     override suspend fun getFirstDate(): Int? {
         return dailyStatsDao.getFirstDate()
     }
+
+    override suspend fun getCurrentStreak(todayEpochDay: Long): Int {
+        return dailyStatsDao.getCurrentStreak(todayEpochDay)
+    }
+
+    override fun getSessionCountBetween(
+        startDay: Long,
+        endDay: Long
+    ): Flow<Int> {
+        return dailyStatsDao.getSessionCountBetween(startDay, endDay)
+    }
 }

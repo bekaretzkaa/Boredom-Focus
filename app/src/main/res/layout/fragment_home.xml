@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeContent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0D0D0D"
@@ -28,9 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_bold"
-        android:text="14:32"
+        android:text="1:58:00"
         android:textColor="@color/white"
-        android:textSize="100sp"
+        android:textSize="92sp"
         app:layout_constraintBottom_toTopOf="@+id/tvStreak3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -58,8 +59,10 @@
         android:orientation="horizontal"
         android:padding="12dp"
         app:layout_constraintBottom_toTopOf="@+id/line1"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak3"
-        tools:layout_editor_absoluteX="24dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStreak3">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -263,6 +266,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toTopOf="@+id/line2"
@@ -282,6 +286,7 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tvStreakCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
@@ -293,7 +298,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="стрик дней\n"
+                android:text="стрик\nдней подряд"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -307,8 +312,8 @@
         android:layout_marginLeft="8dp"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/line2"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
@@ -324,6 +329,7 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tvSessionCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
@@ -335,19 +341,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="сессий\nвсего"
+                android:text="сессий\nна этой недел"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/line2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardQuote"
@@ -355,11 +354,11 @@
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/line3"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/line2"
+        app:layout_constraintTop_toBottomOf="@+id/cardSession"
         app:strokeColor="#1A1A1A">
 
         <LinearLayout

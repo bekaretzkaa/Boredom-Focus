@@ -122,3 +122,18 @@ fun formatDateFromEpochMillis(
         }
     }
 }
+
+fun formatSeconds(totalSeconds: Long): String {
+    return if (totalSeconds >= 3600) {
+        val hours = totalSeconds / 3600
+        val minutes = (totalSeconds % 3600) / 60
+        val seconds = totalSeconds % 60
+
+        String.format("%2d:%02d:%02d", hours, minutes, seconds)
+    } else {
+        val minutes = totalSeconds / 60
+        val seconds = totalSeconds % 60
+
+        String.format("%02d:%02d", minutes, seconds)
+    }
+}

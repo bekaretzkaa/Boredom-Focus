@@ -73,4 +73,37 @@ interface DailyStatsDao {
 
     @Query("SELECT MIN(date) FROM daily_stats")
     suspend fun getFirstDate(): Int?
+
+    @Query("""
+    WITH RECURSIVE
+    last_day(day) AS (
+        SELECT MAX(date)
+        FROM daily_stats
+        WHERE date <= :todayEpochDay
+          AND streak_counted = 1
+    ),
+    streak(day) AS (
+        SELECT day
+        FROM last_day
+        WHERE day IS NOT NULL
+          AND day >= :todayEpochDay - 1
+
+        UNION ALL
+
+        SELECT streak.day - 1
+        FROM streak
+        WHERE EXISTS (
+            SELECT 1
+            FROM daily_stats
+            WHERE date = streak.day - 1
+              AND streak_counted = 1
+        )
+    )
+    SELECT COUNT(*) FROM streak
+""")
+    suspend fun getCurrentStreak(todayEpochDay: Long): Int
+
+    @Query("SELECT SUM(session_count) FROM daily_stats WHERE date >= :startDay AND date < :endDay")
+    fun getSessionCountBetween(startDay: Long, endDay: Long): Flow<Int>
+
 }

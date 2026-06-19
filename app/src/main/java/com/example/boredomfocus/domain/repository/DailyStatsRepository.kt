@@ -21,4 +21,8 @@ interface DailyStatsRepository {
 
     suspend fun getFirstDate(): Int?
 
+    suspend fun getCurrentStreak(todayEpochDay: Long): Int
+
+    fun getSessionCountBetween(startDay: Long, endDay: Long): Flow<Int>
+
 }
