@@ -29,7 +29,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         binding.btnStartDetox.setOnClickListener {
             findNavController().navigate(
-                resId = R.id.detoxTimerFragment
+                resId = R.id.actionHomeFragmentToFocusSessionGraph
             )
         }
 

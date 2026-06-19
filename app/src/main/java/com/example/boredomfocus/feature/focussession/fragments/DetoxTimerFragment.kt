@@ -1,20 +1,25 @@
-package com.example.boredomfocus.feature.detox.presentation
+package com.example.boredomfocus.feature.focussession.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.FragmentDetoxTimerBinding
+import com.example.boredomfocus.feature.detox.presentation.DetoxTimerViewModel
+import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
 import kotlinx.coroutines.launch
 
 class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
 
     private val viewModel: DetoxTimerViewModel by viewModels()
+
+    private val viewModel2: FocusSessionViewModel by hiltNavGraphViewModels(R.id.focusSessionGraph)
 
     private var _binding: FragmentDetoxTimerBinding? = null
     private val binding get() = _binding!!

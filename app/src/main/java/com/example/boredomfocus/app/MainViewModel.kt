@@ -6,7 +6,6 @@ import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepos
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

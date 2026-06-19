@@ -1,4 +1,4 @@
-package com.example.boredomfocus.feature.focusresult.presentation
+package com.example.boredomfocus.feature.focussession.fragments
 
 import android.os.Bundle
 import android.view.View

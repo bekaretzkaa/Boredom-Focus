@@ -6,7 +6,12 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.boredomfocus.feature.home.presentation.HomeFragment"/>
+        android:name="com.example.boredomfocus.feature.home.presentation.HomeFragment">
+
+        <action
+            android:id="@+id/actionHomeFragmentToFocusSessionGraph"
+            app:destination="@id/focusSessionGraph"/>
+    </fragment>
 
     <fragment
         android:id="@+id/statisticsFragment"
@@ -16,16 +21,31 @@
         android:id="@+id/settingsFragment"
         android:name="com.example.boredomfocus.feature.settings.presentation.SettingsFragment"/>
 
-    <fragment
-        android:id="@+id/detoxTimerFragment"
-        android:name="com.example.boredomfocus.feature.detox.presentation.DetoxTimerFragment"/>
+    <navigation
+        android:id="@+id/focusSessionGraph"
+        app:startDestination="@id/detoxTimerFragment">
 
-    <fragment
-        android:id="@+id/stopwatchFragment"
-        android:name="com.example.boredomfocus.feature.stopwatch.presentation.StopwatchFragment"/>
+        <fragment
+            android:id="@+id/detoxTimerFragment"
+            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxTimerFragment">
 
-    <fragment
-        android:id="@+id/focusResultFragment"
-        android:name="com.example.boredomfocus.feature.focusresult.presentation.FocusResultFragment"/>
+            <action
+                android:id="@+id/actionDetoxTimerFragmentToStopwatchFragment"
+                app:destination="@id/stopwatchFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/stopwatchFragment"
+            android:name="com.example.boredomfocus.feature.focussession.fragments.StopwatchFragment">
+
+            <action
+                android:id="@+id/actionStopwatchFragmentToFocusResultFragment"
+                app:destination="@id/focusResultFragment" />
+        </fragment>
+
+        <fragment
+            android:id="@+id/focusResultFragment"
+            android:name="com.example.boredomfocus.feature.focussession.fragments.FocusResultFragment"/>
+    </navigation>
 
 </navigation>

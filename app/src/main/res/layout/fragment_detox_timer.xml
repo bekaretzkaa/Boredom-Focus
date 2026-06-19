@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="#0D0D0D"
-    tools:context=".feature.detox.presentation.DetoxTimerFragment">
+    tools:context=".feature.focussession.fragments.DetoxTimerFragment">
 
     <View
         android:id="@+id/viewRedDot"
