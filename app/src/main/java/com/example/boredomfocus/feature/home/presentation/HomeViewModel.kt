@@ -11,8 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import java.time.LocalDate
 import javax.inject.Inject
@@ -31,20 +29,24 @@ class HomeViewModel @Inject constructor(
             dailyStatsRepository.getSessionCountBetween(currentWeekRange.startDay, currentWeekRange.endDay),
             sessionRepository.getAllTimeFocusRecord(),
             ) { dailyStats, sessionCount, focusRecord ->
+
+            val today = LocalDate.now().toEpochDay()
+            val streakCount = dailyStatsRepository.getCurrentStreak(today)
+            val todayStreak = dailyStats.getOrNull((today - currentWeekRange.startDay).toInt())?.streakCounted == true
+
             val updatedDailyStats = mutableListOf<DailyStatsEntity?>()
             updatedDailyStats.addAll(dailyStats)
             repeat(7 - dailyStats.size) {
-                Log.d("HomeViewModel", "add null")
                 updatedDailyStats.add(null)
             }
-            val streakCount = dailyStatsRepository.getCurrentStreak(LocalDate.now().toEpochDay())
 
             HomeUIState(
                 isLoading = false,
                 dailyStats = updatedDailyStats,
                 streakCount = streakCount,
                 sessionCount = sessionCount,
-                focusRecord = focusRecord ?: 0
+                focusRecord = focusRecord ?: 0,
+                todayStreak = todayStreak
             )
         }.stateIn(
             viewModelScope,

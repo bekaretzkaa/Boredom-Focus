@@ -7,5 +7,6 @@ data class HomeUIState(
     val dailyStats: List<DailyStatsEntity?> = listOf(),
     val streakCount: Int = 0,
     val sessionCount: Int = 0,
-    val focusRecord: Long = 0
+    val focusRecord: Long = 0,
+    val todayStreak: Boolean = false
 )

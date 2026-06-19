@@ -241,32 +241,62 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.40" />
 
+    <View
+        android:id="@+id/viewStreakCounted"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/circle_filled_green"
+        app:layout_constraintBottom_toBottomOf="@+id/tvStreakCounted"
+        app:layout_constraintEnd_toStartOf="@+id/tvStreakCounted"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvStreakCounted" />
+
+    <TextView
+        android:id="@+id/tvStreakCounted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="сегодня уже была сессия"
+        android:textColor="#639922"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/viewStreakCounted"
+        app:layout_constraintTop_toBottomOf="@+id/cardWeek" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStartDetox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        android:fontFamily="@font/inter_medium"
+        android:fontFamily="@font/inter_bold"
         android:padding="22dp"
         android:text="Начать детокс"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:layout_marginTop="12dp"
         app:cornerRadius="12dp"
         app:icon="@drawable/ic_arrow_right"
         app:iconGravity="textEnd"
         app:iconTint="@color/black"
+        app:iconSize="26dp"
         app:layout_constraintBottom_toTopOf="@+id/cardRecord"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/line1" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStreakCounted" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardRecord"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toTopOf="@+id/line2"
@@ -312,7 +342,7 @@
         android:layout_marginLeft="8dp"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintBottom_toTopOf="@+id/line2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

@@ -63,6 +63,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.tvStreakCount.text = state.streakCount.toString()
         binding.tvSessionCount.text = state.sessionCount.toString()
         binding.tvStreak2.text = formatSeconds(state.focusRecord)
+
+        if(state.todayStreak) {
+            binding.tvStreakCounted.visibility = View.VISIBLE
+            binding.viewStreakCounted.visibility = View.VISIBLE
+            binding.btnStartDetox.text = "Ещё одна сессия"
+        } else {
+            binding.tvStreakCounted.visibility = View.GONE
+            binding.viewStreakCounted.visibility = View.GONE
+            binding.btnStartDetox.text = "Начать детокс"
+        }
     }
 
     private fun renderWeekCircles(state: HomeUIState) {
