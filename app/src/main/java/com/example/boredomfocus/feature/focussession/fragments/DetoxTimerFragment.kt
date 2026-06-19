@@ -3,7 +3,6 @@ package com.example.boredomfocus.feature.focussession.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,15 +10,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.FragmentDetoxTimerBinding
-import com.example.boredomfocus.feature.detox.presentation.DetoxTimerViewModel
+import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
 import kotlinx.coroutines.launch
 
 class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
-
-    private val viewModel: DetoxTimerViewModel by viewModels()
-
-    private val viewModel2: FocusSessionViewModel by hiltNavGraphViewModels(R.id.focusSessionGraph)
+    private val viewModel: FocusSessionViewModel by hiltNavGraphViewModels(R.id.focusSessionGraph)
 
     private var _binding: FragmentDetoxTimerBinding? = null
     private val binding get() = _binding!!
@@ -28,13 +24,10 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDetoxTimerBinding.bind(view)
 
-        observeUi()
+        viewModel.startDetoxTimer(10)
 
-        if(!viewModel.isRunning) {
-            viewModel.startTimer(10)
-        }
-
-
+        observeUiState()
+        observeEvents()
     }
 
     override fun onDestroyView() {
@@ -42,28 +35,29 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         _binding = null
     }
 
-    private fun observeUi() {
+    private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(
-                Lifecycle.State.STARTED
-            ) {
-                launch {
-                    viewModel.progress.collect {
-                        binding.progressViewDetoxTimer.progress = it
-                    }
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    binding.progressViewDetoxTimer.progress = state.detoxProgress
+                    binding.tvDetoxTimer.text = state.detoxTimeText
                 }
-
-                launch {
-                    viewModel.time.collect {
-                        binding.tvDetoxTimer.text = it
-                    }
-                }
-
-                launch {
-                    viewModel.finished.collect {
-                        if(it) {
+            }
+        }
+    }
+    private fun observeEvents() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.events.collect { event ->
+                    when(event) {
+                        is FocusSessionEvent.DetoxFinished -> {
                             findNavController().navigate(
                                 resId = R.id.stopwatchFragment
+                            )
+                        }
+                        is FocusSessionEvent.FocusStopped -> {
+                            findNavController().navigate(
+                                resId = R.id.focusResultFragment
                             )
                         }
                     }

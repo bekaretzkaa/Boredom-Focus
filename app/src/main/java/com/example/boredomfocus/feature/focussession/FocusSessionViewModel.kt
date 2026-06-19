@@ -9,8 +9,10 @@ import com.example.boredomfocus.domain.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
@@ -25,6 +27,9 @@ class FocusSessionViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow(FocusSessionUiState())
     val uiState: StateFlow<FocusSessionUiState> = _uiState.asStateFlow()
+
+    private val _events = MutableSharedFlow<FocusSessionEvent>()
+    val events = _events.asSharedFlow()
 
     private var detoxJob: Job? = null
     private var detoxDurationMillis = 0L
@@ -70,6 +75,8 @@ class FocusSessionViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(isDetoxFinished = true)
                     }
+
+                    _events.emit(FocusSessionEvent.DetoxFinished)
                     break
                 }
 
@@ -105,6 +112,10 @@ class FocusSessionViewModel @Inject constructor(
 
         _uiState.update {
             it.copy(isFocusStopped = true)
+        }
+
+        viewModelScope.launch {
+            _events.emit(FocusSessionEvent.FocusStopped)
         }
     }
 
