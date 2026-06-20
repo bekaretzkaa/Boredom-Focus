@@ -292,4 +292,136 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/llSettingsDifficultyButtons" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardFocusOnly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="#0D0D0D"
+        app:cardCornerRadius="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewGrayLine"
+        app:strokeColor="#1A1A1A"
+        app:strokeWidth="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardFocusOnlyContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="22dp">
+
+            <FrameLayout
+                android:id="@+id/flFocusBackground"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_ic_notification"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFocusOnly2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvFocusOnly1">
+
+                <ImageView
+                    android:id="@+id/ivFocusIcon"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_focus_only" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvFocusOnly1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="Только фокус"
+                android:textColor="#888888"
+                android:textSize="22sp"
+                app:layout_constraintStart_toEndOf="@+id/flFocusBackground"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvFocusOnly2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="Без детокс-таймера"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/flFocusBackground"
+                app:layout_constraintTop_toBottomOf="@+id/tvFocusOnly1" />
+
+            <View
+                android:id="@+id/viewCircle"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_black_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFocusOnly2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvFocusOnly1" />
+
+            <FrameLayout
+                android:id="@+id/flCircleGreen"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_green_circle"
+                app:layout_constraintBottom_toBottomOf="@+id/tvFocusOnly2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvFocusOnly1">
+
+                <ImageView
+                    android:id="@+id/ivCheck"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_check" />
+            </FrameLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/inter_bold"
+        android:padding="22dp"
+        android:text="Начать детокс"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:icon="@drawable/ic_arrow_right"
+        app:iconGravity="textEnd"
+        app:iconSize="26dp"
+        app:iconTint="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardFocusOnly" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="#0D0D0D"
+        android:fontFamily="@font/inter_bold"
+        android:padding="22dp"
+        android:text="Отмена"
+        android:textColor="#444444"
+        android:textSize="20sp"
+        app:strokeColor="#1A1A1A"
+        app:strokeWidth="2dp"
+        app:cornerRadius="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnStart" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
