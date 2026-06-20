@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.graphics.toColorInt
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -102,6 +103,13 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+                    if(state.isLoading) {
+                        binding.sessionSettings.alpha = 0f
+                        return@collect
+                    }
+
+                    binding.sessionSettings.alpha = 1f
+
                     renderSettings(state)
                 }
             }

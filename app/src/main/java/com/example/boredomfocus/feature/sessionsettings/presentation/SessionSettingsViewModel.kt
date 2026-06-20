@@ -33,6 +33,7 @@ class SessionSettingsViewModel @Inject constructor(
 
             _uiState.update {
                 it.copy(
+                    isLoading = false,
                     detoxDuration = settings.detoxDuration,
                     difficulty = settings.difficulty,
                     focusOnly = false

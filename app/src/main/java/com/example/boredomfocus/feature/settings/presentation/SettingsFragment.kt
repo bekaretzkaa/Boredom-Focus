@@ -129,21 +129,26 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private fun observeSettings() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.settings.collect { settings ->
-                    settings ?: return@collect
+                viewModel.uiState.collect { state ->
+                    if(state.isLoading) {
+                        binding.settingsContent.alpha = 0f
+                        return@collect
+                    }
 
-                    renderSettings(settings)
+                    binding.settingsContent.alpha = 1f
+
+                    renderSettings(state)
                 }
             }
         }
     }
 
-    private fun renderSettings(settings: AppSettings) {
+    private fun renderSettings(state: SettingsUiState) {
         isRenderingFromSettings = true
 
         try {
             durationSelector?.select(
-                when(settings.detoxDuration) {
+                when(state.detoxDuration) {
                     DetoxDuration.FIVE_MINUTES -> 0
                     DetoxDuration.SEVEN_MINUTES -> 1
                     DetoxDuration.TEN_MINUTES -> 2
@@ -152,7 +157,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             )
 
             difficultySelector?.select(
-                when(settings.difficulty) {
+                when(state.difficulty) {
                     Difficulty.BEGINNER -> 0
                     Difficulty.FIGHTER -> 1
                     Difficulty.HARDCORE -> 2

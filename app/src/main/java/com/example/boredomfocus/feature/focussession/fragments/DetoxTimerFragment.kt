@@ -8,6 +8,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.FragmentDetoxTimerBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
@@ -23,6 +24,20 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDetoxTimerBinding.bind(view)
+
+        val focusOnly = arguments?.getBoolean("focusOnly") ?: false
+        if(focusOnly) {
+            findNavController().navigate(
+                R.id.actionDetoxTimerFragmentToStopwatchFragment,
+                arguments,
+                navOptions {
+                    popUpTo(R.id.detoxTimerFragment) {
+                        inclusive = true
+                    }
+                }
+            )
+            return
+        }
 
         observeUiState()
         observeEvents()

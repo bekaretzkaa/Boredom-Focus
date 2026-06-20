@@ -50,11 +50,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     if (state.isLoading) {
-                        binding.homeContent.visibility = View.INVISIBLE
+                        binding.homeContent.alpha = 0f
                         return@collect
                     }
 
-                    binding.homeContent.visibility = View.VISIBLE
+                    binding.homeContent.alpha = 1f
                     render(state)
                 }
             }
