@@ -1,24 +1,68 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- Base application theme -->
     <style name="Base.Theme.BoredomFocus" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+        <item name="android:windowBackground">#0D0D0D</item>
+
+        <item name="android:statusBarColor">#0D0D0D</item>
+        <item name="android:navigationBarColor">#0D0D0D</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+
     </style>
 
     <style name="Theme.BoredomFocus" parent="Base.Theme.BoredomFocus" />
 
+
+    <!-- Theme specifically for BottomSheetDialogFragment -->
+    <style name="Theme.BoredomFocus.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+
+        <!-- ВАЖНО: отключаем edge-to-edge у самого BottomSheetDialog -->
+        <item name="enableEdgeToEdge">false</item>
+
+        <item name="android:navigationBarColor">#0D0D0D</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+
+        <item name="bottomSheetStyle">@style/Widget.BoredomFocus.BottomSheet</item>
+
+    </style>
+
+    <style name="Widget.BoredomFocus.BottomSheet" parent="Widget.Material3.BottomSheet.Modal">
+
+        <item name="backgroundTint">#0D0D0D</item>
+        <item name="android:backgroundTint">#0D0D0D</item>
+
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.BoredomFocus.BottomSheet</item>
+
+    </style>
+
+    <style name="ShapeAppearance.BoredomFocus.BottomSheet" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">24dp</item>
+        <item name="cornerSizeTopRight">24dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+    </style>
+
+
     <style name="DurationChoiceStyle">
-        
+
         <item name="android:layout_width">56dp</item>
         <item name="android:layout_height">52dp</item>
         <item name="android:layout_marginEnd">8dp</item>
-        
+
         <item name="cardCornerRadius">16dp</item>
         <item name="cardBackgroundColor">@android:color/transparent</item>
 
         <item name="strokeWidth">1dp</item>
         <item name="strokeColor">#2A2A2A</item>
-        
+
     </style>
 
     <style name="DurationChoiceStyle2">
@@ -34,4 +78,5 @@
         <item name="strokeColor">#2A2A2A</item>
 
     </style>
+
 </resources>

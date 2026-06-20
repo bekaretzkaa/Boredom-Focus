@@ -1,6 +1,5 @@
 package com.example.boredomfocus.feature.home.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.core.common.getCalendarWeekRangeDay
@@ -23,7 +22,7 @@ class HomeViewModel @Inject constructor(
 
     private val currentWeekRange = getCalendarWeekRangeDay(0)
 
-    val uiState: StateFlow<HomeUIState> =
+    val uiState: StateFlow<HomeUiState> =
         combine(
             dailyStatsRepository.getDailyStatsBetween(currentWeekRange.startDay, currentWeekRange.endDay),
             dailyStatsRepository.getSessionCountBetween(currentWeekRange.startDay, currentWeekRange.endDay),
@@ -40,7 +39,7 @@ class HomeViewModel @Inject constructor(
                 updatedDailyStats.add(null)
             }
 
-            HomeUIState(
+            HomeUiState(
                 isLoading = false,
                 dailyStats = updatedDailyStats,
                 streakCount = streakCount,
@@ -51,6 +50,6 @@ class HomeViewModel @Inject constructor(
         }.stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            HomeUIState()
+            HomeUiState()
         )
 }

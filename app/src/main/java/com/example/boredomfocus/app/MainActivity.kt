@@ -1,12 +1,17 @@
 package com.example.boredomfocus.app
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -19,6 +24,7 @@ import com.example.boredomfocus.databinding.ActivityMainBinding
 import com.example.boredomfocus.feature.onboarding.presentation.OnboardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import androidx.core.graphics.toColorInt
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,24 +37,47 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark("#0D0D0D".toColorInt()),
+            navigationBarStyle = SystemBarStyle.dark("#0D0D0D".toColorInt())
+        )
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.root.setBackgroundColor("#0D0D0D".toColorInt())
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
+
+        window.navigationBarColor = "#0D0D0D".toColorInt()
+        window.statusBarColor = "#0D0D0D".toColorInt()
+
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
             v.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
                 systemBars.bottom
             )
+
             insets
         }
 
         observeOnboarding()
 
-        val navHost = supportFragmentManager.findFragmentById(binding.mainFragmentContainer.id) as NavHostFragment
+        val navHost = supportFragmentManager
+            .findFragmentById(binding.mainFragmentContainer.id) as NavHostFragment
+
         navController = navHost.navController
 
         setupBottomNavigation()

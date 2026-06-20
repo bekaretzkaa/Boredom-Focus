@@ -2,7 +2,7 @@ package com.example.boredomfocus.feature.home.presentation
 
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
 
-data class HomeUIState(
+data class HomeUiState(
     val isLoading: Boolean = true,
     val dailyStats: List<DailyStatsEntity?> = listOf(),
     val streakCount: Int = 0,

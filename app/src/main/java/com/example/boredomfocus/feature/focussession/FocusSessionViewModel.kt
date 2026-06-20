@@ -1,9 +1,12 @@
 package com.example.boredomfocus.feature.focussession
 
 import android.os.SystemClock
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.core.common.formatSeconds
+import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
+import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,9 +24,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FocusSessionViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val sessionRepository: SessionRepository,
     private val dailyStatsRepository: DailyStatsRepository
 ) : ViewModel() {
+
+    val detoxDuration: DetoxDuration = savedStateHandle["detoxDuration"] ?: DetoxDuration.FIVE_MINUTES
+    val difficulty: Difficulty = savedStateHandle["difficulty"] ?: Difficulty.BEGINNER
+    val focusOnly: Boolean = savedStateHandle["focusOnly"] ?: false
 
     private val _uiState = MutableStateFlow(FocusSessionUiState())
     val uiState: StateFlow<FocusSessionUiState> = _uiState.asStateFlow()
@@ -39,11 +47,15 @@ class FocusSessionViewModel @Inject constructor(
 
 
     private var focusJob: Job? = null
-    private var focusStartMillist = 0L
+    private var focusStartMillis = 0L
     val isFocusRunning: Boolean
         get() = focusJob != null
 
-    fun startDetoxTimer(totalSeconds: Int) {
+    init {
+        startDetoxTimer(detoxDuration.minutes * 60)
+    }
+
+    private fun startDetoxTimer(totalSeconds: Int) {
         if(isDetoxRunning) return
 
         detoxDurationMillis = totalSeconds * 1000L
@@ -88,11 +100,11 @@ class FocusSessionViewModel @Inject constructor(
 
     fun startFocusStopwatch() {
         if(isFocusRunning) return
-        focusStartMillist = SystemClock.elapsedRealtime()
+        focusStartMillis = SystemClock.elapsedRealtime()
 
         focusJob = viewModelScope.launch {
             while(isActive) {
-                val elapsedSeconds = (SystemClock.elapsedRealtime() - focusStartMillist) / 1000
+                val elapsedSeconds = (SystemClock.elapsedRealtime() - focusStartMillis) / 1000
 
                 _uiState.update {
                     it.copy(

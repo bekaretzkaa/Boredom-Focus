@@ -25,6 +25,21 @@
         android:id="@+id/focusSessionGraph"
         app:startDestination="@id/detoxTimerFragment">
 
+        <argument
+            android:name="detoxDuration"
+            app:argType="com.example.boredomfocus.core.settings.domain.model.DetoxDuration"
+            android:defaultValue="FIVE_MINUTES"/>
+
+        <argument
+            android:name="difficulty"
+            app:argType="com.example.boredomfocus.core.settings.domain.model.Difficulty"
+            android:defaultValue="BEGINNER"/>
+
+        <argument
+            android:name="focusOnly"
+            app:argType="boolean"
+            android:defaultValue="false"/>
+
         <fragment
             android:id="@+id/detoxTimerFragment"
             android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxTimerFragment">

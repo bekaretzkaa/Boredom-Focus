@@ -24,8 +24,6 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentDetoxTimerBinding.bind(view)
 
-        viewModel.startDetoxTimer(10)
-
         observeUiState()
         observeEvents()
     }

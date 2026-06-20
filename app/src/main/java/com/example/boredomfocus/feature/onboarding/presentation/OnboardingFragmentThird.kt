@@ -26,16 +26,14 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
     private val binding get() = _binding!!
 
     private var difficultySelector: AnimatedCardSelector? = null
-    private var selectedDifficulty = "beginner"
     private var durationSelector: AnimatedCardGroupSelector? = null
-    private var selectedDuration = 5
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = OnboardingFragmentThirdBinding.bind(view)
 
         binding.btnOnboarding3Start.setOnClickListener {
-//            viewModel.completeOnboarding()
+            viewModel.completeOnboarding()
             requireActivity().finish()
         }
 
