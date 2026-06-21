@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
+import com.example.boredomfocus.core.common.formatSeconds
 import com.example.boredomfocus.databinding.FragmentStopwatchBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
@@ -45,8 +46,8 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.tvStopwatch.text = state.focusTimeText
-                    binding.tvTodayTime.text = "${state.focusTimeText}..."
+                    binding.tvStopwatch.text = formatSeconds(state.focusSeconds)
+                    binding.tvTodayTime.text = "${formatSeconds(state.focusSeconds)}..."
                 }
             }
         }
@@ -55,7 +56,7 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.events.collect { event ->
-                    if(event is FocusSessionEvent.FocusStopped) {
+                    if(event is FocusSessionEvent.NavigateToFocusCompleted) {
                         findNavController().navigate(
                             resId = R.id.focusResultFragment
                         )

@@ -10,6 +10,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.boredomfocus.R
+import com.example.boredomfocus.core.common.formatSeconds
 import com.example.boredomfocus.databinding.FragmentDetoxTimerBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
@@ -59,7 +60,7 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     binding.progressViewDetoxTimer.progress = state.detoxProgress
-                    binding.tvDetoxTimer.text = state.detoxTimeText
+                    binding.tvDetoxTimer.text = formatSeconds(state.detoxRemainingSeconds)
                 }
             }
         }
@@ -69,14 +70,15 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.events.collect { event ->
                     when(event) {
-                        is FocusSessionEvent.DetoxFinished -> {
+                        is FocusSessionEvent.NavigateToFocusTimer -> {
                             findNavController().navigate(
                                 resId = R.id.stopwatchFragment
                             )
                         }
-                        is FocusSessionEvent.FocusStopped -> {
-                            findNavController().popBackStack()
+                        is FocusSessionEvent.NavigateToDetoxInterrupted -> {
+                            findNavController().popBackStack() // TODO
                         }
+                        else -> Unit
                     }
                 }
             }

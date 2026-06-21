@@ -11,12 +11,14 @@ import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -36,8 +38,14 @@ class FocusSessionViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(FocusSessionUiState())
     val uiState: StateFlow<FocusSessionUiState> = _uiState.asStateFlow()
 
-    private val _events = MutableSharedFlow<FocusSessionEvent>()
-    val events = _events.asSharedFlow()
+    private val _events = Channel<FocusSessionEvent>()
+    val events = _events.receiveAsFlow()
+
+    private fun sendEvent(event: FocusSessionEvent) {
+        viewModelScope.launch {
+            _events.send(event)
+        }
+    }
 
     private var detoxJob: Job? = null
     private var detoxDurationMillis = 0L
@@ -57,7 +65,7 @@ class FocusSessionViewModel @Inject constructor(
         startDetoxTimer(10)
     }
 
-    private fun startDetoxTimer(totalSeconds: Int) {
+    private fun startDetoxTimer(totalSeconds: Long) {
         if(isDetoxRunning) return
 
         detoxDurationMillis = totalSeconds * 1000L
@@ -67,8 +75,7 @@ class FocusSessionViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 selectedDetoxSeconds = totalSeconds,
-                detoxProgress = 1f,
-                isDetoxFinished = false
+                detoxProgress = 1f
             )
         }
 
@@ -81,18 +88,14 @@ class FocusSessionViewModel @Inject constructor(
 
                 _uiState.update {
                     it.copy(
-                        detoxElapsedTimeText = formatSeconds(totalElapsedSeconds),
-                        detoxTimeText = formatSeconds(totalRemainingSeconds),
+                        detoxElapsedSeconds = totalElapsedSeconds,
+                        detoxRemainingSeconds = totalRemainingSeconds,
                         detoxProgress = remainingMillis.toFloat() / detoxDurationMillis
                     )
                 }
 
                 if(remainingMillis <= 0) {
-                    _uiState.update {
-                        it.copy(isDetoxFinished = true)
-                    }
-
-                    _events.emit(FocusSessionEvent.DetoxFinished)
+                    sendEvent(FocusSessionEvent.NavigateToFocusTimer) // TODO
                     break
                 }
 
@@ -112,8 +115,7 @@ class FocusSessionViewModel @Inject constructor(
 
                 _uiState.update {
                     it.copy(
-                        focusSeconds = elapsedSeconds,
-                        focusTimeText = formatSeconds(elapsedSeconds)
+                        focusSeconds = elapsedSeconds
                     )
                 }
 
@@ -126,26 +128,14 @@ class FocusSessionViewModel @Inject constructor(
         focusJob?.cancel()
         focusJob = null
 
-        _uiState.update {
-            it.copy(isFocusStopped = true)
-        }
-
-        viewModelScope.launch {
-            _events.emit(FocusSessionEvent.FocusStopped)
-        }
+        sendEvent(FocusSessionEvent.NavigateToFocusCompleted)
     }
 
     fun stopDetox() {
         detoxJob?.cancel()
         detoxJob = null
 
-        _uiState.update {
-            it.copy(isDetoxFinished = true)
-        }
-
-        viewModelScope.launch {
-            _events.emit(FocusSessionEvent.FocusStopped)
-        }
+        sendEvent(FocusSessionEvent.NavigateToDetoxInterrupted)
     }
 
     override fun onCleared() {
