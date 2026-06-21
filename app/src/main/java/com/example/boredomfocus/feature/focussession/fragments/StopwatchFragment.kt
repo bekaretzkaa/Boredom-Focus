@@ -12,6 +12,7 @@ import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.FragmentStopwatchBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
+import com.example.boredomfocus.feature.focussession.dialogs.StopFocusDialogFragment
 import kotlinx.coroutines.launch
 
 class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
@@ -25,6 +26,11 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         _binding = FragmentStopwatchBinding.bind(view)
 
         viewModel.startFocusStopwatch()
+
+        binding.btnStopFocus.setOnClickListener {
+            StopFocusDialogFragment()
+                .show(childFragmentManager, "StopFocusDialog")
+        }
 
         observeUiState()
         observeEvents()
@@ -41,12 +47,6 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
                 viewModel.uiState.collect { state ->
                     binding.tvStopwatch.text = state.focusTimeText
                     binding.tvTodayTime.text = "${state.focusTimeText}..."
-
-                    binding.btnStopFocus.setOnClickListener {
-                        if(viewModel.isFocusRunning) {
-                            viewModel.stopFocus()
-                        }
-                    }
                 }
             }
         }

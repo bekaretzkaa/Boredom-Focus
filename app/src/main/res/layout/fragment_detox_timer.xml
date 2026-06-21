@@ -70,4 +70,23 @@
         app:layout_constraintStart_toStartOf="@+id/progressViewDetoxTimer"
         app:layout_constraintTop_toBottomOf="@+id/tvDetoxTimer" />
 
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#141414"
+        android:fontFamily="@font/inter_bold"
+        android:padding="26dp"
+        android:text="Прервать"
+        android:textColor="@color/red_basic"
+        android:textSize="20sp"
+        app:cornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/red_basic"
+        app:strokeWidth="2dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

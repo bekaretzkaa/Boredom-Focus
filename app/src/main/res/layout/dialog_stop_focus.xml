@@ -1,166 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="24dp"
-    android:background="#141414">
-
-    <FrameLayout
-        android:id="@+id/flLeaveBackground"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
-        android:background="@drawable/bg_ic_notification"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/ivBackgroundIcon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_square" />
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/tvStopFocus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
-        android:text="Остановить фокус?"
-        android:textColor="@color/white"
-        android:textSize="26sp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flLeaveBackground" />
-
-    <TextView
-        android:id="@+id/tvStopFocusDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
-        android:text="Время будет сохранено. Это честный результат."
-        android:textAlignment="center"
-        android:textColor="#444444"
-        android:textSize="18sp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStopFocus" />
+    android:background="@android:color/transparent"
+    android:paddingHorizontal="24dp">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardFocusTime"
+        android:id="@+id/cardDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#1A1A1A"
-        android:layout_marginTop="26dp"
-        app:cardCornerRadius="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStopFocusDescription"
-        app:strokeColor="#1A1A1A">
+        app:cardBackgroundColor="#141414"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:paddingVertical="16dp"
-            android:paddingHorizontal="24dp">
+            android:layout_height="wrap_content"
+            android:padding="24dp">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
+            <FrameLayout
+                android:id="@+id/flLeaveBackground"
+                android:layout_width="68dp"
+                android:layout_height="68dp"
+                android:background="@drawable/bg_ic_notification"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/tvFocusTimePassed1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="сейчас"
-                    android:textColor="#505357"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/inter_medium"/>
+                <ImageView
+                    android:id="@+id/ivBackgroundIcon"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_square" />
+            </FrameLayout>
 
-                <TextView
-                    android:id="@+id/tvFocusTimePassed2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="04:17"
-                    android:textSize="22sp"
-                    android:textColor="@color/green_basic"
-                    android:fontFamily="@font/inter_medium"/>
+            <TextView
+                android:id="@+id/tvStopFocus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="Остановить фокус?"
+                android:textColor="@color/white"
+                android:textSize="26sp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flLeaveBackground" />
 
-            </LinearLayout>
+            <TextView
+                android:id="@+id/tvStopFocusDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Время будет сохранено. Это честный результат."
+                android:textAlignment="center"
+                android:textColor="#444444"
+                android:textSize="18sp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvStopFocus" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:gravity="end">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFocusTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#1A1A1A"
+                android:layout_marginTop="26dp"
+                app:cardCornerRadius="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvStopFocusDescription"
+                app:strokeColor="#1A1A1A">
 
-                <TextView
-                    android:id="@+id/tvFocusTimeRecord1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="рекорд"
-                    android:textColor="#505357"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/inter_medium"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingVertical="16dp"
+                    android:paddingHorizontal="24dp">
 
-                <TextView
-                    android:id="@+id/tvFocusTimeRecord2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="14:32"
-                    android:textSize="22sp"
-                    android:textColor="#AEB4BC"
-                    android:fontFamily="@font/inter_medium"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvFocusTimePassed1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="сейчас"
+                            android:textColor="#505357"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/inter_medium"/>
 
-        </LinearLayout>
+                        <TextView
+                            android:id="@+id/tvFocusTimePassed2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="04:17"
+                            android:textSize="22sp"
+                            android:textColor="@color/green_basic"
+                            android:fontFamily="@font/inter_medium"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:gravity="end">
+
+                        <TextView
+                            android:id="@+id/tvFocusTimeRecord1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="рекорд"
+                            android:textColor="#505357"
+                            android:textSize="16sp"
+                            android:fontFamily="@font/inter_medium"/>
+
+                        <TextView
+                            android:id="@+id/tvFocusTimeRecord2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="14:32"
+                            android:textSize="22sp"
+                            android:textColor="#AEB4BC"
+                            android:fontFamily="@font/inter_medium"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#141414"
+                android:fontFamily="@font/inter_bold"
+                android:padding="20dp"
+                android:text="Остановить и сохранить"
+                android:textColor="#666666"
+                android:textSize="20sp"
+                app:cornerRadius="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardFocusTime"
+                app:strokeColor="#333333"
+                app:strokeWidth="2dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnContinue"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/inter_bold"
+                android:padding="20dp"
+                android:text="Продолжить"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:cornerRadius="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnStop"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnStop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#141414"
-        android:fontFamily="@font/inter_bold"
-        android:padding="26dp"
-        android:text="Остановить и сохранить"
-        android:textColor="#666666"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardFocusTime"
-        app:strokeColor="#333333"
-        app:strokeWidth="2dp"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnContinue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/white"
-        android:fontFamily="@font/inter_bold"
-        android:padding="26dp"
-        android:text="Продолжить"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnStop"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

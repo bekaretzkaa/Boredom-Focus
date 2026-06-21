@@ -13,6 +13,7 @@ import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.FragmentDetoxTimerBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
+import com.example.boredomfocus.feature.focussession.dialogs.StopDetoxDialogFragment
 import kotlinx.coroutines.launch
 
 class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
@@ -37,6 +38,11 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
                 }
             )
             return
+        }
+
+        binding.btnStop.setOnClickListener {
+            StopDetoxDialogFragment()
+                .show(childFragmentManager, "StopDetoxDialog")
         }
 
         observeUiState()
@@ -69,9 +75,7 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
                             )
                         }
                         is FocusSessionEvent.FocusStopped -> {
-                            findNavController().navigate(
-                                resId = R.id.focusResultFragment
-                            )
+                            findNavController().popBackStack()
                         }
                     }
                 }

@@ -42,6 +42,7 @@ class FocusSessionViewModel @Inject constructor(
     private var detoxJob: Job? = null
     private var detoxDurationMillis = 0L
     private var detoxEndTimeMillis = 0L
+    private var detoxStartTimeMillis = 0L
     val isDetoxRunning: Boolean
         get() = detoxJob != null
 
@@ -52,7 +53,8 @@ class FocusSessionViewModel @Inject constructor(
         get() = focusJob != null
 
     init {
-        startDetoxTimer(detoxDuration.minutes * 60)
+//        startDetoxTimer(detoxDuration.minutes * 60)
+        startDetoxTimer(10)
     }
 
     private fun startDetoxTimer(totalSeconds: Int) {
@@ -60,6 +62,7 @@ class FocusSessionViewModel @Inject constructor(
 
         detoxDurationMillis = totalSeconds * 1000L
         detoxEndTimeMillis = SystemClock.elapsedRealtime() + detoxDurationMillis
+        detoxStartTimeMillis = SystemClock.elapsedRealtime()
 
         _uiState.update {
             it.copy(
@@ -73,11 +76,12 @@ class FocusSessionViewModel @Inject constructor(
             while(isActive) {
                 val remainingMillis = (detoxEndTimeMillis - SystemClock.elapsedRealtime())
                     .coerceAtLeast(0)
-
+                val totalElapsedSeconds = (SystemClock.elapsedRealtime() - detoxStartTimeMillis) / 1000
                 val totalRemainingSeconds = remainingMillis / 1000
 
                 _uiState.update {
                     it.copy(
+                        detoxElapsedTimeText = formatSeconds(totalElapsedSeconds),
                         detoxTimeText = formatSeconds(totalRemainingSeconds),
                         detoxProgress = remainingMillis.toFloat() / detoxDurationMillis
                     )
@@ -124,6 +128,19 @@ class FocusSessionViewModel @Inject constructor(
 
         _uiState.update {
             it.copy(isFocusStopped = true)
+        }
+
+        viewModelScope.launch {
+            _events.emit(FocusSessionEvent.FocusStopped)
+        }
+    }
+
+    fun stopDetox() {
+        detoxJob?.cancel()
+        detoxJob = null
+
+        _uiState.update {
+            it.copy(isDetoxFinished = true)
         }
 
         viewModelScope.launch {
