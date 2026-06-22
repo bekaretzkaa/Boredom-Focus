@@ -40,24 +40,73 @@
             app:argType="boolean"
             android:defaultValue="false"/>
 
+        <!-- Detox Timer -->
         <fragment
             android:id="@+id/detoxTimerFragment"
             android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxTimerFragment">
 
             <action
-                android:id="@+id/actionDetoxTimerFragmentToStopwatchFragment"
-                app:destination="@id/stopwatchFragment" />
+                android:id="@+id/actionDetoxTimerFragmentToStopDetoxDialogFragment"
+                app:destination="@id/stopDetoxDialogFragment"/>
+            <action
+                android:id="@+id/actionDetoxTimerFragmentToDetoxCompletedFragment"
+                app:destination="@id/detoxCompletedFragment"
+                app:popUpTo="@id/detoxTimerFragment"
+                app:popUpToInclusive="true"/>
         </fragment>
 
+        <!-- Detox Stop Confirm dialog -->
+        <dialog
+            android:id="@+id/stopDetoxDialogFragment"
+            android:name="com.example.boredomfocus.feature.focussession.dialogs.StopDetoxDialogFragment">
+
+            <action
+                android:id="@+id/stopDetoxDialogFragmentToDetoxInterruptedFragment"
+                app:destination="@id/detoxInterruptedFragment"
+                app:popUpTo="@id/detoxTimerFragment"
+                app:popUpToInclusive="true"/>
+        </dialog>
+
+        <!-- Detox Completed -->
+        <fragment
+            android:id="@+id/detoxCompletedFragment"
+            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxCompletedFragment">
+
+            <action
+                android:id="@+id/actionDetoxCompletedFragmentToStopwatchFragment"
+                app:destination="@id/stopwatchFragment"
+                app:popUpTo="@id/detoxCompletedFragment"
+                app:popUpToInclusive="true"/>
+        </fragment>
+
+        <!-- Detox Interrupted -->
+        <fragment
+            android:id="@+id/detoxInterruptedFragment"
+            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxInterruptedFragment"/>
+
+        <!-- Focus Stopwatch -->
         <fragment
             android:id="@+id/stopwatchFragment"
             android:name="com.example.boredomfocus.feature.focussession.fragments.StopwatchFragment">
 
             <action
-                android:id="@+id/actionStopwatchFragmentToFocusResultFragment"
-                app:destination="@id/focusResultFragment" />
+                android:id="@+id/actionStopwatchFragmentToStopFocusDialogFragment"
+                app:destination="@id/stopFocusDialogFragment"/>
         </fragment>
 
+        <!-- Focus Stop Confirm dialog -->
+        <dialog
+            android:id="@+id/stopFocusDialogFragment"
+            android:name="com.example.boredomfocus.feature.focussession.dialogs.StopFocusDialogFragment">
+
+            <action
+                android:id="@+id/stopFocusDialogFragmentToFocusResultFragment"
+                app:destination="@id/focusResultFragment"
+                app:popUpTo="@id/stopwatchFragment"
+                app:popUpToInclusive="true"/>
+        </dialog>
+
+        <!-- Focus Result Fragment -->
         <fragment
             android:id="@+id/focusResultFragment"
             android:name="com.example.boredomfocus.feature.focussession.fragments.FocusResultFragment"/>
