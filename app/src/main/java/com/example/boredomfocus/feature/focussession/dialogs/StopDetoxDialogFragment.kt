@@ -65,6 +65,8 @@ class StopDetoxDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnContinue.setOnClickListener {
+            viewModel.onDeclineStopDetoxClick()
+
             findNavController().popBackStack()
         }
 

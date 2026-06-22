@@ -54,43 +54,13 @@ class FocusSessionViewModel @Inject constructor(
     private var pausedDetoxRemainingMillis: Long? = null
     val isDetoxRunning: Boolean
         get() = detoxJob?.isActive == true
-    val isDetoxPaused: Boolean
-        get() = pausedDetoxRemainingMillis != null
 
 
     private var focusJob: Job? = null
     private var focusStartMillis = 0L
+    private var pausedFocusElapsedMillis = 0L
     val isFocusRunning: Boolean
-        get() = focusJob != null
-
-    init {
-//        startDetoxTimer(detoxDuration.minutes * 60)
-//        startDetoxTimer(10)
-    }
-
-    private fun startFocusStopwatch() {
-        if(isFocusRunning) return
-        focusStartMillis = SystemClock.elapsedRealtime()
-
-        focusJob = viewModelScope.launch {
-            while(isActive) {
-                val elapsedSeconds = (SystemClock.elapsedRealtime() - focusStartMillis) / 1000
-
-                _uiState.update {
-                    it.copy(
-                        focusSeconds = elapsedSeconds
-                    )
-                }
-
-                delay(1000)
-            }
-        }
-    }
-
-    private fun stopFocus() {
-        focusJob?.cancel()
-        focusJob = null
-    }
+        get() = focusJob?.isActive == true
 
     override fun onCleared() {
         super.onCleared()
@@ -98,30 +68,45 @@ class FocusSessionViewModel @Inject constructor(
         focusJob?.cancel()
     }
 
+    init {
+//        startDetoxTimer((detoxDuration.minutes * 60).toLong())
+        startDetoxTimer(10) // TODO
+    }
+
 
     fun onInterruptDetoxClick() {
         sendEvent(FocusSessionEvent.NavigateToStopDetoxDialog)
+        pauseDetoxTimer()
     }
     fun onConfirmStopDetoxClick() {
-
+        stopDetoxTimer()
+    }
+    fun onDeclineStopDetoxClick() {
+        resumeDetoxTimer()
     }
     fun onStartFocusClick() {
         sendEvent(FocusSessionEvent.NavigateToStopwatch)
+        startFocusStopwatch()
     }
     fun onDetoxCompletedHomeClick() {
         sendEvent(FocusSessionEvent.NavigateHome)
     }
     fun onRestartDetoxClick() {
         sendEvent(FocusSessionEvent.NavigateToDetoxTimer)
+        startDetoxTimer((detoxDuration.minutes * 60).toLong())
     }
     fun onDetoxInterruptedHomeClick() {
         sendEvent(FocusSessionEvent.NavigateHome)
     }
     fun onStopFocusClick() {
+        pauseFocusStopwatch()
         sendEvent(FocusSessionEvent.NavigateToStopFocusDialog)
     }
     fun onConfirmStopFocusClick() {
-
+        stopFocusStopwatch()
+    }
+    fun onDeclineStopFocusClick() {
+        resumeFocusStopwatch()
     }
     fun onFocusResultHomeClick() {
         sendEvent(FocusSessionEvent.NavigateHome)
@@ -195,6 +180,7 @@ class FocusSessionViewModel @Inject constructor(
                 }
 
                 if(remainingMillis <= 0) {
+                    sendEvent(FocusSessionEvent.NavigateToDetoxCompleted)
                     break
                 }
 
@@ -211,6 +197,61 @@ class FocusSessionViewModel @Inject constructor(
                         detoxProgress = 0f
                     )
                 }
+            }
+        }
+    }
+
+
+    private fun startFocusStopwatch() {
+        if(isFocusRunning) return
+
+        pausedFocusElapsedMillis = 0L
+        focusStartMillis = SystemClock.elapsedRealtime()
+
+        _uiState.update {
+            it.copy(
+                focusSeconds = 0
+            )
+        }
+
+        runFocusStopwatch()
+    }
+    private fun pauseFocusStopwatch() {
+        if(!isFocusRunning) return
+
+        val currentElapsedMillis = SystemClock.elapsedRealtime() - focusStartMillis
+        pausedFocusElapsedMillis += currentElapsedMillis
+
+        focusJob?.cancel()
+        focusJob = null
+    }
+    private fun resumeFocusStopwatch() {
+        if(isFocusRunning) return
+
+        focusStartMillis = SystemClock.elapsedRealtime()
+
+        runFocusStopwatch()
+    }
+    private fun stopFocusStopwatch() {
+        focusJob?.cancel()
+        focusJob = null
+        pausedFocusElapsedMillis = 0L
+    }
+    private fun runFocusStopwatch() {
+        focusJob = viewModelScope.launch {
+            while(isActive) {
+                val currentElapsedMillis = SystemClock.elapsedRealtime() - focusStartMillis
+                val totalElapsedMillis = pausedFocusElapsedMillis + currentElapsedMillis
+
+                val elapsedSeconds = totalElapsedMillis / 1000
+
+                _uiState.update {
+                    it.copy(
+                        focusSeconds = elapsedSeconds
+                    )
+                }
+
+                delay(1000)
             }
         }
     }

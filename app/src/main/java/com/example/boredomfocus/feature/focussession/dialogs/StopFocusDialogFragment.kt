@@ -65,6 +65,8 @@ class StopFocusDialogFragment : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnContinue.setOnClickListener {
+            viewModel.onDeclineStopFocusClick()
+
             findNavController().popBackStack()
         }
 

@@ -26,8 +26,6 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentStopwatchBinding.bind(view)
 
-//        viewModel.startFocusStopwatch()
-
         binding.btnStopFocus.setOnClickListener {
             viewModel.onStopFocusClick()
         }
