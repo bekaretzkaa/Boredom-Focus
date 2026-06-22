@@ -53,6 +53,9 @@
                 app:destination="@id/detoxCompletedFragment"
                 app:popUpTo="@id/detoxTimerFragment"
                 app:popUpToInclusive="true"/>
+            <action
+                android:id="@+id/actionDetoxTimerFragmentToStopwatchFragment"
+                app:destination="@id/stopwatchFragment"/>
         </fragment>
 
         <!-- Detox Stop Confirm dialog -->
@@ -61,7 +64,7 @@
             android:name="com.example.boredomfocus.feature.focussession.dialogs.StopDetoxDialogFragment">
 
             <action
-                android:id="@+id/stopDetoxDialogFragmentToDetoxInterruptedFragment"
+                android:id="@+id/actionStopDetoxDialogFragmentToDetoxInterruptedFragment"
                 app:destination="@id/detoxInterruptedFragment"
                 app:popUpTo="@id/detoxTimerFragment"
                 app:popUpToInclusive="true"/>
@@ -82,7 +85,14 @@
         <!-- Detox Interrupted -->
         <fragment
             android:id="@+id/detoxInterruptedFragment"
-            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxInterruptedFragment"/>
+            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxInterruptedFragment">
+
+            <action
+                android:id="@+id/actionDetoxInterruptedFragmentToDetoxTimerFragment"
+                app:destination="@id/detoxTimerFragment"
+                app:popUpTo="@id/detoxInterruptedFragment"
+                app:popUpToInclusive="true"/>
+        </fragment>
 
         <!-- Focus Stopwatch -->
         <fragment
@@ -100,7 +110,7 @@
             android:name="com.example.boredomfocus.feature.focussession.dialogs.StopFocusDialogFragment">
 
             <action
-                android:id="@+id/stopFocusDialogFragmentToFocusResultFragment"
+                android:id="@+id/actionStopFocusDialogFragmentToFocusResultFragment"
                 app:destination="@id/focusResultFragment"
                 app:popUpTo="@id/stopwatchFragment"
                 app:popUpToInclusive="true"/>

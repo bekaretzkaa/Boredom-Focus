@@ -26,11 +26,10 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentStopwatchBinding.bind(view)
 
-        viewModel.startFocusStopwatch()
+//        viewModel.startFocusStopwatch()
 
         binding.btnStopFocus.setOnClickListener {
-            StopFocusDialogFragment()
-                .show(childFragmentManager, "StopFocusDialog")
+            viewModel.onStopFocusClick()
         }
 
         observeUiState()
@@ -54,12 +53,13 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
     }
     private fun observeEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.events.collect { event ->
-                    if(event is FocusSessionEvent.NavigateToFocusCompleted) {
-                        findNavController().navigate(
-                            resId = R.id.focusResultFragment
-                        )
+                    when(event) {
+                        is FocusSessionEvent.NavigateToStopFocusDialog -> {
+                            findNavController().navigate(R.id.actionStopwatchFragmentToStopFocusDialogFragment)
+                        }
+                        else -> Unit
                     }
                 }
             }

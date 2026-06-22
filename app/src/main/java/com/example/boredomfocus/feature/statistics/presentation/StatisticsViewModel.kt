@@ -172,7 +172,7 @@ class StatisticsViewModel @Inject constructor(
             when(period) {
                 StatisticsPeriod.WEEK -> {
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
-                    averageFocusTime = focusTime / updatedPeriodStats.size
+                    averageFocusTime = focusTime / if(updatedPeriodStats.size == 0) 1 else updatedPeriodStats.size
                     for(i in updatedPeriodStats.size+1..7) {
                         updatedPeriodStats.add(ChartItem(toRussionWeekDay(i), -1, -1, -1))
                     }

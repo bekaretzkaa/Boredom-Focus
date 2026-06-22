@@ -42,7 +42,7 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         }
 
         binding.btnStop.setOnClickListener {
-            findNavController().navigate()
+            viewModel.onInterruptDetoxClick()
         }
 
         observeUiState()
@@ -66,16 +66,14 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
     }
     private fun observeEvents() {
         viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.events.collect { event ->
                     when(event) {
-                        is FocusSessionEvent.NavigateToFocusTimer -> {
-                            findNavController().navigate(
-                                resId = R.id.stopwatchFragment
-                            )
+                        is FocusSessionEvent.NavigateToStopDetoxDialog -> {
+                            findNavController().navigate(R.id.actionDetoxTimerFragmentToStopDetoxDialogFragment)
                         }
-                        is FocusSessionEvent.NavigateToDetoxInterrupted -> {
-                            findNavController().popBackStack() // TODO
+                        is FocusSessionEvent.NavigateToDetoxCompleted -> {
+                            findNavController().navigate(R.id.actionDetoxTimerFragmentToDetoxCompletedFragment)
                         }
                         else -> Unit
                     }

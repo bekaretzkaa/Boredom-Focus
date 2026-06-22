@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.FragmentFocusResultBinding
+import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
 import kotlinx.coroutines.launch
 
@@ -24,7 +25,12 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentFocusResultBinding.bind(view)
 
+        binding.btnToHome.setOnClickListener {
+            viewModel.onFocusResultHomeClick()
+        }
+
         observeUiState()
+        observeEvents()
     }
 
     override fun onDestroyView() {
@@ -37,15 +43,26 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
 
-
-                    binding.btnToHome.setOnClickListener {
-                        findNavController().popBackStack(
-                            R.id.focusSessionGraph,
-                            true
-                        )
+                }
+            }
+        }
+    }
+    private fun observeEvents() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.events.collect { event ->
+                    when(event) {
+                        is FocusSessionEvent.NavigateHome -> {
+                            findNavController().popBackStack(
+                                R.id.homeFragment,
+                                false
+                            )
+                        }
+                        else -> Unit
                     }
                 }
             }
         }
     }
+
 }

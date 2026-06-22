@@ -12,8 +12,11 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
+import com.example.boredomfocus.core.common.formatSeconds
 import com.example.boredomfocus.databinding.DialogStopFocusBinding
+import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
 import kotlinx.coroutines.launch
 
@@ -61,16 +64,17 @@ class StopFocusDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeUiState()
-
         binding.btnContinue.setOnClickListener {
-            dismiss()
+            findNavController().popBackStack()
         }
 
         binding.btnStop.setOnClickListener {
-            viewModel.stopFocus()
-            dismiss()
+            viewModel.onConfirmStopFocusClick()
+
+            findNavController().navigate(R.id.actionStopFocusDialogFragmentToFocusResultFragment)
         }
+
+        observeUiState()
     }
 
     override fun onDestroyView() {
@@ -82,7 +86,7 @@ class StopFocusDialogFragment : DialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.tvFocusTimePassed2.text = state.focusTimeText
+                    binding.tvFocusTimePassed2.text = formatSeconds(state.focusSeconds)
                 }
             }
         }

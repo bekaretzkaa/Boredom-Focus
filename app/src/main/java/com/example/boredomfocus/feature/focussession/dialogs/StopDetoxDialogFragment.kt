@@ -14,6 +14,9 @@ import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.example.boredomfocus.core.common.formatSeconds
+import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
 import kotlinx.coroutines.launch
 
@@ -61,16 +64,17 @@ class StopDetoxDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeUiState()
-
         binding.btnContinue.setOnClickListener {
-            dismiss()
+            findNavController().popBackStack()
         }
 
         binding.btnStop.setOnClickListener {
-            viewModel.stopDetox()
-            dismiss()
+            viewModel.onConfirmStopDetoxClick()
+
+            findNavController().navigate(R.id.actionStopDetoxDialogFragmentToDetoxInterruptedFragment)
         }
+
+        observeUiState()
     }
 
     override fun onDestroyView() {
@@ -82,8 +86,8 @@ class StopDetoxDialogFragment : DialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.tvDetoxTimePassed2.text = state.detoxElapsedTimeText
-                    binding.tvDetoxTimeLast2.text = state.detoxTimeText
+                    binding.tvDetoxTimePassed2.text = formatSeconds(state.detoxElapsedSeconds)
+                    binding.tvDetoxTimeLast2.text = formatSeconds(state.detoxRemainingSeconds)
                 }
             }
         }

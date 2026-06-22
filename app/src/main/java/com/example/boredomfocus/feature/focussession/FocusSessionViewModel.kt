@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,8 +39,8 @@ class FocusSessionViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(FocusSessionUiState())
     val uiState: StateFlow<FocusSessionUiState> = _uiState.asStateFlow()
 
-    private val _events = Channel<FocusSessionEvent>()
-    val events = _events.receiveAsFlow()
+    private val _events = Channel<FocusSessionEvent>(Channel.BUFFERED)
+    val events: Flow<FocusSessionEvent> = _events.receiveAsFlow()
 
     private fun sendEvent(event: FocusSessionEvent) {
         viewModelScope.launch {
@@ -50,9 +51,11 @@ class FocusSessionViewModel @Inject constructor(
     private var detoxJob: Job? = null
     private var detoxDurationMillis = 0L
     private var detoxEndTimeMillis = 0L
-    private var detoxStartTimeMillis = 0L
+    private var pausedDetoxRemainingMillis: Long? = null
     val isDetoxRunning: Boolean
-        get() = detoxJob != null
+        get() = detoxJob?.isActive == true
+    val isDetoxPaused: Boolean
+        get() = pausedDetoxRemainingMillis != null
 
 
     private var focusJob: Job? = null
@@ -62,50 +65,10 @@ class FocusSessionViewModel @Inject constructor(
 
     init {
 //        startDetoxTimer(detoxDuration.minutes * 60)
-        startDetoxTimer(10)
+//        startDetoxTimer(10)
     }
 
-    private fun startDetoxTimer(totalSeconds: Long) {
-        if(isDetoxRunning) return
-
-        detoxDurationMillis = totalSeconds * 1000L
-        detoxEndTimeMillis = SystemClock.elapsedRealtime() + detoxDurationMillis
-        detoxStartTimeMillis = SystemClock.elapsedRealtime()
-
-        _uiState.update {
-            it.copy(
-                selectedDetoxSeconds = totalSeconds,
-                detoxProgress = 1f
-            )
-        }
-
-        detoxJob = viewModelScope.launch {
-            while(isActive) {
-                val remainingMillis = (detoxEndTimeMillis - SystemClock.elapsedRealtime())
-                    .coerceAtLeast(0)
-                val totalElapsedSeconds = (SystemClock.elapsedRealtime() - detoxStartTimeMillis) / 1000
-                val totalRemainingSeconds = remainingMillis / 1000
-
-                _uiState.update {
-                    it.copy(
-                        detoxElapsedSeconds = totalElapsedSeconds,
-                        detoxRemainingSeconds = totalRemainingSeconds,
-                        detoxProgress = remainingMillis.toFloat() / detoxDurationMillis
-                    )
-                }
-
-                if(remainingMillis <= 0) {
-                    sendEvent(FocusSessionEvent.NavigateToFocusTimer) // TODO
-                    break
-                }
-
-                delay(16)
-            }
-            detoxJob = null
-        }
-    }
-
-    fun startFocusStopwatch() {
+    private fun startFocusStopwatch() {
         if(isFocusRunning) return
         focusStartMillis = SystemClock.elapsedRealtime()
 
@@ -124,18 +87,9 @@ class FocusSessionViewModel @Inject constructor(
         }
     }
 
-    fun stopFocus() {
+    private fun stopFocus() {
         focusJob?.cancel()
         focusJob = null
-
-        sendEvent(FocusSessionEvent.NavigateToFocusCompleted)
-    }
-
-    fun stopDetox() {
-        detoxJob?.cancel()
-        detoxJob = null
-
-        sendEvent(FocusSessionEvent.NavigateToDetoxInterrupted)
     }
 
     override fun onCleared() {
@@ -144,4 +98,120 @@ class FocusSessionViewModel @Inject constructor(
         focusJob?.cancel()
     }
 
+
+    fun onInterruptDetoxClick() {
+        sendEvent(FocusSessionEvent.NavigateToStopDetoxDialog)
+    }
+    fun onConfirmStopDetoxClick() {
+
+    }
+    fun onStartFocusClick() {
+        sendEvent(FocusSessionEvent.NavigateToStopwatch)
+    }
+    fun onDetoxCompletedHomeClick() {
+        sendEvent(FocusSessionEvent.NavigateHome)
+    }
+    fun onRestartDetoxClick() {
+        sendEvent(FocusSessionEvent.NavigateToDetoxTimer)
+    }
+    fun onDetoxInterruptedHomeClick() {
+        sendEvent(FocusSessionEvent.NavigateHome)
+    }
+    fun onStopFocusClick() {
+        sendEvent(FocusSessionEvent.NavigateToStopFocusDialog)
+    }
+    fun onConfirmStopFocusClick() {
+
+    }
+    fun onFocusResultHomeClick() {
+        sendEvent(FocusSessionEvent.NavigateHome)
+    }
+
+    private fun startDetoxTimer(totalSeconds: Long) {
+        if(isDetoxRunning) return
+
+        detoxDurationMillis = totalSeconds * 1000
+        pausedDetoxRemainingMillis = null
+
+        detoxEndTimeMillis = SystemClock.elapsedRealtime() + detoxDurationMillis
+
+        _uiState.update {
+            it.copy(
+                selectedDetoxSeconds = totalSeconds,
+                detoxElapsedSeconds = 0,
+                detoxRemainingSeconds = totalSeconds,
+                detoxProgress = 1f
+            )
+        }
+
+        runDetoxTimer()
+    }
+    private fun pauseDetoxTimer() {
+        if(!isDetoxRunning) return
+
+        pausedDetoxRemainingMillis = (detoxEndTimeMillis - SystemClock.elapsedRealtime()).coerceAtLeast(0)
+
+        detoxJob?.cancel()
+        detoxJob = null
+    }
+    private fun resumeDetoxTimer() {
+        if(isDetoxRunning) return
+
+        val remainingMillis = pausedDetoxRemainingMillis ?: return
+
+        pausedDetoxRemainingMillis = null
+        detoxEndTimeMillis = SystemClock.elapsedRealtime() + remainingMillis
+
+        runDetoxTimer()
+    }
+    private fun stopDetoxTimer() {
+        detoxJob?.cancel()
+        detoxJob = null
+        pausedDetoxRemainingMillis = null
+
+        _uiState.update {
+            it.copy(
+                detoxElapsedSeconds = 0,
+                detoxRemainingSeconds = 0,
+                detoxProgress = 0f
+            )
+        }
+    }
+    private fun runDetoxTimer() {
+        detoxJob = viewModelScope.launch {
+            while(isActive) {
+                val remainingMillis = (detoxEndTimeMillis - SystemClock.elapsedRealtime()).coerceAtLeast(0)
+                val elapsedMillis = (detoxDurationMillis - remainingMillis).coerceAtLeast(0)
+
+                val elapsedSeconds = elapsedMillis / 1000
+                val remainingSeconds = remainingMillis / 1000
+
+                _uiState.update {
+                    it.copy(
+                        detoxElapsedSeconds = elapsedSeconds,
+                        detoxRemainingSeconds = remainingSeconds,
+                        detoxProgress = remainingMillis.toFloat() / detoxDurationMillis
+                    )
+                }
+
+                if(remainingMillis <= 0) {
+                    break
+                }
+
+                delay(16)
+            }
+
+            detoxJob = null
+
+            if(pausedDetoxRemainingMillis == null) {
+                _uiState.update {
+                    it.copy(
+                        detoxElapsedSeconds = detoxDurationMillis / 1000,
+                        detoxRemainingSeconds = 0,
+                        detoxProgress = 0f
+                    )
+                }
+            }
+        }
+    }
 }
