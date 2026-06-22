@@ -42,8 +42,7 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         }
 
         binding.btnStop.setOnClickListener {
-            StopDetoxDialogFragment()
-                .show(childFragmentManager, "StopDetoxDialog")
+            findNavController().navigate()
         }
 
         observeUiState()

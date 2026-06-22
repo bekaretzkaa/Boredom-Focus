@@ -12,7 +12,7 @@
         android:id="@+id/viewCheckGreen"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:background="@drawable/ic_check"
+        android:background="@drawable/ic_check_green"
         app:layout_constraintBottom_toBottomOf="@+id/tvDetoxEnded"
         app:layout_constraintEnd_toStartOf="@+id/tvDetoxEnded"
         app:layout_constraintHorizontal_bias="0.5"

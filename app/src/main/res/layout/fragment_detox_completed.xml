@@ -8,18 +8,146 @@
     android:padding="24dp"
     tools:context=".feature.focussession.fragments.DetoxCompletedFragment">
 
-
     <TextView
-        android:id="@+id/tvDetoxCompleted"
+        android:id="@+id/tvDetoxSession"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Detox Completed"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/inter_medium"
+        android:text="сессия детокса"
+        android:textAllCaps="true"
+        android:textColor="#444444"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewCheckGreen"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:background="@drawable/ic_check_green"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDetoxEnded"
+        app:layout_constraintEnd_toStartOf="@+id/tvDetoxEnded"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvDetoxEnded" />
+
+    <TextView
+        android:id="@+id/tvDetoxEnded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="пройден полностью"
+        android:textAllCaps="true"
+        android:textColor="#639922"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/viewCheckGreen"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetoxSession" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardDetoxResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:cardBackgroundColor="#141414"
+        app:cardCornerRadius="22dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetoxEnded"
+        app:strokeColor="#141414">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="20dp">
+
+            <FrameLayout
+                android:id="@+id/flIcon"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:background="@drawable/bg_dark_green"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivIcon"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_check_green" />
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvDetoxTime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="10:00"
+                android:textColor="@color/white"
+                android:textSize="52sp"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:id="@+id/tvDetoxTime2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="ты просидел в тишине весь таймер"
+                android:textColor="#444444"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:id="@+id/viewGrayLine1"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#1E1E1E"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNext"
+        app:layout_constraintEnd_toStartOf="@+id/tvNext"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvNext" />
+
+    <TextView
+        android:id="@+id/tvNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="дальше"
+        android:textColor="#2A2A2A"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/viewGrayLine2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/viewGrayLine1"
+        app:layout_constraintTop_toBottomOf="@+id/cardDetoxResult" />
+
+    <View
+        android:id="@+id/viewGrayLine2"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:background="#1E1E1E"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvNext"
+        app:layout_constraintTop_toTopOf="@+id/tvNext" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStartFocus"
@@ -40,6 +168,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNextText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Сколько продержишься без телефона?"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNext" />
+
+    <TextView
+        android:id="@+id/tvNextText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Сейчас начнётся секундомер фокуса. Твой рекорд — 14:32."
+        android:textAlignment="center"
+        android:textColor="#444444"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNextText1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnToHome"
