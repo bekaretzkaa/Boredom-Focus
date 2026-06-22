@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,14 +70,25 @@ class FocusSessionViewModel @Inject constructor(
     }
 
     init {
-//        startDetoxTimer((detoxDuration.minutes * 60).toLong())
-        startDetoxTimer(10) // TODO
+        loadData()
+
+        if(focusOnly) {
+            startFocusStopwatch()
+            _uiState.update {
+                it.copy(
+                    selectedDetoxSeconds = 0
+                )
+            }
+        } else {
+//            startDetoxTimer((detoxDuration.minutes * 60).toLong())
+            startDetoxTimer(10) // TODO
+        }
     }
 
 
     fun onInterruptDetoxClick() {
-        sendEvent(FocusSessionEvent.NavigateToStopDetoxDialog)
         pauseDetoxTimer()
+        sendEvent(FocusSessionEvent.NavigateToStopDetoxDialog)
     }
     fun onConfirmStopDetoxClick() {
         stopDetoxTimer()
@@ -110,6 +122,21 @@ class FocusSessionViewModel @Inject constructor(
     }
     fun onFocusResultHomeClick() {
         sendEvent(FocusSessionEvent.NavigateHome)
+    }
+
+    private fun loadData() {
+        viewModelScope.launch {
+            val record = sessionRepository.getAllTimeFocusRecord()
+            val previousFocus = sessionRepository.getLastFocusTime()
+            val streak = dailyStatsRepository.getCurrentStreak(LocalDate.now().toEpochDay())
+            _uiState.update {
+                it.copy(
+                    focusRecord = record ?: 0,
+                    streakCount = streak,
+                    previousFocusSeconds = previousFocus ?: 0
+                )
+            }
+        }
     }
 
     private fun startDetoxTimer(totalSeconds: Long) {
@@ -153,14 +180,6 @@ class FocusSessionViewModel @Inject constructor(
         detoxJob?.cancel()
         detoxJob = null
         pausedDetoxRemainingMillis = null
-
-        _uiState.update {
-            it.copy(
-                detoxElapsedSeconds = 0,
-                detoxRemainingSeconds = 0,
-                detoxProgress = 0f
-            )
-        }
     }
     private fun runDetoxTimer() {
         detoxJob = viewModelScope.launch {

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
+import com.example.boredomfocus.core.common.formatSeconds
 import com.example.boredomfocus.databinding.FragmentDetoxCompletedBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
@@ -47,7 +48,8 @@ class DetoxCompletedFragment : Fragment(R.layout.fragment_detox_completed) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-
+                    binding.tvDetoxTime1.text = formatSeconds(state.selectedDetoxSeconds)
+                    binding.tvNextText2.text = "Сейчас начнётся секундомер фокуса. Твой рекорд — ${formatSeconds(state.focusRecord)}."
                 }
             }
         }

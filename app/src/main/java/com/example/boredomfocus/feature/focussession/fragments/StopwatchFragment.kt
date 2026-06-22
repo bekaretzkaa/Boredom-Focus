@@ -45,6 +45,18 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
                 viewModel.uiState.collect { state ->
                     binding.tvStopwatch.text = formatSeconds(state.focusSeconds)
                     binding.tvTodayTime.text = "${formatSeconds(state.focusSeconds)}..."
+                    binding.tvLastRecordTime.text = formatSeconds(state.focusRecord)
+                    if(state.isNewRecord) {
+                        binding.tvRecordBeating.visibility = View.VISIBLE
+                    } else {
+                        binding.tvRecordBeating.visibility = View.GONE
+                    }
+                    if(state.selectedDetoxSeconds == 0L) {
+                        binding.cardDetoxResult.visibility = View.GONE
+                    } else {
+                        binding.cardDetoxResult.visibility = View.VISIBLE
+                    }
+                    binding.tvDetoxTimerWord.text = "${state.selectedDetoxSeconds / 60} мин · завершён"
                 }
             }
         }

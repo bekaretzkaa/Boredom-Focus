@@ -7,6 +7,7 @@ data class FocusSessionUiState(
     val detoxProgress: Float = 1f,
     val focusSeconds: Long = 0L,
     val focusRecord: Long = 0L,
+    val previousFocusSeconds: Long = 0L,
     val streakCount: Int = 0,
     val isNewRecord: Boolean = false
 )

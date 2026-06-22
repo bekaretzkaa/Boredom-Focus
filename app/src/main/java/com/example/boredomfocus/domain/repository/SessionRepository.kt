@@ -12,6 +12,10 @@ interface SessionRepository {
 
     fun getLastSessions(count: Int) : Flow<List<SessionEntity>>
 
-    fun getAllTimeFocusRecord(): Flow<Long?>
+    suspend fun getAllTimeFocusRecord(): Long?
+
+    fun getAllTimeFocusRecordFlow(): Flow<Long?>
+
+    suspend fun getLastFocusTime(): Long?
 
 }

@@ -26,7 +26,15 @@ class SessionRepositoryImpl @Inject constructor(
         return sessionDao.getLastSessions(count)
     }
 
-    override fun getAllTimeFocusRecord(): Flow<Long?> {
+    override suspend fun getAllTimeFocusRecord(): Long? {
         return sessionDao.getAllTimeFocusRecord()
+    }
+
+    override fun getAllTimeFocusRecordFlow(): Flow<Long?> {
+        return sessionDao.getAllTimeFocusRecordFlow()
+    }
+
+    override suspend fun getLastFocusTime(): Long? {
+        return sessionDao.getLastFocusTime()
     }
 }

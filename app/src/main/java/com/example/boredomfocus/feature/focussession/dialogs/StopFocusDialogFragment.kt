@@ -89,6 +89,7 @@ class StopFocusDialogFragment : DialogFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     binding.tvFocusTimePassed2.text = formatSeconds(state.focusSeconds)
+                    binding.tvFocusTimeRecord2.text = formatSeconds(state.focusRecord)
                 }
             }
         }

@@ -16,8 +16,14 @@ interface DailyStatsDao {
     @Query("SELECT * FROM daily_stats WHERE date = :day")
     suspend fun getDailyStats(day: Long): DailyStatsEntity?
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertDailyStats(stats: DailyStatsEntity)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertDailyStats(stats: DailyStatsEntity)
+
+    @Query("SELECT MAX(date) FROM daily_stats")
+    suspend fun getLastStatsDate(): Long?
 
     @Query("SELECT * FROM daily_stats WHERE date >= :startDay AND date < :endDay ORDER BY date ASC")
     fun getDailyStatsBetween(startDay: Long, endDay: Long): Flow<List<DailyStatsEntity>>

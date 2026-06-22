@@ -6,6 +6,7 @@ import com.example.boredomfocus.data.local.model.MonthStatsResult
 import com.example.boredomfocus.data.local.model.MonthWeekStatsResult
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 import javax.inject.Inject
 
 class DailyStatsRepositoryImpl @Inject constructor(
@@ -18,6 +19,26 @@ class DailyStatsRepositoryImpl @Inject constructor(
 
     override suspend fun upsertDailyStats(stats: DailyStatsEntity) {
         dailyStatsDao.upsertDailyStats(stats)
+    }
+
+    override suspend fun getLastStatsDate(): Long? {
+        return dailyStatsDao.getLastStatsDate()
+    }
+
+    override suspend fun ensureStatsUntilToday(fromDate: Long) {
+        val today = LocalDate.now().toEpochDay()
+
+        for(date in fromDate..today) {
+            dailyStatsDao.insertDailyStats(
+                DailyStatsEntity(
+                    date = date,
+                    totalDetoxMinutes = 0,
+                    totalFocusSeconds = 0,
+                    sessionCount = 0,
+                    streakCounted = false
+                )
+            )
+        }
     }
 
     override fun getDailyStatsBetween(

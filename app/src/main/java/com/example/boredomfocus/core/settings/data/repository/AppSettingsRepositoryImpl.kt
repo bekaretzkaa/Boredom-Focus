@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
@@ -15,6 +16,7 @@ import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepos
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
 import javax.inject.Inject
 
 class AppSettingsRepositoryImpl @Inject constructor(
@@ -25,6 +27,7 @@ class AppSettingsRepositoryImpl @Inject constructor(
         val DETOX_DURATION = stringPreferencesKey("detox_duration")
         val DIFFICULTY = stringPreferencesKey("difficulty")
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
+        val FIRST_LAUNCH = longPreferencesKey("first_launch")
     }
 
     override fun getSettings(): Flow<AppSettings> {
@@ -49,9 +52,12 @@ class AppSettingsRepositoryImpl @Inject constructor(
                     }
                     ?: Difficulty.BEGINNER
 
+                val firstLaunchDate = preferences[Keys.FIRST_LAUNCH]
+
                 AppSettings(
                     detoxDuration = detoxDuration,
-                    difficulty = difficulty
+                    difficulty = difficulty,
+                    firstLaunch = firstLaunchDate
                 )
             }
     }
@@ -86,5 +92,23 @@ class AppSettingsRepositoryImpl @Inject constructor(
         dataStore.edit { preferences ->
             preferences[Keys.DIFFICULTY] = difficulty.name
         }
+    }
+
+    override suspend fun ensureFirstLaunchDateExists(): Long {
+        val today = LocalDate.now().toEpochDay()
+        var firstLaunchDate = today
+
+        dataStore.edit { preferences ->
+            val savedData = preferences[Keys.FIRST_LAUNCH]
+
+            if(savedData == null) {
+                preferences[Keys.FIRST_LAUNCH] = today
+                firstLaunchDate = today
+            } else {
+                firstLaunchDate = savedData
+            }
+        }
+
+        return firstLaunchDate
     }
 }

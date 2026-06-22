@@ -11,6 +11,10 @@ interface DailyStatsRepository {
 
     suspend fun upsertDailyStats(stats: DailyStatsEntity)
 
+    suspend fun getLastStatsDate(): Long?
+
+    suspend fun ensureStatsUntilToday(fromDate: Long)
+
     fun getDailyStatsBetween(startDay: Long, endDay: Long): Flow<List<DailyStatsEntity>>
 
     fun getMonthStatsByWeeks(monthStartDay: Long, monthEndDay: Long): Flow<List<MonthWeekStatsResult>>

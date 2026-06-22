@@ -115,7 +115,7 @@ class StatisticsViewModel @Inject constructor(
         val sessionGroup = combine(
             sessionRepository.getStatsSummaryBetween(currentRangeMillis.startMillis, currentRangeMillis.endMillis),
             sessionRepository.getStatsSummaryBetween(previousRangeMillis.startMillis, previousRangeMillis.endMillis),
-            sessionRepository.getAllTimeFocusRecord(),
+            sessionRepository.getAllTimeFocusRecordFlow(),
             sessionRepository.getLastSessions(10)
         ) { statsSummary,statsSummaryLast, focusRecord, lastSessions ->
 

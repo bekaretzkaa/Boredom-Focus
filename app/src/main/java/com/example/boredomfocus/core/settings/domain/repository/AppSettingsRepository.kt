@@ -17,4 +17,6 @@ interface AppSettingsRepository {
 
     suspend fun saveDifficulty(difficulty: Difficulty)
 
+    suspend fun ensureFirstLaunchDateExists(): Long
+
 }

@@ -33,17 +33,11 @@
         android:textAllCaps="true"
         android:textColor="#639922"
         android:textSize="22sp"
+        app:layout_goneMarginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSessionEnded" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/focusResultLine1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15"/>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardFocusTime"
@@ -51,11 +45,11 @@
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/cardDetoxResult2"
-        app:layout_constraintTop_toTopOf="@+id/focusResultLine1"
+        app:layout_constraintTop_toBottomOf="@+id/tvNewFocusRecord"
         app:strokeColor="#1A1A1A">
 
         <LinearLayout
@@ -111,11 +105,12 @@
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
+        android:layout_marginTop="20dp"
+        app:layout_goneMarginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardFocusTime"
-        app:layout_constraintBottom_toTopOf="@id/cardStreak"
         app:strokeColor="#1A1A1A">
 
         <LinearLayout
@@ -159,7 +154,7 @@
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/focusResultLine2"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -201,24 +196,17 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/focusResultLine2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnToHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
         android:fontFamily="@font/inter_medium"
-        android:paddingVertical="16dp"
+        android:paddingVertical="22dp"
         android:text="На главную"
         android:textColor="@color/black"
-        android:textSize="26sp"
-        app:cornerRadius="22dp"
+        android:textSize="20sp"
+        app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

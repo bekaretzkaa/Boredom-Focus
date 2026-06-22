@@ -2,6 +2,7 @@ package com.example.boredomfocus.feature.focussession.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
@@ -10,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.boredomfocus.R
+import com.example.boredomfocus.core.common.formatSeconds
 import com.example.boredomfocus.databinding.FragmentFocusResultBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
@@ -42,7 +44,30 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+                    if(state.isNewRecord) {
+                        binding.tvNewFocusRecord.visibility = View.VISIBLE
+                        binding.tvFocusResultComparison.text = "↑ +${formatSeconds(state.focusRecord - state.focusSeconds)} от прошлого рекорда"
+                    } else {
+                        binding.tvNewFocusRecord.visibility = View.GONE
 
+                        if(state.focusSeconds > state.previousFocusSeconds) {
+                            binding.tvFocusResultComparison.text = "↑ +${formatSeconds(state.focusSeconds - state.previousFocusSeconds)} от прошлой сессий"
+                        } else {
+                            binding.tvFocusResultComparison.text = "↓ ${formatSeconds(state.previousFocusSeconds - state.focusSeconds)} от прошлой сессий"
+                        }
+                    }
+
+                    binding.tvFocusResultTime.text = formatSeconds(state.focusSeconds)
+                    binding.tvDetoxTimerWord2.text = "${state.selectedDetoxSeconds / 60} мин · завершён"
+                    binding.tvStreakCountWord.text = "${state.streakCount + 1} дней подряд 🔥"
+
+                    if(state.detoxElapsedSeconds == 0L) {
+                        binding.cardDetoxResult2Content.visibility = View.GONE
+                        binding.tvNewFocusRecord.visibility = View.GONE
+                    } else {
+                        binding.cardDetoxResult2Content.visibility = View.VISIBLE
+                        binding.tvNewFocusRecord.visibility = View.VISIBLE
+                    }
                 }
             }
         }
