@@ -9,8 +9,6 @@ interface DailyStatsRepository {
 
     suspend fun getDailyStats(day: Long): DailyStatsEntity?
 
-    suspend fun upsertDailyStats(stats: DailyStatsEntity)
-
     suspend fun getLastStatsDate(): Long?
 
     suspend fun ensureStatsUntilToday(fromDate: Long)

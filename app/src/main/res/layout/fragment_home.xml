@@ -371,7 +371,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="сессий\nна этой недел"
+                android:text="сессий\nна этой неделю"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>

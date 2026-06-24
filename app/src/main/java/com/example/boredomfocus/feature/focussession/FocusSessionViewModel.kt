@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.core.common.formatSeconds
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
+import com.example.boredomfocus.data.repository.AddSessionRepositoryImpl
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +31,8 @@ import javax.inject.Inject
 class FocusSessionViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val sessionRepository: SessionRepository,
-    private val dailyStatsRepository: DailyStatsRepository
+    private val dailyStatsRepository: DailyStatsRepository,
+    private val addSessionRepository: AddSessionRepositoryImpl
 ) : ViewModel() {
 
     val detoxDuration: DetoxDuration = savedStateHandle["detoxDuration"] ?: DetoxDuration.FIVE_MINUTES
@@ -86,11 +88,45 @@ class FocusSessionViewModel @Inject constructor(
     }
 
 
+    private fun finishFailedSession() {
+        viewModelScope.launch {
+            addSessionRepository.finishSession(
+                detoxMinutes = 0,
+                focusSeconds = 0,
+                completed = false,
+                isFocusOnly = focusOnly,
+                streakCounted = false
+            )
+        }
+    }
+    private fun finishCompletedSession() {
+        viewModelScope.launch {
+            if(focusOnly) {
+                addSessionRepository.finishSession(
+                    detoxMinutes = 0,
+                    focusSeconds = uiState.value.focusSeconds,
+                    completed = true,
+                    isFocusOnly = true,
+                    streakCounted = true
+                )
+            } else {
+                addSessionRepository.finishSession(
+                    detoxMinutes = (detoxDuration.minutes / 60).toLong(),
+                    focusSeconds = uiState.value.focusSeconds,
+                    completed = true,
+                    isFocusOnly = false,
+                    streakCounted = true
+                )
+            }
+        }
+    }
+
     fun onInterruptDetoxClick() {
         pauseDetoxTimer()
         sendEvent(FocusSessionEvent.NavigateToStopDetoxDialog)
     }
     fun onConfirmStopDetoxClick() {
+        finishFailedSession()
         stopDetoxTimer()
     }
     fun onDeclineStopDetoxClick() {
@@ -101,6 +137,7 @@ class FocusSessionViewModel @Inject constructor(
         startFocusStopwatch()
     }
     fun onDetoxCompletedHomeClick() {
+        finishCompletedSession()
         sendEvent(FocusSessionEvent.NavigateHome)
     }
     fun onRestartDetoxClick() {
@@ -115,6 +152,7 @@ class FocusSessionViewModel @Inject constructor(
         sendEvent(FocusSessionEvent.NavigateToStopFocusDialog)
     }
     fun onConfirmStopFocusClick() {
+        finishCompletedSession()
         stopFocusStopwatch()
     }
     fun onDeclineStopFocusClick() {

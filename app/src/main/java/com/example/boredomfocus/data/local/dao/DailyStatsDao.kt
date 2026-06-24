@@ -19,8 +19,21 @@ interface DailyStatsDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDailyStats(stats: DailyStatsEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertDailyStats(stats: DailyStatsEntity)
+    @Query("""
+        UPDATE daily_stats
+        SET
+            total_detox_minutes = total_detox_minutes + :detoxMinutes,
+            total_focus_seconds = total_focus_seconds + :focusSeconds,
+            session_count = session_count + 1,
+            streak_counted = streak_counted OR :streakCounted
+        WHERE date = :date
+    """)
+    suspend fun updateDailyStats(
+        date: Long,
+        detoxMinutes: Long,
+        focusSeconds: Long,
+        streakCounted: Boolean
+    )
 
     @Query("SELECT MAX(date) FROM daily_stats")
     suspend fun getLastStatsDate(): Long?

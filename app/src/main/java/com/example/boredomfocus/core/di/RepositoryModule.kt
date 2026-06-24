@@ -2,8 +2,10 @@ package com.example.boredomfocus.core.di
 
 import com.example.boredomfocus.core.settings.data.repository.AppSettingsRepositoryImpl
 import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
+import com.example.boredomfocus.data.repository.AddSessionRepositoryImpl
 import com.example.boredomfocus.data.repository.DailyStatsRepositoryImpl
 import com.example.boredomfocus.data.repository.SessionRepositoryImpl
+import com.example.boredomfocus.domain.repository.AddSessionRepository
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository
 import dagger.Binds
@@ -33,5 +35,11 @@ abstract class RepositoryModule {
     abstract fun bindDailyStatsRepository(
         impl: DailyStatsRepositoryImpl
     ) : DailyStatsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindAddSessionRepository(
+        impl: AddSessionRepositoryImpl
+    ) : AddSessionRepository
 
 }

@@ -17,10 +17,6 @@ class DailyStatsRepositoryImpl @Inject constructor(
         return dailyStatsDao.getDailyStats(day)
     }
 
-    override suspend fun upsertDailyStats(stats: DailyStatsEntity) {
-        dailyStatsDao.upsertDailyStats(stats)
-    }
-
     override suspend fun getLastStatsDate(): Long? {
         return dailyStatsDao.getLastStatsDate()
     }

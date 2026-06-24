@@ -33,7 +33,7 @@ interface SessionDao {
     @Query("SELECT MAX(focus_seconds) FROM sessions")
     fun getAllTimeFocusRecordFlow(): Flow<Long?>
 
-        @Query("SELECT focus_seconds FROM sessions WHERE focus_seconds > 0 ORDER BY date DESC, id DESC LIMIT 1")
-        suspend fun getLastFocusTime(): Long?
+    @Query("SELECT focus_seconds FROM sessions WHERE focus_seconds > 0 ORDER BY date DESC, id DESC LIMIT 1")
+    suspend fun getLastFocusTime(): Long?
 
 }
