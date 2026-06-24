@@ -82,6 +82,11 @@ class FocusSessionViewModel @Inject constructor(
                 )
             }
         } else {
+            _uiState.update {
+                it.copy(
+                    selectedDetoxSeconds = detoxDuration.minutes.toLong() * 60
+                )
+            }
 //            startDetoxTimer((detoxDuration.minutes * 60).toLong())
             startDetoxTimer(10) // TODO
         }
@@ -99,25 +104,23 @@ class FocusSessionViewModel @Inject constructor(
             )
         }
     }
-    private fun finishCompletedSession() {
-        viewModelScope.launch {
-            if(focusOnly) {
-                addSessionRepository.finishSession(
-                    detoxMinutes = 0,
-                    focusSeconds = uiState.value.focusSeconds,
-                    completed = true,
-                    isFocusOnly = true,
-                    streakCounted = true
-                )
-            } else {
-                addSessionRepository.finishSession(
-                    detoxMinutes = (detoxDuration.minutes / 60).toLong(),
-                    focusSeconds = uiState.value.focusSeconds,
-                    completed = true,
-                    isFocusOnly = false,
-                    streakCounted = true
-                )
-            }
+    private suspend fun finishCompletedSession() {
+        if(focusOnly) {
+            addSessionRepository.finishSession(
+                detoxMinutes = 0,
+                focusSeconds = uiState.value.focusSeconds,
+                completed = true,
+                isFocusOnly = true,
+                streakCounted = true
+            )
+        } else {
+            addSessionRepository.finishSession(
+                detoxMinutes = (detoxDuration.minutes).toLong(),
+                focusSeconds = uiState.value.focusSeconds,
+                completed = true,
+                isFocusOnly = false,
+                streakCounted = true
+            )
         }
     }
 
@@ -137,8 +140,10 @@ class FocusSessionViewModel @Inject constructor(
         startFocusStopwatch()
     }
     fun onDetoxCompletedHomeClick() {
-        finishCompletedSession()
-        sendEvent(FocusSessionEvent.NavigateHome)
+        viewModelScope.launch {
+            finishCompletedSession()
+            sendEvent(FocusSessionEvent.NavigateHome)
+        }
     }
     fun onRestartDetoxClick() {
         sendEvent(FocusSessionEvent.NavigateToDetoxTimer)
@@ -152,8 +157,11 @@ class FocusSessionViewModel @Inject constructor(
         sendEvent(FocusSessionEvent.NavigateToStopFocusDialog)
     }
     fun onConfirmStopFocusClick() {
-        finishCompletedSession()
-        stopFocusStopwatch()
+        viewModelScope.launch {
+            finishCompletedSession()
+            loadStreak()
+            stopFocusStopwatch()
+        }
     }
     fun onDeclineStopFocusClick() {
         resumeFocusStopwatch()
@@ -166,14 +174,21 @@ class FocusSessionViewModel @Inject constructor(
         viewModelScope.launch {
             val record = sessionRepository.getAllTimeFocusRecord()
             val previousFocus = sessionRepository.getLastFocusTime()
-            val streak = dailyStatsRepository.getCurrentStreak(LocalDate.now().toEpochDay())
             _uiState.update {
                 it.copy(
                     focusRecord = record ?: 0,
-                    streakCount = streak,
                     previousFocusSeconds = previousFocus ?: 0
                 )
             }
+        }
+    }
+
+    private suspend fun loadStreak() {
+        val streak = dailyStatsRepository.getCurrentStreak(LocalDate.now().toEpochDay())
+        _uiState.update {
+            it.copy(
+                streakCount = streak
+            )
         }
     }
 
@@ -187,7 +202,6 @@ class FocusSessionViewModel @Inject constructor(
 
         _uiState.update {
             it.copy(
-                selectedDetoxSeconds = totalSeconds,
                 detoxElapsedSeconds = 0,
                 detoxRemainingSeconds = totalSeconds,
                 detoxProgress = 1f

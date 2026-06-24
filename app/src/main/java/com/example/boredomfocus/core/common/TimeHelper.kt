@@ -3,8 +3,10 @@ package com.example.boredomfocus.core.common
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.time.temporal.TemporalAdjusters
 import java.util.Locale
 
@@ -136,4 +138,61 @@ fun formatSeconds(totalSeconds: Long): String {
 
         String.format("%02d:%02d", minutes, seconds)
     }
+}
+
+fun getCurrentMonthWeeksCount(
+    firstDayOfWeek: DayOfWeek = DayOfWeek.MONDAY
+): Int {
+    val currentMonth = YearMonth.now()
+
+    val firstDayOfMonth = currentMonth.atDay(1)
+    val daysInMonth = currentMonth.lengthOfMonth()
+
+    val offset = (firstDayOfMonth.dayOfWeek.value - firstDayOfWeek.value + 7) % 7
+
+    return (offset + daysInMonth + 6) / 7
+}
+
+fun epochDayToDayOfWeekIndex(epochDay: Long): Int {
+    return LocalDate.ofEpochDay(epochDay).dayOfWeek.value
+}
+
+fun epochDayToRussianWeekDay(epochDay: Long): String {
+    return when (LocalDate.ofEpochDay(epochDay).dayOfWeek) {
+        DayOfWeek.MONDAY -> "ПН"
+        DayOfWeek.TUESDAY -> "ВТ"
+        DayOfWeek.WEDNESDAY -> "СР"
+        DayOfWeek.THURSDAY -> "ЧТ"
+        DayOfWeek.FRIDAY -> "ПТ"
+        DayOfWeek.SATURDAY -> "СБ"
+        DayOfWeek.SUNDAY -> "ВС"
+    }
+}
+
+fun toRussianWeekDay(day: Int): String {
+    return when(day) {
+        1 -> "ПН"
+        2 -> "ВТ"
+        3 -> "СР"
+        4 -> "ЧТ"
+        5 -> "ПТ"
+        6 -> "СБ"
+        7 -> "ВС"
+        else -> ""
+    }
+}
+
+fun getMonthName(yearMonth: String): String {
+    return YearMonth.parse(yearMonth)
+        .month
+        .getDisplayName(TextStyle.FULL_STANDALONE, Locale("ru"))
+}
+
+fun getYearMonthByOffset(
+    monthOffset: Int = 0,
+    zoneId: ZoneId = ZoneId.systemDefault()
+): String {
+    return YearMonth.now(zoneId)
+        .minusMonths(monthOffset.toLong())
+        .toString()
 }

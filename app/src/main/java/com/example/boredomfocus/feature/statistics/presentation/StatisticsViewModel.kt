@@ -4,12 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.core.common.RangeDays
 import com.example.boredomfocus.core.common.RangeMillis
+import com.example.boredomfocus.core.common.epochDayToDayOfWeekIndex
+import com.example.boredomfocus.core.common.epochDayToRussianWeekDay
 import com.example.boredomfocus.core.common.formatDateFromEpochMillis
 import com.example.boredomfocus.core.common.getCalendarMonthRange
 import com.example.boredomfocus.core.common.getCalendarMonthRangeDay
 import com.example.boredomfocus.core.common.getCalendarWeekRange
 import com.example.boredomfocus.core.common.getCalendarWeekRangeDay
+import com.example.boredomfocus.core.common.getCurrentMonthWeeksCount
 import com.example.boredomfocus.core.common.getLastThreeCalendarMonthsRangeDay
+import com.example.boredomfocus.core.common.getMonthName
+import com.example.boredomfocus.core.common.getYearMonthByOffset
+import com.example.boredomfocus.core.common.toRussianWeekDay
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
 import com.example.boredomfocus.data.local.model.MonthStatsResult
 import com.example.boredomfocus.data.local.model.MonthWeekStatsResult
@@ -163,8 +169,11 @@ class StatisticsViewModel @Inject constructor(
             dailyStatsRepository.getFocusStatsBetween(if(period == StatisticsPeriod.ALL_TIME) 0 else currentRangeDays.startDay, currentRangeDays.endDay)
         ) { dailyStats, periodStats, focusTime ->
             val updatedDailyStats = mutableListOf<DailyStatsEntity?>()
+            for(i in 1 until epochDayToDayOfWeekIndex(dailyStats.first().date)) {
+                updatedDailyStats.add(null)
+            }
             updatedDailyStats.addAll(dailyStats)
-            repeat(7 - dailyStats.size) {
+            for(i in epochDayToDayOfWeekIndex(dailyStats.last().date)+1..7) {
                 updatedDailyStats.add(null)
             }
 
@@ -173,25 +182,37 @@ class StatisticsViewModel @Inject constructor(
 
             when(period) {
                 StatisticsPeriod.WEEK -> {
+                    val first = periodStats.first() as DailyStatsEntity
+                    val last = periodStats.last() as DailyStatsEntity
+                    for(i in 1 until epochDayToDayOfWeekIndex(first.date)) {
+                        updatedPeriodStats.add(ChartItem(toRussianWeekDay(i), -1, -1, -1))
+                    }
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
                     averageFocusTime = focusTime / if(updatedPeriodStats.size == 0) 1 else updatedPeriodStats.size
-                    for(i in updatedPeriodStats.size+1..7) {
-                        updatedPeriodStats.add(ChartItem(toRussionWeekDay(i), -1, -1, -1))
+                    for(i in epochDayToDayOfWeekIndex(last.date)+1..7) {
+                        updatedPeriodStats.add(ChartItem(toRussianWeekDay(i), -1, -1, -1))
                     }
                 }
                 StatisticsPeriod.MONTH -> {
-                    updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
-                    for(i in updatedPeriodStats.size+1..5) {
+                    val first = periodStats.first() as MonthWeekStatsResult
+                    val last = periodStats.last() as MonthWeekStatsResult
+                    for(i in 1..first.weekIndex) {
                         updatedPeriodStats.add(ChartItem("$i НЕД", -1, -1, -1))
                     }
-                    averageFocusTime = focusTime / (LocalDate.now().toEpochDay() - currentRangeDays.startDay)
+                    updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
+                    for(i in last.weekIndex+2..getCurrentMonthWeeksCount()) {
+                        updatedPeriodStats.add(ChartItem("$i НЕД", -1, -1, -1))
+                    }
+                    val averageFocusTimeDivider = (LocalDate.now().toEpochDay() - currentRangeDays.startDay)
+                    averageFocusTime = focusTime / if(averageFocusTimeDivider == 0L) 1 else averageFocusTimeDivider
                 }
                 StatisticsPeriod.ALL_TIME -> {
                     for(i in periodStats.size..2) {
                         updatedPeriodStats.add(ChartItem(getMonthName(getYearMonthByOffset(i)), -1, -1, -1))
                     }
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
-                    averageFocusTime = focusTime / (LocalDate.now().toEpochDay() - (dailyStatsRepository.getFirstDate() ?: 0))
+                    val averageFocusTimeDivider = (LocalDate.now().toEpochDay() - (dailyStatsRepository.getFirstDate() ?: 0))
+                    averageFocusTime = focusTime / if(averageFocusTimeDivider == 0L) 1 else averageFocusTimeDivider
                 }
             }
 
@@ -223,7 +244,7 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private fun toChartItem(item: Any): ChartItem {
-        return when(item) {
+        return when (item) {
             is DailyStatsEntity -> {
                 ChartItem(
                     label = epochDayToRussianWeekDay(item.date),
@@ -232,6 +253,7 @@ class StatisticsViewModel @Inject constructor(
                     sessionsCount = item.sessionCount
                 )
             }
+
             is MonthWeekStatsResult -> {
                 ChartItem(
                     label = "${item.weekIndex + 1} НЕД",
@@ -240,6 +262,7 @@ class StatisticsViewModel @Inject constructor(
                     sessionsCount = item.sessionCount
                 )
             }
+
             is MonthStatsResult -> {
                 ChartItem(
                     label = getMonthName(item.yearMonth),
@@ -248,6 +271,7 @@ class StatisticsViewModel @Inject constructor(
                     sessionsCount = item.sessionCount
                 )
             }
+
             else -> ChartItem(
                 label = "",
                 detoxMinutes = 0,
@@ -255,45 +279,5 @@ class StatisticsViewModel @Inject constructor(
                 sessionsCount = 0
             )
         }
-    }
-
-    private fun epochDayToRussianWeekDay(epochDay: Long): String {
-        return when (LocalDate.ofEpochDay(epochDay).dayOfWeek) {
-            DayOfWeek.MONDAY -> "ПН"
-            DayOfWeek.TUESDAY -> "ВТ"
-            DayOfWeek.WEDNESDAY -> "СР"
-            DayOfWeek.THURSDAY -> "ЧТ"
-            DayOfWeek.FRIDAY -> "ПТ"
-            DayOfWeek.SATURDAY -> "СБ"
-            DayOfWeek.SUNDAY -> "ВС"
-        }
-    }
-
-    private fun toRussionWeekDay(day: Int): String {
-        return when(day) {
-            1 -> "ПН"
-            2 -> "ВТ"
-            3 -> "СР"
-            4 -> "ЧТ"
-            5 -> "ПТ"
-            6 -> "СБ"
-            7 -> "ВС"
-            else -> ""
-        }
-    }
-
-    private fun getMonthName(yearMonth: String): String {
-        return YearMonth.parse(yearMonth)
-            .month
-            .getDisplayName(TextStyle.FULL_STANDALONE, Locale("ru"))
-    }
-
-    private fun getYearMonthByOffset(
-        monthOffset: Int = 0,
-        zoneId: ZoneId = ZoneId.systemDefault()
-    ): String {
-        return YearMonth.now(zoneId)
-            .minusMonths(monthOffset.toLong())
-            .toString()
     }
 }

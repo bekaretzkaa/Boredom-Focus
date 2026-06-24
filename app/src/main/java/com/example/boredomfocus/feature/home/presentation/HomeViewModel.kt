@@ -2,6 +2,7 @@ package com.example.boredomfocus.feature.home.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.boredomfocus.core.common.epochDayToDayOfWeekIndex
 import com.example.boredomfocus.core.common.getCalendarWeekRangeDay
 import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
@@ -49,8 +50,11 @@ class HomeViewModel @Inject constructor(
             val todayStreak = dailyStats.getOrNull((today - currentWeekRange.startDay).toInt())?.streakCounted == true
 
             val updatedDailyStats = mutableListOf<DailyStatsEntity?>()
+            for(i in 1 until epochDayToDayOfWeekIndex(dailyStats.first().date)) {
+                updatedDailyStats.add(null)
+            }
             updatedDailyStats.addAll(dailyStats)
-            repeat(7 - dailyStats.size) {
+            for(i in epochDayToDayOfWeekIndex(dailyStats.last().date)+1..7) {
                 updatedDailyStats.add(null)
             }
 

@@ -59,7 +59,7 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
 
                     binding.tvFocusResultTime.text = formatSeconds(state.focusSeconds)
                     binding.tvDetoxTimerWord2.text = "${state.selectedDetoxSeconds / 60} мин · завершён"
-                    binding.tvStreakCountWord.text = "${state.streakCount + 1} дней подряд 🔥"
+                    binding.tvStreakCountWord.text = "${state.streakCount} дней подряд 🔥"
 
                     if(state.detoxElapsedSeconds == 0L) {
                         binding.cardDetoxResult2Content.visibility = View.GONE
