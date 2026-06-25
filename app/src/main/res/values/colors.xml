@@ -16,6 +16,8 @@
     <color name="green_basic">#639922</color>
     <color name="red_basic">#E24B4A</color>
 
+    <color name="gray_focus">#262624</color>
+
     <color name="gray_basic">#444444</color>
     <color name="detox_percent">#86827c</color>
 </resources>

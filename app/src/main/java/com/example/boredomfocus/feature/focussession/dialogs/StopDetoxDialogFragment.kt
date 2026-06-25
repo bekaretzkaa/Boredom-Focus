@@ -87,8 +87,8 @@ class StopDetoxDialogFragment : DialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.tvDetoxTimePassed2.text = formatSeconds(state.detoxElapsedSeconds)
-                    binding.tvDetoxTimeLast2.text = formatSeconds(state.detoxRemainingSeconds)
+                    binding.tvDetoxTimePassed2.text = formatSeconds(state.detoxUiState.detoxElapsedSeconds)
+                    binding.tvDetoxTimeLast2.text = formatSeconds(state.detoxUiState.detoxRemainingSeconds)
                 }
             }
         }

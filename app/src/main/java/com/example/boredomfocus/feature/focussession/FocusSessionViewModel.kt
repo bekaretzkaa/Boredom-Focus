@@ -76,15 +76,19 @@ class FocusSessionViewModel @Inject constructor(
 
         if(focusOnly) {
             startFocusStopwatch()
-            _uiState.update {
-                it.copy(
-                    selectedDetoxSeconds = 0
+            _uiState.update { state ->
+                state.copy(
+                    detoxUiState = state.detoxUiState.copy(
+                        selectedDetoxSeconds = 0
+                    )
                 )
             }
         } else {
-            _uiState.update {
-                it.copy(
-                    selectedDetoxSeconds = detoxDuration.minutes.toLong() * 60
+            _uiState.update { state ->
+                state.copy(
+                    detoxUiState = state.detoxUiState.copy(
+                        selectedDetoxSeconds = detoxDuration.minutes.toLong() * 60
+                    )
                 )
             }
 //            startDetoxTimer((detoxDuration.minutes * 60).toLong())
@@ -108,7 +112,7 @@ class FocusSessionViewModel @Inject constructor(
         if(focusOnly) {
             addSessionRepository.finishSession(
                 detoxMinutes = 0,
-                focusSeconds = uiState.value.focusSeconds,
+                focusSeconds = uiState.value.focusUiState.focusSeconds,
                 completed = true,
                 isFocusOnly = true,
                 streakCounted = true
@@ -116,7 +120,7 @@ class FocusSessionViewModel @Inject constructor(
         } else {
             addSessionRepository.finishSession(
                 detoxMinutes = (detoxDuration.minutes).toLong(),
-                focusSeconds = uiState.value.focusSeconds,
+                focusSeconds = uiState.value.focusUiState.focusSeconds,
                 completed = true,
                 isFocusOnly = false,
                 streakCounted = true
@@ -174,10 +178,18 @@ class FocusSessionViewModel @Inject constructor(
         viewModelScope.launch {
             val record = sessionRepository.getAllTimeFocusRecord()
             val previousFocus = sessionRepository.getLastFocusTime()
-            _uiState.update {
-                it.copy(
-                    focusRecord = record ?: 0,
-                    previousFocusSeconds = previousFocus ?: 0
+            val focusRecords = sessionRepository.getFocusRecordBetween()
+
+            _uiState.update { state ->
+                state.copy(
+                    focusUiState = state.focusUiState.copy(
+                        focusRecord = record ?: 0,
+                        previousFocusSeconds = previousFocus ?: 0,
+                        weekFocusRecord = focusRecords.currentWeek,
+                        previousWeekFocusRecord = focusRecords.previousWeek,
+                        monthFocusRecord = focusRecords.currentMonth,
+                        previousMonthFocusRecord = focusRecords.previousMonth
+                    )
                 )
             }
         }
@@ -200,11 +212,13 @@ class FocusSessionViewModel @Inject constructor(
 
         detoxEndTimeMillis = SystemClock.elapsedRealtime() + detoxDurationMillis
 
-        _uiState.update {
-            it.copy(
-                detoxElapsedSeconds = 0,
-                detoxRemainingSeconds = totalSeconds,
-                detoxProgress = 1f
+        _uiState.update { state ->
+            state.copy(
+                detoxUiState = state.detoxUiState.copy(
+                    detoxElapsedSeconds = 0,
+                    detoxRemainingSeconds = totalSeconds,
+                    detoxProgress = 1f
+                )
             )
         }
 
@@ -242,11 +256,13 @@ class FocusSessionViewModel @Inject constructor(
                 val elapsedSeconds = elapsedMillis / 1000
                 val remainingSeconds = remainingMillis / 1000
 
-                _uiState.update {
-                    it.copy(
-                        detoxElapsedSeconds = elapsedSeconds,
-                        detoxRemainingSeconds = remainingSeconds,
-                        detoxProgress = remainingMillis.toFloat() / detoxDurationMillis
+                _uiState.update { state ->
+                    state.copy(
+                        detoxUiState = state.detoxUiState.copy(
+                            detoxElapsedSeconds = elapsedSeconds,
+                            detoxRemainingSeconds = remainingSeconds,
+                            detoxProgress = remainingMillis.toFloat() / detoxDurationMillis
+                        )
                     )
                 }
 
@@ -261,11 +277,13 @@ class FocusSessionViewModel @Inject constructor(
             detoxJob = null
 
             if(pausedDetoxRemainingMillis == null) {
-                _uiState.update {
-                    it.copy(
-                        detoxElapsedSeconds = detoxDurationMillis / 1000,
-                        detoxRemainingSeconds = 0,
-                        detoxProgress = 0f
+                _uiState.update { state ->
+                    state.copy(
+                        detoxUiState = state.detoxUiState.copy(
+                            detoxElapsedSeconds = detoxDurationMillis / 1000,
+                            detoxRemainingSeconds = 0,
+                            detoxProgress = 0f
+                        )
                     )
                 }
             }
@@ -279,9 +297,11 @@ class FocusSessionViewModel @Inject constructor(
         pausedFocusElapsedMillis = 0L
         focusStartMillis = SystemClock.elapsedRealtime()
 
-        _uiState.update {
-            it.copy(
-                focusSeconds = 0
+        _uiState.update { state ->
+            state.copy(
+                focusUiState = state.focusUiState.copy(
+                    focusSeconds = 0
+                )
             )
         }
 
@@ -316,9 +336,11 @@ class FocusSessionViewModel @Inject constructor(
 
                 val elapsedSeconds = totalElapsedMillis / 1000
 
-                _uiState.update {
-                    it.copy(
-                        focusSeconds = elapsedSeconds
+                _uiState.update { state ->
+                    state.copy(
+                        focusUiState = state.focusUiState.copy(
+                            focusSeconds = elapsedSeconds
+                        )
                     )
                 }
 

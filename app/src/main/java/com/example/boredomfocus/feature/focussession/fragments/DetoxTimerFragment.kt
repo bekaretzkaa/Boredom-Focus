@@ -58,8 +58,8 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.progressViewDetoxTimer.progress = state.detoxProgress
-                    binding.tvDetoxTimer.text = formatSeconds(state.detoxRemainingSeconds)
+                    binding.progressViewDetoxTimer.progress = state.detoxUiState.detoxProgress
+                    binding.tvDetoxTimer.text = formatSeconds(state.detoxUiState.detoxRemainingSeconds)
                 }
             }
         }

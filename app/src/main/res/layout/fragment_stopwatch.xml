@@ -8,59 +8,305 @@
     android:background="#0D0D0D"
     tools:context=".feature.focussession.fragments.StopwatchFragment">
 
-    <View
-        android:id="@+id/viewCheckGreen"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/ic_check_green"
-        app:layout_constraintBottom_toBottomOf="@+id/tvDetoxEnded"
-        app:layout_constraintEnd_toStartOf="@+id/tvDetoxEnded"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvDetoxEnded" />
-
     <TextView
-        android:id="@+id/tvDetoxEnded"
+        android:id="@+id/tvStatusBadge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
-        android:text="Детокс пройден"
+        android:text="✓ обогнал прошлую сессию"
+        android:textColor="@color/green_basic"
+        android:textSize="15sp"
         android:textAllCaps="true"
-        android:textColor="#639922"
-        android:textSize="22sp"
+        android:fontFamily="@font/inter_medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/viewCheckGreen"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvFocusedTime"
+        android:id="@+id/tvFocusTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="05:47"
+        android:textSize="80sp"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/green_basic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvStatusBadge" />
+
+    <TextView
+        android:id="@+id/tvFocusComparison"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="Фокусное время"
-        android:textAllCaps="true"
-        android:textColor="#444444"
-        android:textSize="22sp"
+        android:text="+00:16 от прошлой сессии ↑"
+        android:textColor="@color/green_basic"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFocusTime" />
+
+    <LinearLayout
+        android:id="@+id/llTargets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingVertical="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFocusComparison">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/dotSession"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/circle_filled_green"/>
+            
+            <TextView
+                android:id="@+id/tvSession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="сессия"
+                android:textColor="@color/green_basic"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+        
+        <View
+            android:id="@+id/lineSession"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:background="@color/green_basic"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/dotWeek"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/circle_empty"/>
+
+            <TextView
+                android:id="@+id/tvWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="неделя"
+                android:textColor="@color/white"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/lineWeek"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray_focus"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/dotMonth"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/circle_filled_gray"/>
+
+            <TextView
+                android:id="@+id/tvMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="месяц"
+                android:textColor="@color/gray_focus"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/lineMonth"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray_focus"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/dotAllTime"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:background="@drawable/circle_filled_gray"/>
+
+            <TextView
+                android:id="@+id/tvAllTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="рекорд"
+                android:textColor="@color/gray_focus"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvFocusTarget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="цель — рекорд недели"
+        android:textColor="@color/gray_basic"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvFocusTargetTime"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvFocusTargetTime" />
+
+    <TextView
+        android:id="@+id/tvFocusTargetTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="09:07"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llTargets" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/progressContainer"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:layout_marginTop="12dp"
+        app:cardBackgroundColor="@color/gray_focus"
+        app:strokeWidth="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFocusTargetTime">
+
+        <View
+            android:id="@+id/progressFill"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:background="@color/green_basic"/>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/flashCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="24dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/green_basic"
+        app:cardBackgroundColor="#0F1A0F"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressContainer">
+        
+        <LinearLayout
+            android:id="@+id/flashContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingVertical="16dp"
+            android:paddingHorizontal="22dp">
+            
+            <TextView
+                android:id="@+id/flashIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="28sp"
+                android:text="🔥"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <TextView
+                    android:id="@+id/tvFlash1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Лучше чем в прошлый раз!"
+                    android:textColor="@color/green_basic"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvFlash2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="Теперь цель — рекорд недели"
+                    android:textColor="@color/gray_basic"
+                    android:textSize="15sp" />
+            </LinearLayout>
+            
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/zoneCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#0F1A0F"
+        app:cardCornerRadius="24dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetoxEnded" />
+        app:layout_constraintTop_toBottomOf="@+id/flashCard"
+        app:strokeColor="@color/green_basic"
+        app:strokeWidth="2dp">
 
-    <TextView
-        android:id="@+id/tvStopwatch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
-        android:text="00:00"
-        android:textColor="@color/white"
-        android:textSize="80sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFocusedTime" />
+        <TextView
+            android:id="@+id/tvZone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/inter_medium"
+            android:text="• зона некомфорта"
+            android:textAllCaps="true"
+            android:textColor="@color/green_basic"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:paddingVertical="4dp"
+            android:paddingHorizontal="16dp"/>
+
+    </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStopFocus"
@@ -68,7 +314,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#E24B4A"
         android:fontFamily="@font/inter_medium"
-        android:paddingVertical="22dp"
+        android:paddingVertical="16dp"
         android:text="Остановить фокус"
         android:textSize="20sp"
         app:cornerRadius="20dp"
@@ -76,136 +322,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tvRecordBeating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
-        android:text="▲ бьёшь рекорд"
-        android:textColor="#639922"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStopwatch" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardFocusRecord"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#1A1A1A"
-        app:cardCornerRadius="16dp"
-        android:layout_marginTop="22dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvRecordBeating"
-        app:strokeColor="#1A1A1A">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cardFocusRecordContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="22dp">
-
-            <TextView
-                android:id="@+id/tvLastRecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="прошлый рекорд"
-                android:textColor="#444444"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvToday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="сегодня"
-                android:textColor="#444444"
-                android:textSize="22sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvLastRecordTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="14:32"
-                android:textColor="#888888"
-                android:textSize="26sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvLastRecord" />
-
-            <TextView
-                android:id="@+id/tvTodayTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="00:00..."
-                android:textColor="#639922"
-                android:textSize="26sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvToday" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardDetoxResult"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#1A1A1A"
-        app:cardCornerRadius="16dp"
-        android:layout_marginTop="22dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardFocusRecord"
-        app:strokeColor="#1A1A1A">
-
-        <LinearLayout
-            android:id="@+id/cardDetoxResultContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="22dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvDetoxWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="детокс"
-                android:textColor="#444444"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvDetoxTimerWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="10 мин · завершён"
-                android:textColor="#888888"
-                android:textSize="26sp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDetoxWord" />
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

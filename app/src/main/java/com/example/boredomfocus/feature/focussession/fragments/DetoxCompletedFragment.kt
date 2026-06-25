@@ -48,8 +48,8 @@ class DetoxCompletedFragment : Fragment(R.layout.fragment_detox_completed) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.tvDetoxTime1.text = formatSeconds(state.selectedDetoxSeconds)
-                    binding.tvNextText2.text = "Сейчас начнётся секундомер фокуса. Твой рекорд — ${formatSeconds(state.focusRecord)}."
+                    binding.tvDetoxTime1.text = formatSeconds(state.detoxUiState.selectedDetoxSeconds)
+                    binding.tvNextText2.text = "Сейчас начнётся секундомер фокуса. Твой рекорд — ${formatSeconds(state.focusUiState.focusRecord)}."
                 }
             }
         }

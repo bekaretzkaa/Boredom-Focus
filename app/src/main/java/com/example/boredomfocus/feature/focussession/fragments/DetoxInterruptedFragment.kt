@@ -47,8 +47,8 @@ class DetoxInterruptedFragment : Fragment(R.layout.fragment_detox_interrupted) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.tvDetoxTime1.text = formatSeconds(state.detoxElapsedSeconds)
-                    binding.tvDetoxTime2.text = "из ${formatSeconds(state.selectedDetoxSeconds)} — вышел раньше времени"
+                    binding.tvDetoxTime1.text = formatSeconds(state.detoxUiState.detoxElapsedSeconds)
+                    binding.tvDetoxTime2.text = "из ${formatSeconds(state.detoxUiState.selectedDetoxSeconds)} — вышел раньше времени"
                 }
             }
         }
