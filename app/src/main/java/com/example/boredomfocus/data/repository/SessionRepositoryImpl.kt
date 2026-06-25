@@ -48,10 +48,10 @@ class SessionRepositoryImpl @Inject constructor(
         val previousMonth = getCalendarMonthRange(-1)
 
         return FocusRecordPeriod(
-            currentWeek = sessionDao.getFocusRecordBetween(currentWeek.startMillis, currentWeek.endMillis) ?: 0L,
-            previousWeek = sessionDao.getFocusRecordBetween(previousWeek.startMillis, previousWeek.endMillis) ?: 0L,
-            currentMonth = sessionDao.getFocusRecordBetween(currentMonth.startMillis, currentMonth.endMillis) ?: 0L,
-            previousMonth = sessionDao.getFocusRecordBetween(previousMonth.startMillis, previousMonth.endMillis) ?: 0L
+            currentWeek = sessionDao.getFocusRecordBetween(currentWeek.startMillis, currentWeek.endMillis),
+            previousWeek = sessionDao.getFocusRecordBetween(previousWeek.startMillis, previousWeek.endMillis),
+            currentMonth = sessionDao.getFocusRecordBetween(currentMonth.startMillis, currentMonth.endMillis),
+            previousMonth = sessionDao.getFocusRecordBetween(previousMonth.startMillis, previousMonth.endMillis)
         )
     }
 }

@@ -50,11 +50,11 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
                     } else {
                         binding.tvNewFocusRecord.visibility = View.GONE
 
-                        if(state.focusUiState.focusSeconds > state.focusUiState.previousFocusSeconds) {
-                            binding.tvFocusResultComparison.text = "↑ +${formatSeconds(state.focusUiState.focusSeconds - state.focusUiState.previousFocusSeconds)} от прошлой сессий"
-                        } else {
-                            binding.tvFocusResultComparison.text = "↓ ${formatSeconds(state.focusUiState.previousFocusSeconds - state.focusUiState.focusSeconds)} от прошлой сессий"
-                        }
+//                        if(state.focusUiState.focusSeconds > state.focusUiState.previousFocusSeconds) {
+//                            binding.tvFocusResultComparison.text = "↑ +${formatSeconds(state.focusUiState.focusSeconds - state.focusUiState.previousFocusSeconds)} от прошлой сессий"
+//                        } else {
+//                            binding.tvFocusResultComparison.text = "↓ ${formatSeconds(state.focusUiState.previousFocusSeconds - state.focusUiState.focusSeconds)} от прошлой сессий"
+//                        }
                     }
 
                     binding.tvFocusResultTime.text = formatSeconds(state.focusUiState.focusSeconds)

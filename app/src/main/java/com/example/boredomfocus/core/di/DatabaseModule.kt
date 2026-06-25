@@ -27,7 +27,7 @@ object DatabaseModule {
             BoredomDatabase::class.java,
             "boredom_database"
         )
-//            .createFromAsset("database/boredom_database.db")
+            .createFromAsset("database/boredom_database.db")
             .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
             .fallbackToDestructiveMigration(true)
             .build()
