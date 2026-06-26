@@ -160,6 +160,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="20dp"
+        android:layout_marginBottom="8dp"
         app:icon="@drawable/ic_arrow_right"
         app:iconGravity="textEnd"
         app:iconSize="26dp"

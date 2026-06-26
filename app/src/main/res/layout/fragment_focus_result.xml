@@ -276,7 +276,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
+        app:layout_goneMarginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -289,15 +290,15 @@
             android:layout_weight="1"
             app:cardBackgroundColor="@color/gray_bg_card"
             app:cardCornerRadius="16dp"
-            android:layout_marginEnd="6dp"
+            android:layout_marginEnd="16dp"
             app:strokeColor="#1A1A1A">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp">
+                android:padding="16dp"
+                android:paddingVertical="12dp">
 
                 <TextView
                     android:id="@+id/tvDetoxWord"
@@ -326,16 +327,15 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             app:cardBackgroundColor="@color/gray_bg_card"
-            app:cardCornerRadius="16dp"
-            android:layout_marginStart="6dp"
+            app:layout_goneMarginStart="10dp"
             app:strokeColor="#1A1A1A">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="8dp">
+                android:padding="16dp"
+                android:paddingVertical="12dp">
 
                 <TextView
                     android:id="@+id/tvFocusComparisonWord"
@@ -363,7 +363,7 @@
         android:id="@+id/cardStreak"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         app:cardBackgroundColor="@color/gray_bg_card"
         app:cardCornerRadius="16dp"
         app:layout_constraintEnd_toEndOf="parent"

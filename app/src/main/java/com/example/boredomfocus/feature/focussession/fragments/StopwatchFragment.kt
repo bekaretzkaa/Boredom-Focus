@@ -66,22 +66,22 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-//                    val visualState = buildFocusVisualState(
-//                        focusSeconds = state.focusUiState.focusSeconds,
-//                        lastSessionSeconds = state.focusUiState.previousFocusSeconds,
-//                        weekRecordSeconds = state.focusUiState.weekFocusRecord,
-//                        monthRecordSeconds = state.focusUiState.monthFocusRecord,
-//                        allTimeRecordSeconds = state.focusUiState.focusRecord.takeIf { it > 0L }
-//                    )
-
-//                    FOR TESTING
                     val visualState = buildFocusVisualState(
                         focusSeconds = state.focusUiState.focusSeconds,
-                        lastSessionSeconds = 20,
-                        weekRecordSeconds = null,
-                        monthRecordSeconds = 25,
-                        allTimeRecordSeconds = 30
+                        lastSessionSeconds = state.focusUiState.previousFocusSeconds,
+                        weekRecordSeconds = state.focusUiState.weekFocusRecord,
+                        monthRecordSeconds = state.focusUiState.monthFocusRecord,
+                        allTimeRecordSeconds = state.focusUiState.focusRecord.takeIf { it > 0L }
                     )
+
+//                    FOR TESTING
+//                    val visualState = buildFocusVisualState(
+//                        focusSeconds = state.focusUiState.focusSeconds,
+//                        lastSessionSeconds = 20,
+//                        weekRecordSeconds = null,
+//                        monthRecordSeconds = 25,
+//                        allTimeRecordSeconds = 30
+//                    )
 
                     renderFocusState(visualState)
                 }
