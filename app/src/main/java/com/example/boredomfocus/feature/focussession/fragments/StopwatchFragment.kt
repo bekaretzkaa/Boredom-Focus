@@ -74,10 +74,11 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
 //                        allTimeRecordSeconds = state.focusUiState.focusRecord.takeIf { it > 0L }
 //                    )
 
+//                    FOR TESTING
                     val visualState = buildFocusVisualState(
                         focusSeconds = state.focusUiState.focusSeconds,
-                        lastSessionSeconds = 14,
-                        weekRecordSeconds = 20,
+                        lastSessionSeconds = 20,
+                        weekRecordSeconds = null,
                         monthRecordSeconds = 25,
                         allTimeRecordSeconds = 30
                     )

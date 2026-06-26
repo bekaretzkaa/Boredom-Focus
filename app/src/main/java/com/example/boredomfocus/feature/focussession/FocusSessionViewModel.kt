@@ -182,13 +182,19 @@ class FocusSessionViewModel @Inject constructor(
 
             _uiState.update { state ->
                 state.copy(
+//                    focusUiState = state.focusUiState.copy(
+//                        focusRecord = record ?: 0,
+//                        previousFocusSeconds = previousFocus,
+//                        weekFocusRecord = focusRecords.currentWeek,
+//                        monthFocusRecord = focusRecords.currentMonth,
+//                    )
+
+//                    TEST
                     focusUiState = state.focusUiState.copy(
-                        focusRecord = record ?: 0,
-                        previousFocusSeconds = previousFocus,
-                        weekFocusRecord = focusRecords.currentWeek,
-                        previousWeekFocusRecord = focusRecords.previousWeek,
-                        monthFocusRecord = focusRecords.currentMonth,
-                        previousMonthFocusRecord = focusRecords.previousMonth
+                        previousFocusSeconds = 20,
+                        weekFocusRecord = null,
+                        monthFocusRecord = 25,
+                        focusRecord = 30
                     )
                 )
             }

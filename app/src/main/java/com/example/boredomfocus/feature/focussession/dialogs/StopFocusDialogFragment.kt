@@ -88,8 +88,27 @@ class StopFocusDialogFragment : DialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+
                     binding.tvFocusTimePassed2.text = formatSeconds(state.focusUiState.focusSeconds)
-                    binding.tvFocusTimeRecord2.text = formatSeconds(state.focusUiState.focusRecord)
+
+                    when(state.focusUiState.focusSeconds) {
+                        in 0..(state.focusUiState.previousFocusSeconds ?: 0) -> {
+                            binding.tvFocusTimeRecord1.text = "прошлая сессия"
+                            binding.tvFocusTimeRecord2.text = formatSeconds(state.focusUiState.previousFocusSeconds ?: 0)
+                        }
+                        in (state.focusUiState.previousFocusSeconds ?: 0)..(state.focusUiState.weekFocusRecord ?: 0) -> {
+                            binding.tvFocusTimeRecord1.text = "рекорд недели"
+                            binding.tvFocusTimeRecord2.text = formatSeconds(state.focusUiState.weekFocusRecord ?: 0)
+                        }
+                        in (state.focusUiState.weekFocusRecord ?: 0)..(state.focusUiState.monthFocusRecord ?: 0) -> {
+                            binding.tvFocusTimeRecord1.text = "рекорд месяца"
+                            binding.tvFocusTimeRecord2.text = formatSeconds(state.focusUiState.monthFocusRecord ?: 0)
+                        }
+                        else -> {
+                            binding.tvFocusTimeRecord1.text = "абсолютный рекорд"
+                            binding.tvFocusTimeRecord2.text = formatSeconds(state.focusUiState.focusRecord)
+                        }
+                    }
                 }
             }
         }
