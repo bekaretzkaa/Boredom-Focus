@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
-    android:background="#0D0D0D"
-    tools:context=".feature.focussession.fragments.FocusResultFragment">
+    android:background="#0D0D0D">
 
     <TextView
         android:id="@+id/tvFocusResult"

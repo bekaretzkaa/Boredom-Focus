@@ -20,4 +20,8 @@
 
     <color name="gray_basic">#444444</color>
     <color name="detox_percent">#86827c</color>
+    <color name="gray_bg">#1a1a1a</color>
+    <color name="gray_dark">#888888</color>
+    <color name="green_bg">#0F1A0F</color>
+    <color name="gray_bg_card">#141414</color>
 </resources>

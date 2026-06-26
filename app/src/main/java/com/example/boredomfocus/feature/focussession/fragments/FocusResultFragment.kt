@@ -44,30 +44,30 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    if(false) { // TODO: need to Update isNewFocusRecord
-                        binding.tvNewFocusRecord.visibility = View.VISIBLE
-                        binding.tvFocusResultComparison.text = "↑ +${formatSeconds(state.focusUiState.focusRecord - state.focusUiState.focusSeconds)} от прошлого рекорда"
-                    } else {
-                        binding.tvNewFocusRecord.visibility = View.GONE
-
+//                    if(false) { // TODO: need to Update isNewFocusRecord
+//                        binding.tvNewFocusRecord.visibility = View.VISIBLE
+//                        binding.tvFocusResultComparison.text = "↑ +${formatSeconds(state.focusUiState.focusRecord - state.focusUiState.focusSeconds)} от прошлого рекорда"
+//                    } else {
+//                        binding.tvNewFocusRecord.visibility = View.GONE
+//
 //                        if(state.focusUiState.focusSeconds > state.focusUiState.previousFocusSeconds) {
 //                            binding.tvFocusResultComparison.text = "↑ +${formatSeconds(state.focusUiState.focusSeconds - state.focusUiState.previousFocusSeconds)} от прошлой сессий"
 //                        } else {
 //                            binding.tvFocusResultComparison.text = "↓ ${formatSeconds(state.focusUiState.previousFocusSeconds - state.focusUiState.focusSeconds)} от прошлой сессий"
 //                        }
-                    }
-
-                    binding.tvFocusResultTime.text = formatSeconds(state.focusUiState.focusSeconds)
-                    binding.tvDetoxTimerWord2.text = "${state.detoxUiState.selectedDetoxSeconds / 60} мин · завершён"
-                    binding.tvStreakCountWord.text = "${state.streakCount} дней подряд 🔥"
-
-                    if(state.detoxUiState.detoxElapsedSeconds == 0L) {
-                        binding.cardDetoxResult2Content.visibility = View.GONE
-                        binding.tvNewFocusRecord.visibility = View.GONE
-                    } else {
-                        binding.cardDetoxResult2Content.visibility = View.VISIBLE
-                        binding.tvNewFocusRecord.visibility = View.VISIBLE
-                    }
+//                    }
+//
+//                    binding.tvFocusResultTime.text = formatSeconds(state.focusUiState.focusSeconds)
+//                    binding.tvDetoxTimerWord2.text = "${state.detoxUiState.selectedDetoxSeconds / 60} мин · завершён"
+//                    binding.tvStreakCountWord.text = "${state.streakCount} дней подряд 🔥"
+//
+//                    if(state.detoxUiState.detoxElapsedSeconds == 0L) {
+//                        binding.cardDetoxResult2Content.visibility = View.GONE
+//                        binding.tvNewFocusRecord.visibility = View.GONE
+//                    } else {
+//                        binding.cardDetoxResult2Content.visibility = View.VISIBLE
+//                        binding.tvNewFocusRecord.visibility = View.VISIBLE
+//                    }
                 }
             }
         }
