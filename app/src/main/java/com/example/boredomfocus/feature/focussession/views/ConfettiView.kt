@@ -12,7 +12,6 @@ class ConfettiView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
 ) : View(context, attrs) {
-
     private data class Particle(
         var x: Float,
         var y: Float,
@@ -27,6 +26,8 @@ class ConfettiView @JvmOverloads constructor(
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
+    private val maxFrames = 240
+
     private val colors = listOf(
         Color.parseColor("#639922"),
         Color.WHITE,
@@ -40,6 +41,9 @@ class ConfettiView @JvmOverloads constructor(
     private var frame = 0
 
     fun start() {
+        visibility = VISIBLE
+        bringToFront()
+
         if (width == 0 || height == 0) {
             post { start() }
             return
@@ -48,28 +52,27 @@ class ConfettiView @JvmOverloads constructor(
         frame = 0
         isRunning = true
 
-        particles = List(70) {
+        particles = List(110) {
             Particle(
                 x = Random.nextFloat() * width,
                 y = -Random.nextFloat() * height * 0.4f,
                 width = Random.nextFloat() * 10f + 6f,
                 height = Random.nextFloat() * 5f + 4f,
                 color = colors.random(),
-                speedY = Random.nextFloat() * 8f + 5f,
-                speedX = Random.nextFloat() * 4f - 2f,
+                speedY = Random.nextFloat() * 4f + 3f,
+                speedX = Random.nextFloat() * 3f - 1.5f,
                 rotation = Random.nextFloat() * 360f,
-                rotationSpeed = Random.nextFloat() * 12f - 6f
+                rotationSpeed = Random.nextFloat() * 8f - 4f
             )
         }
 
-        visibility = VISIBLE
         invalidate()
     }
 
     fun stop() {
         isRunning = false
         particles = emptyList()
-        visibility = GONE
+        visibility = INVISIBLE
         invalidate()
     }
 
@@ -105,7 +108,7 @@ class ConfettiView @JvmOverloads constructor(
 
         frame++
 
-        if (frame < 130) {
+        if (frame < maxFrames) {
             postInvalidateOnAnimation()
         } else {
             stop()

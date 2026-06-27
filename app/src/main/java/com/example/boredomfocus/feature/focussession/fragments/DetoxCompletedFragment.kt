@@ -16,6 +16,9 @@ import com.example.boredomfocus.databinding.FragmentDetoxCompletedBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
 import kotlinx.coroutines.launch
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
+import androidx.core.view.doOnPreDraw
 
 class DetoxCompletedFragment : Fragment(R.layout.fragment_detox_completed) {
     private val viewModel: FocusSessionViewModel by hiltNavGraphViewModels(R.id.focusSessionGraph)
@@ -37,6 +40,12 @@ class DetoxCompletedFragment : Fragment(R.layout.fragment_detox_completed) {
 
         observeUiState()
         observeEvents()
+
+        if (viewModel.shouldPlayDetoxCompletedAnimation()) {
+            playDetoxCompletedEnterAnimation()
+        } else {
+            showDetoxCompletedWithoutAnimation()
+        }
     }
 
     override fun onDestroyView() {
@@ -73,6 +82,165 @@ class DetoxCompletedFragment : Fragment(R.layout.fragment_detox_completed) {
                     }
                 }
             }
+        }
+    }
+
+    private fun playDetoxCompletedEnterAnimation() = with(binding) {
+        val views = listOf(
+            tvDetoxSession,
+            viewCheckGreen,
+            tvDetoxEnded,
+            cardDetoxResult,
+            viewGrayLine1,
+            tvNext,
+            viewGrayLine2,
+            tvNextText1,
+            tvNextText2,
+            btnStartFocus,
+            btnToHome
+        )
+
+        views.forEach { view ->
+            view.alpha = 0f
+            view.translationY = 32f
+        }
+
+        cardDetoxResult.scaleX = 0.96f
+        cardDetoxResult.scaleY = 0.96f
+
+        flIcon.scaleX = 0.75f
+        flIcon.scaleY = 0.75f
+        flIcon.alpha = 0f
+
+        ivIcon.scaleX = 0.7f
+        ivIcon.scaleY = 0.7f
+        ivIcon.alpha = 0f
+
+        root.doOnPreDraw {
+            tvDetoxSession.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(300)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            viewCheckGreen.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(120)
+                .setDuration(300)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            tvDetoxEnded.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(140)
+                .setDuration(300)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            cardDetoxResult.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(260)
+                .setDuration(450)
+                .setInterpolator(OvershootInterpolator(1.1f))
+                .start()
+
+            flIcon.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(420)
+                .setDuration(380)
+                .setInterpolator(OvershootInterpolator(1.6f))
+                .start()
+
+            ivIcon.animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(520)
+                .setDuration(320)
+                .setInterpolator(OvershootInterpolator(1.8f))
+                .start()
+
+            val nextViews = listOf(
+                viewGrayLine1,
+                tvNext,
+                viewGrayLine2
+            )
+
+            nextViews.forEachIndexed { index, view ->
+                view.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .setStartDelay(680L + index * 50L)
+                    .setDuration(300)
+                    .setInterpolator(DecelerateInterpolator())
+                    .start()
+            }
+
+            tvNextText1.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(820)
+                .setDuration(350)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            tvNextText2.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(920)
+                .setDuration(350)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            btnStartFocus.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(1050)
+                .setDuration(380)
+                .setInterpolator(OvershootInterpolator(1.05f))
+                .start()
+
+            btnToHome.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(1150)
+                .setDuration(380)
+                .setInterpolator(OvershootInterpolator(1.05f))
+                .start()
+        }
+    }
+
+    private fun showDetoxCompletedWithoutAnimation() = with(binding) {
+        val views = listOf(
+            tvDetoxSession,
+            viewCheckGreen,
+            tvDetoxEnded,
+            cardDetoxResult,
+            viewGrayLine1,
+            tvNext,
+            viewGrayLine2,
+            tvNextText1,
+            tvNextText2,
+            btnStartFocus,
+            btnToHome,
+            flIcon,
+            ivIcon
+        )
+
+        views.forEach { view ->
+            view.animate().cancel()
+            view.alpha = 1f
+            view.translationY = 0f
+            view.scaleX = 1f
+            view.scaleY = 1f
         }
     }
 }

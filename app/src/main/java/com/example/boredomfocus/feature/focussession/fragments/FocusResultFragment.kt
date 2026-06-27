@@ -1,17 +1,14 @@
 package com.example.boredomfocus.feature.focussession.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.common.daysWord
 import com.example.boredomfocus.core.common.formatSeconds
@@ -19,6 +16,10 @@ import com.example.boredomfocus.databinding.FragmentFocusResultBinding
 import com.example.boredomfocus.feature.focussession.FocusSessionEvent
 import com.example.boredomfocus.feature.focussession.FocusSessionViewModel
 import kotlinx.coroutines.launch
+import android.animation.ValueAnimator
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
+import androidx.core.view.doOnPreDraw
 
 class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
     private val viewModel: FocusSessionViewModel by hiltNavGraphViewModels(R.id.focusSessionGraph)
@@ -42,6 +43,7 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
         super.onDestroyView()
         _binding = null
     }
+    private var resultScreenHandled = false
 
     private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -157,6 +159,23 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
                             binding.cardWeek.visibility = View.VISIBLE
                             binding.cardMonth.visibility = View.VISIBLE
                             binding.cardRecord.visibility = View.VISIBLE
+
+                            binding.cardFocusTime.setCardBackgroundColor(greenBg)
+                            binding.cardFocusTime.setStrokeColor(greenText)
+                        }
+                    }
+                    if (!resultScreenHandled) {
+                        resultScreenHandled = true
+
+                        if (viewModel.shouldPlayResultAnimation()) {
+                            playResultEnterAnimation(
+                                focusSeconds = state.focusUiState.focusSeconds,
+                                isNewAllTimeRecord = state.focusUiState.focusSeconds >= state.focusUiState.focusRecord
+                            )
+                        } else {
+                            showResultWithoutAnimation(
+                                focusSeconds = state.focusUiState.focusSeconds
+                            )
                         }
                     }
                 }
@@ -179,5 +198,166 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
                 }
             }
         }
+    }
+
+    private fun playResultEnterAnimation(
+        focusSeconds: Long,
+        isNewAllTimeRecord: Boolean
+    ) = with(binding) {
+
+        val views = listOf(
+            tvFocusResult,
+            cardSessionComparison,
+            cardFocusTime,
+            llDetoxFocus,
+            cardStreak,
+            btnToHome
+        )
+
+        views.forEach { view ->
+            view.alpha = 0f
+            view.translationY = 36f
+        }
+
+        llTargets.alpha = 1f
+        llTargets.translationY = 0f
+
+        cardFocusTime.scaleX = 0.96f
+        cardFocusTime.scaleY = 0.96f
+
+        val targetCards = listOf(cardSession, cardWeek, cardMonth, cardRecord)
+
+        targetCards.forEach {
+            it.alpha = 0f
+            it.scaleX = 0.85f
+            it.scaleY = 0.85f
+            it.translationY = 24f
+        }
+
+        tvFocusTime.text = formatSeconds(0)
+
+        root.doOnPreDraw {
+            tvFocusResult.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(300)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            cardSessionComparison.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(120)
+                .setDuration(350)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            cardFocusTime.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(240)
+                .setDuration(450)
+                .setInterpolator(OvershootInterpolator(1.1f))
+                .withStartAction {
+                    animateFocusTime(focusSeconds)
+                }
+                .start()
+
+            targetCards.forEachIndexed { index, card ->
+                card.animate()
+                    .alpha(1f)
+                    .translationY(0f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setStartDelay(520L + index * 90L)
+                    .setDuration(350)
+                    .setInterpolator(OvershootInterpolator(1.4f))
+                    .start()
+            }
+
+            llDetoxFocus.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(900)
+                .setDuration(350)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            cardStreak.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(1020)
+                .setDuration(350)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            btnToHome.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(1140)
+                .setDuration(350)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            if (isNewAllTimeRecord) {
+                confettiView.postDelayed({
+                    confettiView.start()
+                }, 850)
+            }
+        }
+    }
+
+    private fun animateFocusTime(finalSeconds: Long) {
+        ValueAnimator.ofInt(0, finalSeconds.toInt()).apply {
+            duration = 900
+            interpolator = DecelerateInterpolator()
+
+            addUpdateListener { animator ->
+                val seconds = animator.animatedValue as Int
+                binding.tvFocusTime.text = formatSeconds(seconds.toLong())
+            }
+
+            start()
+        }
+    }
+
+    private fun showResultWithoutAnimation(focusSeconds: Long) = with(binding) {
+        val views = listOf(
+            tvFocusResult,
+            cardSessionComparison,
+            cardFocusTime,
+            llTargets,
+            llDetoxFocus,
+            cardStreak,
+            btnToHome
+        )
+
+        views.forEach { view ->
+            view.animate().cancel()
+            view.alpha = 1f
+            view.translationY = 0f
+            view.scaleX = 1f
+            view.scaleY = 1f
+        }
+
+        val targetCards = listOf(
+            cardSession,
+            cardWeek,
+            cardMonth,
+            cardRecord
+        )
+
+        targetCards.forEach { card ->
+            card.animate().cancel()
+            card.alpha = 1f
+            card.translationY = 0f
+            card.scaleX = 1f
+            card.scaleY = 1f
+        }
+
+        tvFocusTime.text = formatSeconds(focusSeconds)
+        confettiView.stop()
     }
 }

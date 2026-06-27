@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FocusSessionViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val sessionRepository: SessionRepository,
     private val dailyStatsRepository: DailyStatsRepository,
     private val addSessionRepository: AddSessionRepositoryImpl
@@ -44,6 +44,43 @@ class FocusSessionViewModel @Inject constructor(
 
     private val _events = Channel<FocusSessionEvent>(Channel.BUFFERED)
     val events: Flow<FocusSessionEvent> = _events.receiveAsFlow()
+
+    companion object {
+        private const val RESULT_ANIMATION_PLAYED_KEY = "result_animation_played"
+        private const val DETOX_COMPLETED_ANIMATION_PLAYED_KEY = "detox_completed_animation_played"
+        private const val DETOX_INTERRUPTED_ANIMATION_PLAYED_KEY = "detox_interrupted_animation_played"
+    }
+
+    fun shouldPlayResultAnimation(): Boolean {
+        val alreadyPlayed = savedStateHandle[RESULT_ANIMATION_PLAYED_KEY] ?: false
+
+        return if (alreadyPlayed) {
+            false
+        } else {
+            savedStateHandle[RESULT_ANIMATION_PLAYED_KEY] = true
+            true
+        }
+    }
+    fun shouldPlayDetoxCompletedAnimation(): Boolean {
+        val alreadyPlayed = savedStateHandle[DETOX_COMPLETED_ANIMATION_PLAYED_KEY] ?: false
+
+        return if (alreadyPlayed) {
+            false
+        } else {
+            savedStateHandle[DETOX_COMPLETED_ANIMATION_PLAYED_KEY] = true
+            true
+        }
+    }
+    fun shouldPlayDetoxInterruptedAnimation(): Boolean {
+        val alreadyPlayed = savedStateHandle[DETOX_INTERRUPTED_ANIMATION_PLAYED_KEY] ?: false
+
+        return if (alreadyPlayed) {
+            false
+        } else {
+            savedStateHandle[DETOX_INTERRUPTED_ANIMATION_PLAYED_KEY] = true
+            true
+        }
+    }
 
     private fun sendEvent(event: FocusSessionEvent) {
         viewModelScope.launch {
@@ -346,6 +383,9 @@ class FocusSessionViewModel @Inject constructor(
                     state.copy(
                         focusUiState = state.focusUiState.copy(
                             focusSeconds = elapsedSeconds
+
+//                            TEST
+//                            focusSeconds = 4000
                         )
                     )
                 }
