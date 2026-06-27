@@ -2,6 +2,7 @@ package com.example.boredomfocus.feature.focussession.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
@@ -58,8 +59,26 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
+                    val remainingSeconds = state.detoxUiState.detoxRemainingSeconds
+                    val isFinishing = remainingSeconds <= 30L
+
                     binding.progressViewDetoxTimer.progress = state.detoxUiState.detoxProgress
-                    binding.tvDetoxTimer.text = formatSeconds(state.detoxUiState.detoxRemainingSeconds)
+                    binding.progressViewDetoxTimer.setFinishMode(isFinishing)
+
+                    binding.tvDetoxTimer.text = formatSeconds(remainingSeconds)
+
+                    binding.tvDetoxTimer.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            if (isFinishing) R.color.green_basic else R.color.white
+                        )
+                    )
+
+                    binding.tvDetoxTimer2.text = if (isFinishing) {
+                        "финиш!"
+                    } else {
+                        "осталось"
+                    }
                 }
             }
         }

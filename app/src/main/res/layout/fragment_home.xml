@@ -299,8 +299,6 @@
         android:layout_marginTop="12dp"
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/line2"
-
         app:layout_constraintEnd_toStartOf="@+id/cardSession"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"
@@ -343,7 +341,6 @@
         app:cardBackgroundColor="#1A1A1A"
         app:cardCornerRadius="16dp"
         android:layout_marginTop="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/line2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_weight="1"

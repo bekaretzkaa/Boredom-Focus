@@ -12,7 +12,7 @@ import android.view.View
 class CircularProgressView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null
-) : View(context, attrs)  {
+) : View(context, attrs) {
 
     private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.parseColor("#1A1A1A")
@@ -29,11 +29,30 @@ class CircularProgressView @JvmOverloads constructor(
     }
 
     private val rect = RectF()
+
+    private var shader: SweepGradient? = null
+    private var isFinishMode = false
+
     var progress: Float = 1f
         set(value) {
             field = value.coerceIn(0f, 1f)
             invalidate()
         }
+
+    fun setFinishMode(enabled: Boolean) {
+        isFinishMode = enabled
+
+        if (enabled) {
+            progressPaint.shader = null
+            progressPaint.color = Color.parseColor("#639922")
+            backgroundPaint.color = Color.parseColor("#0F1A0F")
+        } else {
+            progressPaint.shader = shader
+            backgroundPaint.color = Color.parseColor("#1A1A1A")
+        }
+
+        invalidate()
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
@@ -64,8 +83,6 @@ class CircularProgressView @JvmOverloads constructor(
         )
     }
 
-    private var shader: SweepGradient? = null
-
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
@@ -80,7 +97,9 @@ class CircularProgressView @JvmOverloads constructor(
             ),
             null
         )
-        progressPaint.shader = shader
-    }
 
+        if (!isFinishMode) {
+            progressPaint.shader = shader
+        }
+    }
 }

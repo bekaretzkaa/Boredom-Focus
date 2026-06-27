@@ -18,6 +18,9 @@ import com.example.boredomfocus.databinding.FragmentHomeBinding
 import com.example.boredomfocus.feature.sessionsettings.presentation.SessionSettingsBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.OvershootInterpolator
+import androidx.core.view.doOnPreDraw
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -25,6 +28,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private var homeAnimationHandled = false
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,6 +43,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setupSessionBottomSheetResult()
 
         observeUiState()
+
+        if (!homeAnimationHandled) {
+            homeAnimationHandled = true
+
+            if (viewModel.shouldPlayHomeAnimation()) {
+                playHomeEnterAnimation()
+            } else {
+                showHomeWithoutAnimation()
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -129,6 +144,158 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 R.id.actionHomeFragmentToFocusSessionGraph,
                 args
             )
+        }
+    }
+
+    private fun playHomeEnterAnimation() = with(binding) {
+        val topViews = listOf(
+            tvStreak1,
+            tvStreak2,
+            tvStreak3
+        )
+
+        val mainViews = listOf(
+            cardWeek,
+            viewStreakCounted,
+            tvStreakCounted,
+            btnStartDetox,
+            cardRecord,
+            cardSession,
+            cardQuote
+        )
+
+        topViews.forEach { view ->
+            view.alpha = 0f
+            view.translationY = 28f
+        }
+
+        mainViews.forEach { view ->
+            view.alpha = 0f
+            view.translationY = 36f
+        }
+
+        tvStreak2.scaleX = 0.96f
+        tvStreak2.scaleY = 0.96f
+
+        cardRecord.scaleX = 0.96f
+        cardRecord.scaleY = 0.96f
+
+        cardSession.scaleX = 0.96f
+        cardSession.scaleY = 0.96f
+
+        cardQuote.scaleX = 0.98f
+        cardQuote.scaleY = 0.98f
+
+        root.doOnPreDraw {
+            tvStreak1.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(280)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            tvStreak2.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(100)
+                .setDuration(420)
+                .setInterpolator(OvershootInterpolator(1.05f))
+                .start()
+
+            tvStreak3.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(220)
+                .setDuration(300)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            cardWeek.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(340)
+                .setDuration(320)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            viewStreakCounted.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(460)
+                .setDuration(260)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            tvStreakCounted.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(480)
+                .setDuration(260)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            btnStartDetox.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setStartDelay(580)
+                .setDuration(360)
+                .setInterpolator(OvershootInterpolator(1.04f))
+                .start()
+
+            cardRecord.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(700)
+                .setDuration(330)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            cardSession.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(780)
+                .setDuration(330)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+
+            cardQuote.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(900)
+                .setDuration(360)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+        }
+    }
+
+    private fun showHomeWithoutAnimation() = with(binding) {
+        val views = listOf(
+            tvStreak1,
+            tvStreak2,
+            tvStreak3,
+            cardWeek,
+            viewStreakCounted,
+            tvStreakCounted,
+            btnStartDetox,
+            cardRecord,
+            cardSession,
+            cardQuote
+        )
+
+        views.forEach { view ->
+            view.animate().cancel()
+            view.alpha = 1f
+            view.translationY = 0f
+            view.scaleX = 1f
+            view.scaleY = 1f
         }
     }
 }

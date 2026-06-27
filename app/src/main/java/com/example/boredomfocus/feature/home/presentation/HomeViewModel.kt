@@ -1,5 +1,6 @@
 package com.example.boredomfocus.feature.home.presentation
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.core.common.epochDayToDayOfWeekIndex
@@ -19,10 +20,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
     private val dailyStatsRepository: DailyStatsRepository,
     private val sessionRepository: SessionRepository,
     private val appSettingsRepository: AppSettingsRepository
 ) : ViewModel() {
+
+    companion object {
+        private const val HOME_ANIMATION_PLAYED_KEY = "home_animation_played"
+    }
+
+    fun shouldPlayHomeAnimation(): Boolean {
+        val alreadyPlayed = savedStateHandle[HOME_ANIMATION_PLAYED_KEY] ?: false
+
+        return if (alreadyPlayed) {
+            false
+        } else {
+            savedStateHandle[HOME_ANIMATION_PLAYED_KEY] = true
+            true
+        }
+    }
+
 
     init {
         viewModelScope.launch {
@@ -47,16 +65,15 @@ class HomeViewModel @Inject constructor(
 
             val today = LocalDate.now().toEpochDay()
             val streakCount = dailyStatsRepository.getCurrentStreak(today)
-            val todayStreak = dailyStats.getOrNull((today - currentWeekRange.startDay).toInt())?.streakCounted == true
 
-            val updatedDailyStats = mutableListOf<DailyStatsEntity?>()
-            for(i in 1 until epochDayToDayOfWeekIndex(dailyStats.first().date)) {
-                updatedDailyStats.add(null)
-            }
-            updatedDailyStats.addAll(dailyStats)
-            for(i in epochDayToDayOfWeekIndex(dailyStats.last().date)+1..7) {
-                updatedDailyStats.add(null)
-            }
+            val statsByDate = dailyStats.associateBy { it.date }
+
+            val updatedDailyStats: List<DailyStatsEntity?> =
+                (currentWeekRange.startDay..currentWeekRange.endDay).map { day ->
+                    statsByDate[day]
+                }
+
+            val todayStreak = statsByDate[today]?.streakCounted == true
 
             HomeUiState(
                 isLoading = false,
