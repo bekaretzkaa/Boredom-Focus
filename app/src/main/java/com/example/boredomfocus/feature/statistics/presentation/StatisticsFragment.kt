@@ -168,6 +168,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 !isFirstPeriod &&
                 hasPeriodJustStarted(selectedPeriod)
 
+//        TEST
+//        val isFirstPeriod = false
+//        val isPeriodJustStarted = false
+
         renderSummaryValues(
             summary = summary,
             selectedPeriod = selectedPeriod
@@ -240,7 +244,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         previousSummary: StatsSummary?,
         selectedPeriod: StatisticsPeriod,
         isFirstPeriod: Boolean,
-        isPeriodJustStarted: Boolean
+        isPeriodJustStarted: Boolean,
+        daysWithoutSession: Int? = null
     ) {
         renderTimeComparison(
             textView = binding.tvStatisticsFocusRecordComparison,
@@ -266,7 +271,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             allTimeRecord = null,
             shouldHighlightRecordValue = false,
             isFirstPeriod = isFirstPeriod,
-            isPeriodJustStarted = isPeriodJustStarted
+            isPeriodJustStarted = isPeriodJustStarted,
         )
 
         renderSessionCountComparison(
@@ -275,7 +280,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             current = summary?.totalSessions,
             previous = previousSummary?.totalSessions,
             isFirstPeriod = isFirstPeriod,
-            isPeriodJustStarted = isPeriodJustStarted
+            isPeriodJustStarted = isPeriodJustStarted,
+            daysWithoutSession
         )
 
         renderCompletionRateComparison(
@@ -386,7 +392,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (allTimeRecord != null && currentValue >= allTimeRecord && currentValue > 0L) {
-            textView.text = "↑ лучший за всё время"
+            textView.text = "★ новый рекорд"
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.green_basic))
 
             if (shouldHighlightRecordValue) {
@@ -405,7 +411,11 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (isPeriodJustStarted && currentValue < previousValue && previousValue > 0L) {
-            textView.text = getPeriodJustStartedComparisonText(period)
+            textView.text = getPeriodJustStartedComparisonText(period, if(shouldHighlightRecordValue) CardType.FOCUS_RECORD else CardType.FOCUS_AVERAGE, if(currentValue == 0L) null else currentValue, previous, true, null)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        } else if(!isPeriodJustStarted && currentValue == 0L) {
+            textView.text = getPeriodJustStartedComparisonText(period, if(shouldHighlightRecordValue) CardType.FOCUS_RECORD else CardType.FOCUS_AVERAGE, if(currentValue == 0L) null else currentValue, previous, false, null)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
@@ -418,17 +428,22 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         val difference = kotlin.math.abs(currentValue - previousValue)
         val isBetter = currentValue > previousValue
+        val bigDrop = currentValue.toDouble() / previousValue < 0.65 && !shouldHighlightRecordValue
 
         textView.text = if (isBetter) {
             "↑ +${formatSeconds(difference)} от прошлого"
         } else {
-            "↓ −${formatSeconds(difference)} от прошлого"
+            if(bigDrop) {
+                "прошлый был пиком"
+            } else {
+                "↓ −${formatSeconds(difference)} от прошлого"
+            }
         }
 
         textView.setTextColor(
             ContextCompat.getColor(
                 textView.context,
-                if (isBetter) R.color.green_basic else R.color.red_basic
+                if (isBetter) R.color.green_basic else if(bigDrop) R.color.gray_basic else R.color.red_basic
             )
         )
     }
@@ -439,7 +454,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         current: Int?,
         previous: Int?,
         isFirstPeriod: Boolean,
-        isPeriodJustStarted: Boolean
+        isPeriodJustStarted: Boolean,
+        daysWithoutSession: Int?
     ) {
         val currentValue = current ?: 0
         val previousValue = previous ?: 0
@@ -451,7 +467,11 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (isPeriodJustStarted && currentValue < previousValue && previousValue > 0) {
-            textView.text = getPeriodJustStartedComparisonText(period)
+            textView.text = getPeriodJustStartedComparisonText(period, CardType.SESSIONS, if(currentValue == 0) null else currentValue.toLong(), previous?.toLong(), true, daysWithoutSession)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        } else if(!isPeriodJustStarted && currentValue == 0) {
+            textView.text = getPeriodJustStartedComparisonText(period, CardType.SESSIONS, if(currentValue == 0) null else currentValue.toLong(), previous?.toLong(), false, daysWithoutSession)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
@@ -464,17 +484,18 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         val difference = kotlin.math.abs(currentValue - previousValue)
         val isBetter = currentValue > previousValue
+        val bigDrop = currentValue.toDouble() / previousValue < 0.65
 
         textView.text = if (isBetter) {
             "↑ +$difference от прошлого"
         } else {
-            "↓ −$difference от прошлого"
+            if(bigDrop) "меньше обычного" else "↓ −$difference от прошлого"
         }
 
         textView.setTextColor(
             ContextCompat.getColor(
                 textView.context,
-                if (isBetter) R.color.green_basic else R.color.red_basic
+                if (isBetter) R.color.green_basic else if(bigDrop) R.color.gray_basic else R.color.red_basic
             )
         )
     }
@@ -497,8 +518,22 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (isPeriodJustStarted && currentValue < previousValue && previousValue > 0.0) {
-            textView.text = getPeriodJustStartedComparisonText(period)
+            textView.text = getPeriodJustStartedComparisonText(period, CardType.DETOX_ENDED, if(currentValue == 0.0) null else currentValue?.toLong(), previous?.toLong(), true, null)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        } else if (!isPeriodJustStarted && currentValue == 0.0) {
+            textView.text = getPeriodJustStartedComparisonText(period, CardType.DETOX_ENDED, if(currentValue == 0.0) null else currentValue?.toLong(), previous?.toLong(), false, null)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        }
+
+        if(currentValue == 100.0) {
+            textView.text = when(period) {
+                StatisticsPeriod.ALL_TIME -> "идеально ✓"
+                StatisticsPeriod.MONTH -> "идеальный месяц ✓"
+                StatisticsPeriod.WEEK -> "идеальная неделя ✓"
+            }
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.green_basic))
             return
         }
 
@@ -510,17 +545,18 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         val difference = kotlin.math.abs(currentValue - previousValue)
         val isBetter = currentValue > previousValue
+        val bigDrop = currentValue.toDouble() / previousValue < 0.65
 
         textView.text = if (isBetter) {
             "↑ +${String.format("%.1f", difference)}% от прошлого"
         } else {
-            "↓ −${String.format("%.1f", difference)}% от прошлого"
+            if(bigDrop) "обычно у тебя ${String.format("%.1f", previousValue)}%" else "↓ −${String.format("%.1f", difference)}% от прошлого"
         }
 
         textView.setTextColor(
             ContextCompat.getColor(
                 textView.context,
-                if (isBetter) R.color.green_basic else R.color.red_basic
+                if (isBetter) R.color.green_basic else if(bigDrop) R.color.gray_basic else R.color.red_basic
             )
         )
     }
@@ -558,11 +594,52 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
-    private fun getPeriodJustStartedComparisonText(period: StatisticsPeriod): String {
-        return when (period) {
-            StatisticsPeriod.WEEK -> "неделя только началась"
-            StatisticsPeriod.MONTH -> "месяц только начался"
-            StatisticsPeriod.ALL_TIME -> "с первого дня"
+    private fun getPeriodJustStartedComparisonText(period: StatisticsPeriod, cardType: CardType, current: Long?, previous: Long?, justStarted: Boolean, daysWithoutSession: Int?): String {
+        return when(cardType) {
+            CardType.FOCUS_RECORD -> {
+                if(justStarted) {
+                    "цель: ${formatSeconds(previous ?: 0)}"
+                } else {
+                    when(period) {
+                        StatisticsPeriod.WEEK -> "прошлая: ${formatSeconds(previous ?: 0)}"
+                        else -> "прошлый: ${formatSeconds(previous ?: 0)}"
+                    }
+                }
+            }
+            CardType.FOCUS_AVERAGE -> {
+                if(justStarted) {
+                    if(current == null) {
+                        when(period) {
+                            StatisticsPeriod.WEEK -> "начало недели"
+                            else -> "начало месяца"
+                        }
+                    } else "это только начало"
+                } else {
+                    "начни сессию"
+                }
+            }
+            CardType.SESSIONS -> {
+                if(justStarted) {
+                    when(period) {
+                        StatisticsPeriod.WEEK -> "прошлая: ${previous ?: 0}"
+                        else -> "прошлый: ${previous ?: 0}"
+                    }
+                } else {
+                    "${daysWithoutSession ?: 0} дней без сессий"
+                }
+            }
+            CardType.DETOX_ENDED -> {
+                if(justStarted) {
+                    if(current == null) {
+                        when(period) {
+                            StatisticsPeriod.WEEK -> "начало недели"
+                            else -> "начало месяца"
+                        }
+                    } else "рано судить"
+                } else {
+                    "начни сегодня"
+                }
+            }
         }
     }
 

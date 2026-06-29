@@ -240,6 +240,30 @@ class StatisticsViewModel @Inject constructor(
                 totalFocusTimePeriod = dailyStatsGroup.totalFocusTimePeriod,
                 averageFocusTimePeriod = dailyStatsGroup.averageFocusTimePeriod
             )
+
+//          TEST
+//            StatisticsUiState(
+//                selectedPeriod = period,
+//                isLoading = false,
+//                statsSummary = StatsSummary(
+//                    bestFocus = 150,
+//                    averageFocus = 60.0,
+//                    totalSessions = 3,
+//                    completionRate = 50.0
+//                ),
+//                statsSummaryLast = StatsSummary(
+//                    bestFocus = 300,
+//                    averageFocus = 120.0,
+//                    totalSessions = 7,
+//                    completionRate = 89.0
+//                ),
+//                allTimeFocusRecord = 500,
+//                lastSessions = sessionGroup.lastSessions,
+//                dailyStats = dailyStatsGroup.dailyStats,
+//                periodStats = dailyStatsGroup.periodStats,
+//                totalFocusTimePeriod = dailyStatsGroup.totalFocusTimePeriod,
+//                averageFocusTimePeriod = dailyStatsGroup.averageFocusTimePeriod
+//            )
         }
     }
 
