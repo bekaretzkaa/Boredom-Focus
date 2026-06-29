@@ -14,15 +14,21 @@ interface SessionDao {
     suspend fun insertSession(session: SessionEntity)
 
     @Query("""
-        SELECT
-            MAX(focus_seconds) as bestFocus,
-            AVG(focus_seconds) as averageFocus,
-            COUNT(*) as totalSessions,
-            SUM(CASE WHEN completed THEN 1 ELSE 0 END) * 100.0 / COUNT(*) as completionRate
-        FROM sessions
-        WHERE date >= :fromTimeStamp AND date < :toTimeStamp
-    """)
-    fun getStatsSummaryBetween(fromTimeStamp: Long, toTimeStamp: Long): Flow<StatsSummary>
+    SELECT
+        COALESCE(MAX(focus_seconds), 0) as bestFocus,
+        COALESCE(AVG(CASE WHEN focus_seconds > 0 THEN focus_seconds END), 0) as averageFocus,
+        COUNT(*) as totalSessions,
+        COALESCE(
+            SUM(CASE WHEN completed THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0),
+            0
+        ) as completionRate
+    FROM sessions
+    WHERE date >= :fromTimeStamp AND date < :toTimeStamp
+""")
+    fun getStatsSummaryBetween(
+        fromTimeStamp: Long,
+        toTimeStamp: Long
+    ): Flow<StatsSummary>
 
     @Query("SELECT * FROM sessions ORDER BY date DESC LIMIT :count")
     fun getLastSessions(count: Int) : Flow<List<SessionEntity>>

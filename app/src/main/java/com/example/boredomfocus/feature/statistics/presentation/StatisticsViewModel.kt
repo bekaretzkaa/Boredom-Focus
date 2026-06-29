@@ -67,7 +67,7 @@ class StatisticsViewModel @Inject constructor(
     private val previousMonthRangeMillis = getCalendarMonthRange(-1)
     private val currentMonthDaysRangeDays = getCalendarMonthRangeDay(0)
 
-    private val allTimeRangeMillis = RangeMillis(0L, System.currentTimeMillis())
+    private val allTimeRangeMillis = RangeMillis(0L, Long.MAX_VALUE)
     private val currentYearDaysRangeDays = getLastThreeCalendarMonthsRangeDay()
 
     private var selectedPeriod = MutableStateFlow(StatisticsPeriod.WEEK)

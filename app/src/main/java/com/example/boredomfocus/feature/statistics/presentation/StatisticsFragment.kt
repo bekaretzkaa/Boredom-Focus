@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
@@ -19,22 +18,17 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
-import androidx.transition.Visibility
-import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
 import com.example.boredomfocus.R
-import com.example.boredomfocus.data.local.entity.DailyStatsEntity
-import com.example.boredomfocus.feature.statistics.presentation.adapter.SessionAdapter
-import com.example.boredomfocus.feature.statistics.presentation.model.SessionListItem
 import com.example.boredomfocus.databinding.FragmentStatisticsBinding
+import com.example.boredomfocus.feature.statistics.presentation.adapter.SessionAdapter
+import com.example.boredomfocus.feature.statistics.presentation.model.CardType
+import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
 import com.example.boredomfocus.feature.statistics.presentation.model.StatisticsPeriod
+import com.example.boredomfocus.feature.statistics.presentation.model.StatsSummary
 import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
-import java.time.DayOfWeek
 import java.time.LocalDate
-import java.util.logging.Formatter
-import kotlin.time.Duration
 
 @AndroidEntryPoint
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
@@ -46,27 +40,28 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private lateinit var sessionAdapter: SessionAdapter
 
-    private var cardVisible = false
-    private var hasRenderedOnce = false
+    private var isSelectedChartCardVisible = false
+    private var hasRenderedContentOnce = false
 
-    private var currentDetoxMinutes = 0
-    private var currentFocusMinutes = 0
+    private var selectedChartCardDetoxMinutes = 0
+    private var selectedChartCardFocusMinutes = 0
 
-    private var previousState = StatisticsUiState()
+    private var previousUiState = StatisticsUiState()
+
+    // region Lifecycle
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _binding = FragmentStatisticsBinding.bind(view)
 
+        _binding = FragmentStatisticsBinding.bind(view)
         sessionAdapter = SessionAdapter()
 
         binding.cardChosenChartItem.visibility = View.GONE
 
-        setupRecyclerView()
-        setupChart()
-        setupStatisticsChips()
-
-        observeUiState()
+        setupSessionList()
+        setupBarChart()
+        setupPeriodChips()
+        collectUiState()
     }
 
     override fun onDestroyView() {
@@ -81,62 +76,132 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         super.onDestroyView()
     }
 
-    private fun setupRecyclerView() {
+    // endregion
+
+    // region Setup
+
+    private fun setupSessionList() {
         binding.rvSessionsStatistics.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = sessionAdapter
         }
     }
 
-    private fun setupChart() {
+    private fun setupBarChart() {
         binding.detoxFocusBarChartView.onBarSelected = { item ->
-            if (!cardVisible) {
-                showDetailsCard(item)
-                cardVisible = true
+            if (!isSelectedChartCardVisible) {
+                showSelectedChartCard(item)
+                isSelectedChartCardVisible = true
             } else {
-                animateCardContentChange {
-                    updateChartCard(item)
+                animateSelectedChartCardContentChange {
+                    renderSelectedChartCardContent(item)
                 }
             }
         }
 
         binding.detoxFocusBarChartView.onSelectionCleared = {
-            if (cardVisible) {
-                hideDetailsCard()
-                cardVisible = false
+            if (isSelectedChartCardVisible) {
+                hideSelectedChartCard()
+                isSelectedChartCardVisible = false
             }
         }
     }
 
-    private fun observeUiState() {
+    private fun setupPeriodChips() = with(binding) {
+        cardWeek.setOnClickListener {
+            onPeriodChipClicked(StatisticsPeriod.WEEK)
+        }
+
+        cardMonth.setOnClickListener {
+            onPeriodChipClicked(StatisticsPeriod.MONTH)
+        }
+
+        cardAllTime.setOnClickListener {
+            onPeriodChipClicked(StatisticsPeriod.ALL_TIME)
+        }
+    }
+
+    // endregion
+
+    // region State collection
+
+    private fun collectUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-
                     if (state.isLoading) {
-                        if (!hasRenderedOnce) {
-                            binding.statisticsContent.visibility = View.INVISIBLE
-                        }
-
-                        selectStatisticsPeriod(state.selectedPeriod)
+                        renderLoadingState(state.selectedPeriod)
                         return@collect
                     }
 
                     binding.statisticsContent.visibility = View.VISIBLE
 
-                    render(state)
+                    renderStatisticsScreen(state)
 
-                    hasRenderedOnce = true
+                    hasRenderedContentOnce = true
                 }
             }
         }
     }
 
-    private fun render(state: StatisticsUiState) {
-        val summary = state.statsSummary
-        val lastSummary = state.statsSummaryLast
-        val period = state.selectedPeriod
+    private fun renderLoadingState(selectedPeriod: StatisticsPeriod) {
+        if (!hasRenderedContentOnce) {
+            binding.statisticsContent.visibility = View.INVISIBLE
+        }
 
+        renderSelectedPeriodChips(selectedPeriod)
+    }
+
+    // endregion
+
+    // region Main render
+
+    private fun renderStatisticsScreen(state: StatisticsUiState) {
+        val summary = state.statsSummary
+        val previousSummary = state.statsSummaryLast
+        val selectedPeriod = state.selectedPeriod
+
+        val isFirstPeriod = selectedPeriod != StatisticsPeriod.ALL_TIME &&
+                hasNoPreviousStatsForComparison(previousSummary)
+
+        val isPeriodJustStarted = selectedPeriod != StatisticsPeriod.ALL_TIME &&
+                !isFirstPeriod &&
+                hasPeriodJustStarted(selectedPeriod)
+
+        renderSummaryValues(
+            summary = summary,
+            selectedPeriod = selectedPeriod
+        )
+
+        renderComparisonLabels(
+            state = state,
+            summary = summary,
+            previousSummary = previousSummary,
+            selectedPeriod = selectedPeriod,
+            isFirstPeriod = isFirstPeriod,
+            isPeriodJustStarted = isPeriodJustStarted
+        )
+
+        renderPeriodTotalValues(state)
+        renderWeeklyStreakCircles(state)
+        renderSelectedPeriodChips(selectedPeriod)
+
+        binding.detoxFocusBarChartView.submitData(state.periodStats)
+        sessionAdapter.submitList(state.lastSessions)
+
+        animateStatisticsCardsEntrance()
+        animateChangedSummaryValues(
+            previousState = previousUiState,
+            currentState = state
+        )
+
+        previousUiState = state
+    }
+
+    private fun renderSummaryValues(
+        summary: StatsSummary?,
+        selectedPeriod: StatisticsPeriod
+    ) {
         binding.tvStatisticsFocusRecordTime.text =
             formatSeconds(summary?.bestFocus ?: 0L)
 
@@ -146,114 +211,84 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         binding.tvStatisticsSessionsCount.text =
             (summary?.totalSessions ?: 0).toString()
 
-        binding.tvStatisticsSessionsCountWord.text = when (period) {
-            StatisticsPeriod.WEEK -> "сессий за неделю"
-            StatisticsPeriod.MONTH -> "сессий за месяц"
-            StatisticsPeriod.ALL_TIME -> "всего сессий"
-            else -> ""
-        }
+        binding.tvStatisticsSessionsCountWord.text =
+            getSessionCountTitle(selectedPeriod)
 
-        binding.tvStatisticsOverallTimeWord1.text = when (period) {
-            StatisticsPeriod.WEEK -> "всего фокуса за неделю"
-            StatisticsPeriod.MONTH -> "всего фокуса за месяц"
-            StatisticsPeriod.ALL_TIME -> "всего фокуса за всё время"
-            else -> ""
-        }
+        binding.tvStatisticsOverallTimeWord1.text =
+            getTotalFocusTitle(selectedPeriod)
 
-        if(summary?.completionRate?.toInt() ?: 0 == 100) {
-            binding.tvStatisticsDetoxPercent.text = "100%"
-            binding.tvStatisticsDetoxPercent.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
-        } else {
-            binding.tvStatisticsDetoxPercent.text =
-                "${summary?.completionRate?.toInt() ?: 0}%"
-            binding.tvStatisticsDetoxPercent.setTextColor(ContextCompat.getColor(requireContext(), R.color.detox_percent))
-        }
-
-        compareTime(
-            tv = binding.tvStatisticsFocusRecordComparison,
-            period = period,
-            current = summary?.bestFocus,
-            last = lastSummary?.bestFocus,
-            record = state.allTimeFocusRecord,
-            highlightRecordText = true
-        )
-
-        if (period == StatisticsPeriod.ALL_TIME) {
-            renderAllTimeComparisons()
-        } else {
-            compareTime(
-                tv = binding.tvStatisticsFocusAverageComparison,
-                period = period,
-                current = summary?.averageFocus?.toLong(),
-                last = lastSummary?.averageFocus?.toLong(),
-                record = null,
-                highlightRecordText = false
-            )
-
-            compareSession(
-                tv = binding.tvStatisticsSessionsComparison,
-                current = summary?.totalSessions,
-                last = lastSummary?.totalSessions
-            )
-
-            compareDetoxPercentage(
-                tv = binding.tvStatisticsDetoxPercentComparison,
-                current = summary?.completionRate,
-                last = lastSummary?.completionRate
-            )
-        }
-
-        binding.tvStatisticsOverallTimeWord2.text =
-            formatSeconds(state.totalFocusTimePeriod ?: 0L)
-
-        binding.tvStatisticsAverageTimeWord2.text =
-            formatSeconds(state.averageFocusTimePeriod ?: 0L)
-
-        renderWeekCircles(state)
-
-        selectStatisticsPeriod(period)
-
-        binding.detoxFocusBarChartView.submitData(state.periodStats)
-
-        sessionAdapter.submitList(state.lastSessions)
-
-        animateStatsCards()
-
-        binding.tvStatisticsSessionsCount.animateIntText(previousState.statsSummary?.totalSessions, summary?.totalSessions ?: 0)
-        binding.tvStatisticsDetoxPercent.animateIntText(previousState.statsSummary?.completionRate?.toInt(), summary?.completionRate?.toInt() ?: 0, "%")
-
-        animateLongValue(
-            binding.tvStatisticsFocusRecordTime,
-            previousState.statsSummary?.bestFocus ?: 0L,
-            summary?.bestFocus ?: 0L,
-            800
-        )
-
-        animateLongValue(
-            binding.tvStatisticsFocusAverageTime,
-            previousState.statsSummary?.averageFocus?.toLong() ?: 0L,
-            summary?.averageFocus?.toLong() ?: 0L,
-            800
-        )
-
-        animateLongValue(
-            binding.tvStatisticsOverallTimeWord2,
-            previousState.totalFocusTimePeriod ?: 0L,
-            state.totalFocusTimePeriod ?: 0L,
-            800
-        )
-
-        animateLongValue(
-            binding.tvStatisticsAverageTimeWord2,
-            previousState.averageFocusTimePeriod ?: 0L,
-            state.averageFocusTimePeriod ?: 0L,
-            800
-        )
-
-        previousState = state
+        renderCompletionRateValue(summary?.completionRate)
     }
 
-    private fun renderAllTimeComparisons() {
+    private fun renderCompletionRateValue(completionRate: Double?) {
+        val completionRateInt = completionRate?.toInt() ?: 0
+        val textColor = if (completionRateInt == 100) {
+            R.color.green_basic
+        } else {
+            R.color.detox_percent
+        }
+
+        binding.tvStatisticsDetoxPercent.text = "$completionRateInt%"
+        binding.tvStatisticsDetoxPercent.setTextColor(
+            ContextCompat.getColor(requireContext(), textColor)
+        )
+    }
+
+    private fun renderComparisonLabels(
+        state: StatisticsUiState,
+        summary: StatsSummary?,
+        previousSummary: StatsSummary?,
+        selectedPeriod: StatisticsPeriod,
+        isFirstPeriod: Boolean,
+        isPeriodJustStarted: Boolean
+    ) {
+        renderTimeComparison(
+            textView = binding.tvStatisticsFocusRecordComparison,
+            period = selectedPeriod,
+            current = summary?.bestFocus,
+            previous = previousSummary?.bestFocus,
+            allTimeRecord = state.allTimeFocusRecord,
+            shouldHighlightRecordValue = true,
+            isFirstPeriod = isFirstPeriod,
+            isPeriodJustStarted = isPeriodJustStarted
+        )
+
+        if (selectedPeriod == StatisticsPeriod.ALL_TIME) {
+            renderAllTimeComparisonLabels()
+            return
+        }
+
+        renderTimeComparison(
+            textView = binding.tvStatisticsFocusAverageComparison,
+            period = selectedPeriod,
+            current = summary?.averageFocus?.toLong(),
+            previous = previousSummary?.averageFocus?.toLong(),
+            allTimeRecord = null,
+            shouldHighlightRecordValue = false,
+            isFirstPeriod = isFirstPeriod,
+            isPeriodJustStarted = isPeriodJustStarted
+        )
+
+        renderSessionCountComparison(
+            textView = binding.tvStatisticsSessionsComparison,
+            period = selectedPeriod,
+            current = summary?.totalSessions,
+            previous = previousSummary?.totalSessions,
+            isFirstPeriod = isFirstPeriod,
+            isPeriodJustStarted = isPeriodJustStarted
+        )
+
+        renderCompletionRateComparison(
+            textView = binding.tvStatisticsDetoxPercentComparison,
+            period = selectedPeriod,
+            current = summary?.completionRate,
+            previous = previousSummary?.completionRate,
+            isFirstPeriod = isFirstPeriod,
+            isPeriodJustStarted = isPeriodJustStarted
+        )
+    }
+
+    private fun renderAllTimeComparisonLabels() {
         val gray = ContextCompat.getColor(requireContext(), R.color.gray_basic)
 
         binding.tvStatisticsFocusAverageComparison.text = "за всё время"
@@ -265,16 +300,26 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         binding.tvStatisticsSessionsComparison.text = "с первого дня"
         binding.tvStatisticsSessionsComparison.setTextColor(gray)
 
-        binding.tvStatisticsFocusRecordComparison.text = "лучший за всё время"
-        binding.tvStatisticsFocusRecordComparison.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
+        binding.tvStatisticsFocusRecordComparison.text = "↑ лучший за всё время"
+        binding.tvStatisticsFocusRecordComparison.setTextColor(
+            ContextCompat.getColor(requireContext(), R.color.green_basic)
+        )
 
         binding.tvStatisticsFocusRecordTime.setTextColor(
             ContextCompat.getColor(requireContext(), R.color.green_basic)
         )
     }
 
-    private fun renderWeekCircles(state: StatisticsUiState) {
-        val days = listOf(
+    private fun renderPeriodTotalValues(state: StatisticsUiState) {
+        binding.tvStatisticsOverallTimeWord2.text =
+            formatSeconds(state.totalFocusTimePeriod ?: 0L)
+
+        binding.tvStatisticsAverageTimeWord2.text =
+            formatSeconds(state.averageFocusTimePeriod ?: 0L)
+    }
+
+    private fun renderWeeklyStreakCircles(state: StatisticsUiState) {
+        val dayViews = listOf(
             binding.viewMonday,
             binding.viewTuesday,
             binding.viewWednesday,
@@ -284,171 +329,254 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             binding.viewSunday
         )
 
-        days.forEachIndexed { index, view ->
-            val entity = state.dailyStats.getOrNull(index)
+        dayViews.forEachIndexed { index, dayView ->
+            val dailyStats = state.dailyStats.getOrNull(index)
 
             val background = when {
-                entity == null -> R.drawable.circle_empty
-                entity.streakCounted -> R.drawable.circle_filled
+                dailyStats == null -> R.drawable.circle_empty
+                dailyStats.streakCounted -> R.drawable.circle_filled
                 else -> R.drawable.circle_missed
             }
 
-            view.setBackgroundResource(background)
+            dayView.setBackgroundResource(background)
         }
     }
 
-    private fun compareTime(
-        tv: TextView,
+    // endregion
+
+    // region Comparison logic
+
+    private fun renderTimeComparison(
+        textView: TextView,
         period: StatisticsPeriod,
         current: Long?,
-        last: Long?,
-        record: Long?,
-        highlightRecordText: Boolean
+        previous: Long?,
+        allTimeRecord: Long?,
+        shouldHighlightRecordValue: Boolean,
+        isFirstPeriod: Boolean,
+        isPeriodJustStarted: Boolean
     ) {
         val currentValue = current ?: 0L
-        val lastValue = last ?: 0L
+        val previousValue = previous ?: 0L
 
         if (period == StatisticsPeriod.ALL_TIME) {
-            tv.text = "за всё время"
-            tv.setTextColor(ContextCompat.getColor(tv.context, R.color.gray_basic))
+            textView.text = "за всё время"
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
 
-        if (record != null && currentValue >= record && currentValue > 0L) {
-            tv.text = "↑ лучший за всё время"
-            tv.setTextColor(ContextCompat.getColor(tv.context, R.color.green_basic))
+        if (isFirstPeriod) {
+            if(shouldHighlightRecordValue && currentValue > 0) {
+                textView.text = "↑ твой первый рекорд"
+                textView.setTextColor(ContextCompat.getColor(textView.context, R.color.green_basic))
 
-            if (highlightRecordText) {
+                return
+            }
+
+            textView.text = getFirstPeriodComparisonText(if(shouldHighlightRecordValue) CardType.FOCUS_RECORD else CardType.FOCUS_AVERAGE,period)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+
+            if (shouldHighlightRecordValue) {
                 binding.tvStatisticsFocusRecordTime.setTextColor(
-                    ContextCompat.getColor(tv.context, R.color.green_basic)
+                    ContextCompat.getColor(textView.context, R.color.white)
                 )
             }
 
             return
         }
 
-        if (highlightRecordText) {
-            binding.tvStatisticsFocusRecordTime.setTextColor(
-                ContextCompat.getColor(tv.context, R.color.white)
-            )
-        }
+        if (allTimeRecord != null && currentValue >= allTimeRecord && currentValue > 0L) {
+            textView.text = "↑ лучший за всё время"
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.green_basic))
 
-        if (currentValue == lastValue) {
-            tv.text = "— стабильно"
-            tv.setTextColor(ContextCompat.getColor(tv.context, R.color.gray_basic))
+            if (shouldHighlightRecordValue) {
+                binding.tvStatisticsFocusRecordTime.setTextColor(
+                    ContextCompat.getColor(textView.context, R.color.green_basic)
+                )
+            }
+
             return
         }
 
-        val diff = kotlin.math.abs(currentValue - lastValue)
-        val isBetter = currentValue > lastValue
-
-        tv.text = if (isBetter) {
-            "↑ +${formatSeconds(diff)} от прошлого"
-        } else {
-            "↓ −${formatSeconds(diff)} от прошлого"
+        if (shouldHighlightRecordValue) {
+            binding.tvStatisticsFocusRecordTime.setTextColor(
+                ContextCompat.getColor(textView.context, R.color.white)
+            )
         }
 
-        tv.setTextColor(
+        if (isPeriodJustStarted && currentValue < previousValue && previousValue > 0L) {
+            textView.text = getPeriodJustStartedComparisonText(period)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        }
+
+        if (currentValue == previousValue) {
+            textView.text = "— стабильно"
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        }
+
+        val difference = kotlin.math.abs(currentValue - previousValue)
+        val isBetter = currentValue > previousValue
+
+        textView.text = if (isBetter) {
+            "↑ +${formatSeconds(difference)} от прошлого"
+        } else {
+            "↓ −${formatSeconds(difference)} от прошлого"
+        }
+
+        textView.setTextColor(
             ContextCompat.getColor(
-                tv.context,
+                textView.context,
                 if (isBetter) R.color.green_basic else R.color.red_basic
             )
         )
     }
 
-    private fun compareSession(
-        tv: TextView,
+    private fun renderSessionCountComparison(
+        textView: TextView,
+        period: StatisticsPeriod,
         current: Int?,
-        last: Int?
+        previous: Int?,
+        isFirstPeriod: Boolean,
+        isPeriodJustStarted: Boolean
     ) {
         val currentValue = current ?: 0
-        val lastValue = last ?: 0
+        val previousValue = previous ?: 0
 
-        if (currentValue == lastValue) {
-            tv.text = "— стабильно"
-            tv.setTextColor(ContextCompat.getColor(tv.context, R.color.gray_basic))
+        if (isFirstPeriod) {
+            textView.text = getFirstPeriodComparisonText(CardType.SESSIONS, period)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
 
-        val diff = kotlin.math.abs(currentValue - lastValue)
-        val isBetter = currentValue > lastValue
-
-        tv.text = if (isBetter) {
-            "↑ +$diff от прошлого"
-        } else {
-            "↓ −$diff от прошлого"
+        if (isPeriodJustStarted && currentValue < previousValue && previousValue > 0) {
+            textView.text = getPeriodJustStartedComparisonText(period)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
         }
 
-        tv.setTextColor(
+        if (currentValue == previousValue) {
+            textView.text = "— стабильно"
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        }
+
+        val difference = kotlin.math.abs(currentValue - previousValue)
+        val isBetter = currentValue > previousValue
+
+        textView.text = if (isBetter) {
+            "↑ +$difference от прошлого"
+        } else {
+            "↓ −$difference от прошлого"
+        }
+
+        textView.setTextColor(
             ContextCompat.getColor(
-                tv.context,
+                textView.context,
                 if (isBetter) R.color.green_basic else R.color.red_basic
             )
         )
     }
 
-    private fun compareDetoxPercentage(
-        tv: TextView,
+    private fun renderCompletionRateComparison(
+        textView: TextView,
+        period: StatisticsPeriod,
         current: Double?,
-        last: Double?
+        previous: Double?,
+        isFirstPeriod: Boolean,
+        isPeriodJustStarted: Boolean
     ) {
         val currentValue = current ?: 0.0
-        val lastValue = last ?: 0.0
+        val previousValue = previous ?: 0.0
 
-        if (currentValue == lastValue) {
-            tv.text = "— стабильно"
-            tv.setTextColor(ContextCompat.getColor(tv.context, R.color.gray_basic))
+        if (isFirstPeriod) {
+            textView.text = getFirstPeriodComparisonText(CardType.DETOX_ENDED, period)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
 
-        val diff = kotlin.math.abs(currentValue - lastValue)
-        val isBetter = currentValue > lastValue
-
-        tv.text = if (isBetter) {
-            "↑ +${String.format("%.1f", diff)}% от прошлого"
-        } else {
-            "↓ −${String.format("%.1f", diff)}% от прошлого"
+        if (isPeriodJustStarted && currentValue < previousValue && previousValue > 0.0) {
+            textView.text = getPeriodJustStartedComparisonText(period)
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
         }
 
-        tv.setTextColor(
+        if (currentValue == previousValue) {
+            textView.text = "— стабильно"
+            textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
+            return
+        }
+
+        val difference = kotlin.math.abs(currentValue - previousValue)
+        val isBetter = currentValue > previousValue
+
+        textView.text = if (isBetter) {
+            "↑ +${String.format("%.1f", difference)}% от прошлого"
+        } else {
+            "↓ −${String.format("%.1f", difference)}% от прошлого"
+        }
+
+        textView.setTextColor(
             ContextCompat.getColor(
-                tv.context,
+                textView.context,
                 if (isBetter) R.color.green_basic else R.color.red_basic
             )
         )
     }
 
-    private fun updateChartCard(item: ChartItem) {
-        binding.tvChartItemLabel.text = item.label
-
-        animateMinutesText(
-            textView = binding.tvChartItemFocusTime,
-            fromMinutes = currentFocusMinutes,
-            toMinutes = item.focusMinutes
-        )
-
-        animateMinutesText(
-            textView = binding.tvChartItemDetoxTime,
-            fromMinutes = currentDetoxMinutes,
-            toMinutes = item.detoxMinutes
-        )
-
-        currentFocusMinutes = item.focusMinutes
-        currentDetoxMinutes = item.detoxMinutes
-
-        binding.tvChartItemSessionCount.text =
-            "${item.sessionsCount} сессий"
+    private fun hasNoPreviousStatsForComparison(previousSummary: StatsSummary?): Boolean {
+        return previousSummary == null ||
+                (
+                        previousSummary.bestFocus == 0L &&
+                                previousSummary.averageFocus == 0.0 &&
+                                previousSummary.totalSessions == 0 &&
+                                previousSummary.completionRate == 0.0
+                        )
     }
 
-    private fun showDetailsCard(item: ChartItem) {
+    private fun hasPeriodJustStarted(period: StatisticsPeriod): Boolean {
+        val today = LocalDate.now()
+
+        return when (period) {
+            StatisticsPeriod.WEEK -> today.dayOfWeek.value <= 2
+            StatisticsPeriod.MONTH -> today.dayOfMonth <= 3
+            StatisticsPeriod.ALL_TIME -> false
+        }
+    }
+
+    private fun getFirstPeriodComparisonText(cardType: CardType, period: StatisticsPeriod): String {
+        return when (cardType) {
+            CardType.FOCUS_RECORD -> when(period) {
+                StatisticsPeriod.WEEK -> "первая неделя"
+                StatisticsPeriod.MONTH -> "первый месяц"
+                StatisticsPeriod.ALL_TIME -> "↑ лучший за всё время"
+            }
+            CardType.FOCUS_AVERAGE -> "отправная точка"
+            CardType.SESSIONS -> "начало пути"
+            CardType.DETOX_ENDED -> "первый результат"
+        }
+    }
+
+    private fun getPeriodJustStartedComparisonText(period: StatisticsPeriod): String {
+        return when (period) {
+            StatisticsPeriod.WEEK -> "неделя только началась"
+            StatisticsPeriod.MONTH -> "месяц только начался"
+            StatisticsPeriod.ALL_TIME -> "с первого дня"
+        }
+    }
+
+    // endregion
+
+    // region Selected chart card
+
+    private fun showSelectedChartCard(item: ChartItem) {
         binding.tvChartItemLabel.text = item.label
 
-        currentFocusMinutes = 0
-        currentDetoxMinutes = 0
+        selectedChartCardFocusMinutes = 0
+        selectedChartCardDetoxMinutes = 0
 
-        binding.tvChartItemSessionCount.text =
-            "${item.sessionsCount} сессий"
-
+        binding.tvChartItemSessionCount.text = "${item.sessionsCount} сессий"
         binding.tvChartItemFocusTime.text = "0 мин"
         binding.tvChartItemDetoxTime.text = "0 мин"
 
@@ -480,14 +608,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
                 binding.cardChosenChartItem.postDelayed({
                     if (_binding != null) {
-                        updateChartCard(item)
+                        renderSelectedChartCardContent(item)
                     }
                 }, 300)
             }
             .start()
     }
 
-    private fun hideDetailsCard() {
+    private fun hideSelectedChartCard() {
         binding.cardChosenChartItem.animate().cancel()
 
         binding.cardChosenChartItem.animate()
@@ -515,7 +643,28 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             .start()
     }
 
-    private fun animateCardContentChange(update: () -> Unit) {
+    private fun renderSelectedChartCardContent(item: ChartItem) {
+        binding.tvChartItemLabel.text = item.label
+
+        animateMinuteValue(
+            textView = binding.tvChartItemFocusTime,
+            fromMinutes = selectedChartCardFocusMinutes,
+            toMinutes = item.focusMinutes
+        )
+
+        animateMinuteValue(
+            textView = binding.tvChartItemDetoxTime,
+            fromMinutes = selectedChartCardDetoxMinutes,
+            toMinutes = item.detoxMinutes
+        )
+
+        selectedChartCardFocusMinutes = item.focusMinutes
+        selectedChartCardDetoxMinutes = item.detoxMinutes
+
+        binding.tvChartItemSessionCount.text = "${item.sessionsCount} сессий"
+    }
+
+    private fun animateSelectedChartCardContentChange(updateContent: () -> Unit) {
         binding.cardChosenChartItem.animate().cancel()
 
         binding.cardChosenChartItem.animate()
@@ -524,7 +673,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             .withEndAction {
                 if (_binding == null) return@withEndAction
 
-                update()
+                updateContent()
 
                 binding.cardChosenChartItem.animate()
                     .alpha(1f)
@@ -534,7 +683,153 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             .start()
     }
 
-    private fun animateMinutesText(
+    // endregion
+
+    // region Period chips
+
+    private fun onPeriodChipClicked(period: StatisticsPeriod) {
+        if (viewModel.uiState.value.selectedPeriod == period) return
+
+        binding.detoxFocusBarChartView.clearSelection(
+            notify = false,
+            animate = false
+        )
+
+        if (isSelectedChartCardVisible) {
+            hideSelectedChartCard()
+            isSelectedChartCardVisible = false
+        }
+
+        renderSelectedPeriodChips(period)
+
+        viewModel.selectPeriod(period)
+    }
+
+    private fun renderSelectedPeriodChips(period: StatisticsPeriod) {
+        renderPeriodChip(
+            card = binding.cardWeek,
+            textView = binding.tvWeek,
+            isSelected = period == StatisticsPeriod.WEEK
+        )
+
+        renderPeriodChip(
+            card = binding.cardMonth,
+            textView = binding.tvMonth,
+            isSelected = period == StatisticsPeriod.MONTH
+        )
+
+        renderPeriodChip(
+            card = binding.cardAllTime,
+            textView = binding.tvAllTime,
+            isSelected = period == StatisticsPeriod.ALL_TIME
+        )
+    }
+
+    private fun renderPeriodChip(
+        card: MaterialCardView,
+        textView: TextView,
+        isSelected: Boolean
+    ) {
+        val selectedBackground = Color.parseColor("#1A1A1A")
+        val unselectedBackground = Color.parseColor("#0D0D0D")
+
+        val selectedStroke = Color.parseColor("#3A3A3A")
+        val unselectedStroke = Color.parseColor("#1F1F1F")
+
+        val selectedText = Color.WHITE
+        val unselectedText = Color.parseColor("#5F5F5F")
+
+        card.setCardBackgroundColor(
+            if (isSelected) selectedBackground else unselectedBackground
+        )
+
+        card.strokeColor =
+            if (isSelected) selectedStroke else unselectedStroke
+
+        textView.setTextColor(
+            if (isSelected) selectedText else unselectedText
+        )
+    }
+
+    // endregion
+
+    // region Animations
+
+    private fun animateChangedSummaryValues(
+        previousState: StatisticsUiState,
+        currentState: StatisticsUiState
+    ) {
+        val previousSummary = previousState.statsSummary
+        val currentSummary = currentState.statsSummary
+
+        binding.tvStatisticsSessionsCount.animateIntValueText(
+            from = previousSummary?.totalSessions,
+            to = currentSummary?.totalSessions ?: 0
+        )
+
+        binding.tvStatisticsDetoxPercent.animateIntValueText(
+            from = previousSummary?.completionRate?.toInt(),
+            to = currentSummary?.completionRate?.toInt() ?: 0,
+            suffix = "%"
+        )
+
+        animateSecondsValue(
+            textView = binding.tvStatisticsFocusRecordTime,
+            fromSeconds = previousSummary?.bestFocus ?: 0L,
+            toSeconds = currentSummary?.bestFocus ?: 0L,
+            duration = 800
+        )
+
+        animateSecondsValue(
+            textView = binding.tvStatisticsFocusAverageTime,
+            fromSeconds = previousSummary?.averageFocus?.toLong() ?: 0L,
+            toSeconds = currentSummary?.averageFocus?.toLong() ?: 0L,
+            duration = 800
+        )
+
+        animateSecondsValue(
+            textView = binding.tvStatisticsOverallTimeWord2,
+            fromSeconds = previousState.totalFocusTimePeriod ?: 0L,
+            toSeconds = currentState.totalFocusTimePeriod ?: 0L,
+            duration = 800
+        )
+
+        animateSecondsValue(
+            textView = binding.tvStatisticsAverageTimeWord2,
+            fromSeconds = previousState.averageFocusTimePeriod ?: 0L,
+            toSeconds = currentState.averageFocusTimePeriod ?: 0L,
+            duration = 800
+        )
+    }
+
+    private fun animateStatisticsCardsEntrance() {
+        val cards = listOf(
+            binding.cardStatisticsFocusRecord,
+            binding.cardStatisticsFocusAverage,
+            binding.cardStatisticsSessions,
+            binding.cardStatisticsDetoxEnded,
+            binding.cardStatisticsOverall
+        )
+
+        cards.forEachIndexed { index, card ->
+            card.alpha = 0f
+            card.translationY = 12.dp.toFloat()
+            card.scaleX = 0.97f
+            card.scaleY = 0.97f
+
+            card.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setStartDelay(index * 55L)
+                .setDuration(300L)
+                .setInterpolator(FastOutSlowInInterpolator())
+                .start()
+        }
+    }
+
+    private fun animateMinuteValue(
         textView: TextView,
         fromMinutes: Int,
         toMinutes: Int
@@ -542,8 +837,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         ValueAnimator.ofInt(fromMinutes, toMinutes).apply {
             duration = 400
 
-            addUpdateListener {
-                val value = it.animatedValue as Int
+            addUpdateListener { animator ->
+                val value = animator.animatedValue as Int
                 textView.text = formatMinutes(value)
             }
 
@@ -551,7 +846,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
-    private fun TextView.animateIntText(
+    private fun TextView.animateIntValueText(
         from: Int?,
         to: Int,
         suffix: String = ""
@@ -568,10 +863,10 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
-    private fun animateLongValue(
-        tv: TextView,
-        from: Long,
-        to: Long,
+    private fun animateSecondsValue(
+        textView: TextView,
+        fromSeconds: Long,
+        toSeconds: Long,
         duration: Long = 500
     ) {
         ValueAnimator.ofFloat(0f, 1f).apply {
@@ -580,23 +875,32 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
             addUpdateListener { animator ->
                 val progress = animator.animatedValue as Float
-                val currentValue = from + ((to - from) * progress).toLong()
+                val currentValue = fromSeconds + ((toSeconds - fromSeconds) * progress).toLong()
 
-                tv.text = formatter(currentValue)
+                textView.text = formatSecondsAsTimer(currentValue)
             }
+
             start()
         }
     }
 
-    private fun formatter(seconds: Long): String {
-        val hours = seconds / 3600
-        val minutes = (seconds % 3600) / 60
-        val secs = seconds % 60
+    // endregion
 
-        return if (hours > 0) {
-            "%02d:%02d:%02d".format(hours, minutes, secs)
-        } else {
-            "%02d:%02d".format(minutes, secs)
+    // region Text helpers
+
+    private fun getSessionCountTitle(period: StatisticsPeriod): String {
+        return when (period) {
+            StatisticsPeriod.WEEK -> "сессий за неделю"
+            StatisticsPeriod.MONTH -> "сессий за месяц"
+            StatisticsPeriod.ALL_TIME -> "всего сессий"
+        }
+    }
+
+    private fun getTotalFocusTitle(period: StatisticsPeriod): String {
+        return when (period) {
+            StatisticsPeriod.WEEK -> "всего фокуса за неделю"
+            StatisticsPeriod.MONTH -> "всего фокуса за месяц"
+            StatisticsPeriod.ALL_TIME -> "всего фокуса за всё время"
         }
     }
 
@@ -626,112 +930,20 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
     }
 
-    private fun setupStatisticsChips() = with(binding) {
-        cardWeek.setOnClickListener {
-            onPeriodClicked(StatisticsPeriod.WEEK)
-        }
+    private fun formatSecondsAsTimer(seconds: Long): String {
+        val hours = seconds / 3600
+        val minutes = (seconds % 3600) / 60
+        val secs = seconds % 60
 
-        cardMonth.setOnClickListener {
-            onPeriodClicked(StatisticsPeriod.MONTH)
-        }
-
-        cardAllTime.setOnClickListener {
-            onPeriodClicked(StatisticsPeriod.ALL_TIME)
+        return if (hours > 0) {
+            "%02d:%02d:%02d".format(hours, minutes, secs)
+        } else {
+            "%02d:%02d".format(minutes, secs)
         }
     }
 
-    private fun onPeriodClicked(period: StatisticsPeriod) {
-        if (viewModel.uiState.value.selectedPeriod == period) return
-
-        binding.detoxFocusBarChartView.clearSelection(
-            notify = false,
-            animate = false
-        )
-
-        if (cardVisible) {
-            hideDetailsCard()
-            cardVisible = false
-        }
-
-        selectStatisticsPeriod(period)
-
-        viewModel.selectPeriod(period)
-    }
-
-    private fun selectStatisticsPeriod(period: StatisticsPeriod) {
-        renderChip(
-            card = binding.cardWeek,
-            textView = binding.tvWeek,
-            isSelected = period == StatisticsPeriod.WEEK
-        )
-
-        renderChip(
-            card = binding.cardMonth,
-            textView = binding.tvMonth,
-            isSelected = period == StatisticsPeriod.MONTH
-        )
-
-        renderChip(
-            card = binding.cardAllTime,
-            textView = binding.tvAllTime,
-            isSelected = period == StatisticsPeriod.ALL_TIME
-        )
-    }
-
-    private fun renderChip(
-        card: MaterialCardView,
-        textView: TextView,
-        isSelected: Boolean
-    ) {
-        val selectedBackground = Color.parseColor("#1A1A1A")
-        val unselectedBackground = Color.parseColor("#0D0D0D")
-
-        val selectedStroke = Color.parseColor("#3A3A3A")
-        val unselectedStroke = Color.parseColor("#1F1F1F")
-
-        val selectedText = Color.WHITE
-        val unselectedText = Color.parseColor("#5F5F5F")
-
-        card.setCardBackgroundColor(
-            if (isSelected) selectedBackground else unselectedBackground
-        )
-
-        card.strokeColor =
-            if (isSelected) selectedStroke else unselectedStroke
-
-        textView.setTextColor(
-            if (isSelected) selectedText else unselectedText
-        )
-    }
-
-    private fun animateStatsCards() {
-        val cards = listOf(
-            binding.cardStatisticsFocusRecord,
-            binding.cardStatisticsFocusAverage,
-            binding.cardStatisticsSessions,
-            binding.cardStatisticsDetoxEnded,
-            binding.cardStatisticsOverall
-        )
-
-        cards.forEachIndexed { index, card ->
-            card.alpha = 0f
-            card.translationY = 12.dp.toFloat()
-            card.scaleX = 0.97f
-            card.scaleY = 0.97f
-
-            card.animate()
-                .alpha(1f)
-                .translationY(0f)
-                .scaleX(1f)
-                .scaleY(1f)
-                .setStartDelay(index * 55L)
-                .setDuration(300L)
-                .setInterpolator(FastOutSlowInInterpolator())
-                .start()
-        }
-    }
+    // endregion
 
     private val Int.dp: Int
         get() = (this * Resources.getSystem().displayMetrics.density).toInt()
-
 }
