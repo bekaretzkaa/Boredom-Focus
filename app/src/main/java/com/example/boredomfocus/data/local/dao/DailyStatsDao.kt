@@ -125,4 +125,24 @@ interface DailyStatsDao {
     @Query("SELECT SUM(session_count) FROM daily_stats WHERE date >= :startDay AND date < :endDay")
     fun getSessionCountBetween(startDay: Long, endDay: Long): Flow<Int>
 
+    @Query("""
+    SELECT COUNT(*)
+    FROM daily_stats
+    WHERE date <= :todayEpochDay
+      AND date > COALESCE(
+          (
+              SELECT MAX(date)
+              FROM daily_stats
+              WHERE date <= :todayEpochDay
+                AND session_count > 0
+          ),
+          (
+              SELECT MIN(date) - 1
+              FROM daily_stats
+              WHERE date <= :todayEpochDay
+          )
+      )
+      AND session_count = 0
+""")
+    fun getDaysWithoutSession(todayEpochDay: Long): Flow<Int>
 }

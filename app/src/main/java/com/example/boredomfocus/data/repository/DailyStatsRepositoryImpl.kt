@@ -79,4 +79,8 @@ class DailyStatsRepositoryImpl @Inject constructor(
     ): Flow<Int> {
         return dailyStatsDao.getSessionCountBetween(startDay, endDay)
     }
+
+    override fun getDaysWithoutSession(todayEpochDay: Long): Flow<Int> {
+        return dailyStatsDao.getDaysWithoutSession(todayEpochDay)
+    }
 }

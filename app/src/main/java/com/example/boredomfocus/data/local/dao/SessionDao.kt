@@ -16,12 +16,20 @@ interface SessionDao {
     @Query("""
     SELECT
         COALESCE(MAX(focus_seconds), 0) as bestFocus,
-        COALESCE(AVG(CASE WHEN focus_seconds > 0 THEN focus_seconds END), 0) as averageFocus,
-        COUNT(*) as totalSessions,
+
         COALESCE(
-            SUM(CASE WHEN completed THEN 1 ELSE 0 END) * 100.0 / NULLIF(COUNT(*), 0),
+            AVG(CASE WHEN focus_seconds > 0 THEN focus_seconds END),
+            0
+        ) as averageFocus,
+
+        COUNT(*) as totalSessions,
+
+        COALESCE(
+            SUM(CASE WHEN completed = 1 AND is_focus_only = 0 THEN 1 ELSE 0 END) 
+            * 100.0 / NULLIF(SUM(CASE WHEN is_focus_only = 0 THEN 1 ELSE 0 END), 0),
             0
         ) as completionRate
+
     FROM sessions
     WHERE date >= :fromTimeStamp AND date < :toTimeStamp
 """)

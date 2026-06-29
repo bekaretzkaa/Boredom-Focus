@@ -837,6 +837,69 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <TextView
+                android:id="@+id/tvLastSessions1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Последние сессий"
+                android:textAllCaps="true"
+                android:textColor="#444444"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardChosenChartItem" />
+
+            <FrameLayout
+                android:id="@+id/flLastSessions"
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:layout_marginTop="86dp"
+                android:background="@drawable/bg_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastSessions1">
+
+                <ImageView
+                    android:id="@+id/ivLastSessions"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_play"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/tvLastSessions2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="Ещё нет сессий"
+                android:textColor="#555555"
+                android:textSize="20sp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flLastSessions" />
+
+            <TextView
+                android:id="@+id/tvLastSessions3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="Начни первую — она\nпоявится здесь"
+                android:textColor="#333333"
+                android:textSize="20sp"
+                android:layout_marginTop="6dp"
+                android:paddingBottom="46dp"
+                android:paddingHorizontal="32dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastSessions2" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSessionsStatistics"
                 android:layout_width="match_parent"
@@ -846,7 +909,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardChosenChartItem"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastSessions3"
                 tools:listitem="@layout/item_session" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,4 +27,6 @@ interface DailyStatsRepository {
 
     fun getSessionCountBetween(startDay: Long, endDay: Long): Flow<Int>
 
+    fun getDaysWithoutSession(todayEpochDay: Long): Flow<Int>
+
 }

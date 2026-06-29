@@ -23,6 +23,7 @@ import com.example.boredomfocus.databinding.FragmentStatisticsBinding
 import com.example.boredomfocus.feature.statistics.presentation.adapter.SessionAdapter
 import com.example.boredomfocus.feature.statistics.presentation.model.CardType
 import com.example.boredomfocus.feature.statistics.presentation.model.ChartItem
+import com.example.boredomfocus.feature.statistics.presentation.model.SessionListItem
 import com.example.boredomfocus.feature.statistics.presentation.model.StatisticsPeriod
 import com.example.boredomfocus.feature.statistics.presentation.model.StatsSummary
 import com.google.android.material.card.MaterialCardView
@@ -183,7 +184,8 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             previousSummary = previousSummary,
             selectedPeriod = selectedPeriod,
             isFirstPeriod = isFirstPeriod,
-            isPeriodJustStarted = isPeriodJustStarted
+            isPeriodJustStarted = isPeriodJustStarted,
+            daysWithoutSession = state.daysWithoutSession
         )
 
         renderPeriodTotalValues(state)
@@ -191,7 +193,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         renderSelectedPeriodChips(selectedPeriod)
 
         binding.detoxFocusBarChartView.submitData(state.periodStats)
-        sessionAdapter.submitList(state.lastSessions)
+        renderLastSessions(state.lastSessions, selectedPeriod, previousSummary?.totalSessions ?: 0)
 
         animateStatisticsCardsEntrance()
         animateChangedSummaryValues(
@@ -200,6 +202,46 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         )
 
         previousUiState = state
+    }
+
+    private fun renderLastSessions(sessions: List<SessionListItem>, period: StatisticsPeriod, previous: Int) {
+        if(sessions.isEmpty()) {
+            binding.tvLastSessions1.visibility = View.VISIBLE
+            binding.tvLastSessions2.visibility = View.VISIBLE
+            binding.tvLastSessions3.visibility = View.VISIBLE
+            binding.flLastSessions.visibility = View.VISIBLE
+
+            when(period) {
+                StatisticsPeriod.WEEK -> {
+                    binding.ivLastSessions.setBackgroundResource(R.drawable.ic_event_busy)
+                    binding.tvLastSessions1.text = "сессии за неделю"
+                    binding.tvLastSessions2.text = "На этой неделе пусто"
+                    binding.tvLastSessions3.text = "На прошлой было $previous сессий"
+                }
+                StatisticsPeriod.MONTH -> {
+                    binding.ivLastSessions.setBackgroundResource(R.drawable.ic_event_busy)
+                    binding.tvLastSessions1.text = "сессии за месяц"
+                    binding.tvLastSessions2.text = "В этом месяце пусто"
+                    binding.tvLastSessions3.text = "В прошлом месяце было $previous сессий"
+                }
+                StatisticsPeriod.ALL_TIME -> {
+                    binding.ivLastSessions.setBackgroundResource(R.drawable.ic_play)
+                    binding.tvLastSessions1.text = "последние сессии"
+                    binding.tvLastSessions2.text = "Ещё нет сессий"
+                    binding.tvLastSessions3.text = "Начни первую — она появится здесь"
+                }
+            }
+
+            binding.rvSessionsStatistics.visibility = View.GONE
+        } else {
+            sessionAdapter.submitList(sessions)
+            binding.rvSessionsStatistics.visibility = View.VISIBLE
+
+            binding.tvLastSessions1.visibility = View.GONE
+            binding.tvLastSessions2.visibility = View.GONE
+            binding.tvLastSessions3.visibility = View.GONE
+            binding.flLastSessions.visibility = View.GONE
+        }
     }
 
     private fun renderSummaryValues(

@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#0D0D0D"
+    android:padding="24dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardChosenChartItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#1E1E1E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#303030">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardChosenChartItemContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvChartItemLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="нед 3"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/viewRedSquare2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/red_square"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvChartItemLabel" />
+
+            <TextView
+                android:id="@+id/tvChartItemDetoxWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="Детокс"
+                android:textColor="#444444"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewRedSquare2"
+                app:layout_constraintStart_toEndOf="@+id/viewRedSquare2"
+                app:layout_constraintTop_toTopOf="@+id/viewRedSquare2" />
+
+            <TextView
+                android:id="@+id/tvChartItemDetoxTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="10 мин"
+                android:textColor="#E04A49"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewRedSquare2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/viewRedSquare2" />
+
+            <View
+                android:id="@+id/viewGrayLine1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="#333333"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewRedSquare2" />
+
+            <View
+                android:id="@+id/viewGreenSquare2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/green_square"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewGrayLine1" />
+
+            <TextView
+                android:id="@+id/tvChartItemFocusWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="Фокус"
+                android:textColor="#444444"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewGreenSquare2"
+                app:layout_constraintStart_toEndOf="@+id/viewRedSquare2"
+                app:layout_constraintTop_toTopOf="@+id/viewGreenSquare2" />
+
+            <TextView
+                android:id="@+id/tvChartItemFocusTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:text="30:25"
+                android:textColor="#639922"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/viewGreenSquare2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/viewGreenSquare2" />
+
+            <View
+                android:id="@+id/viewGrayLine2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="#333333"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewGreenSquare2" />
+
+            <TextView
+                android:id="@+id/tvChartItemSessionCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/inter_medium"
+                android:text="5 сессий"
+                android:textColor="#444444"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewGrayLine2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tvLastSessions1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_medium"
+        android:text="Последние сессий"
+        android:textAllCaps="true"
+        android:textColor="#444444"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardChosenChartItem" />
+
+    <FrameLayout
+        android:id="@+id/flLastSessions"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="86dp"
+        android:background="@drawable/bg_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLastSessions1">
+
+        <ImageView
+            android:id="@+id/ivLastSessions"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_play"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvLastSessions2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:text="Ещё нет сессий"
+        android:textColor="#555555"
+        android:textSize="20sp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/flLastSessions" />
+
+    <TextView
+        android:id="@+id/tvLastSessions3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:text="Начни первую — она появится здесь"
+        android:textColor="#333333"
+        android:textSize="20sp"
+        android:layout_marginTop="6dp"
+        android:paddingHorizontal="32dp"
+
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLastSessions2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

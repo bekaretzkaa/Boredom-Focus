@@ -51,7 +51,8 @@ private data class DailyStatsGroupFlow(
     val dailyStats: List<DailyStatsEntity?> = listOf(),
     val periodStats: List<ChartItem> = listOf(),
     val totalFocusTimePeriod: Long? = null,
-    val averageFocusTimePeriod: Long? = null
+    val averageFocusTimePeriod: Long? = null,
+    val daysWithoutSession: Int = 0
 )
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
@@ -122,26 +123,22 @@ class StatisticsViewModel @Inject constructor(
             sessionRepository.getStatsSummaryBetween(currentRangeMillis.startMillis, currentRangeMillis.endMillis),
             sessionRepository.getStatsSummaryBetween(previousRangeMillis.startMillis, previousRangeMillis.endMillis),
             sessionRepository.getAllTimeFocusRecordFlow(),
-            sessionRepository.getLastSessions(20)
+            sessionRepository.getLastSessions(10)
         ) { statsSummary,statsSummaryLast, focusRecord, lastSessions ->
 
             val updatedLastSessions = mutableListOf<SessionListItem>()
             lastSessions.forEach { entity ->
-                if(updatedLastSessions.size == 10) return@forEach
-
-                if(entity.focusSeconds != 0L && entity.detoxMinutes != 0L) {
-                    if(SessionListItem.Header(formatDateFromEpochMillis(entity.date)) in updatedLastSessions) {
-                        updatedLastSessions.add(SessionListItem.Session(
-                            entity.detoxMinutes.toInt() * 60,
-                            entity.focusSeconds.toInt()
-                        ))
-                    } else {
-                        updatedLastSessions.add(SessionListItem.Header(formatDateFromEpochMillis(entity.date)))
-                        updatedLastSessions.add(SessionListItem.Session(
-                            entity.detoxMinutes.toInt() * 60,
-                            entity.focusSeconds.toInt()
-                        ))
-                    }
+                if(SessionListItem.Header(formatDateFromEpochMillis(entity.date)) in updatedLastSessions) {
+                    updatedLastSessions.add(SessionListItem.Session(
+                        entity.detoxMinutes.toInt() * 60,
+                        entity.focusSeconds.toInt()
+                    ))
+                } else {
+                    updatedLastSessions.add(SessionListItem.Header(formatDateFromEpochMillis(entity.date)))
+                    updatedLastSessions.add(SessionListItem.Session(
+                        entity.detoxMinutes.toInt() * 60,
+                        entity.focusSeconds.toInt()
+                    ))
                 }
             }
 
@@ -166,8 +163,9 @@ class StatisticsViewModel @Inject constructor(
                     dailyStatsRepository.getStatsByMonths(currentRangeDays.startDay, currentRangeDays.endDay)
                 }
             },
-            dailyStatsRepository.getFocusStatsBetween(if(period == StatisticsPeriod.ALL_TIME) 0 else currentRangeDays.startDay, currentRangeDays.endDay)
-        ) { dailyStats, periodStats, focusTime ->
+            dailyStatsRepository.getFocusStatsBetween(if(period == StatisticsPeriod.ALL_TIME) 0 else currentRangeDays.startDay, currentRangeDays.endDay),
+            dailyStatsRepository.getDaysWithoutSession(LocalDate.now().toEpochDay())
+        ) { dailyStats, periodStats, focusTime, daysWithoutSession ->
             val updatedDailyStats = mutableListOf<DailyStatsEntity?>()
             for(i in 1 until epochDayToDayOfWeekIndex(dailyStats.first().date)) {
                 updatedDailyStats.add(null)
@@ -220,7 +218,8 @@ class StatisticsViewModel @Inject constructor(
                 dailyStats = updatedDailyStats,
                 periodStats = updatedPeriodStats,
                 totalFocusTimePeriod = focusTime,
-                averageFocusTimePeriod = averageFocusTime
+                averageFocusTimePeriod = averageFocusTime,
+                daysWithoutSession = daysWithoutSession
             )
         }
 
@@ -238,7 +237,8 @@ class StatisticsViewModel @Inject constructor(
                 dailyStats = dailyStatsGroup.dailyStats,
                 periodStats = dailyStatsGroup.periodStats,
                 totalFocusTimePeriod = dailyStatsGroup.totalFocusTimePeriod,
-                averageFocusTimePeriod = dailyStatsGroup.averageFocusTimePeriod
+                averageFocusTimePeriod = dailyStatsGroup.averageFocusTimePeriod,
+                daysWithoutSession = dailyStatsGroup.daysWithoutSession
             )
 
 //          TEST

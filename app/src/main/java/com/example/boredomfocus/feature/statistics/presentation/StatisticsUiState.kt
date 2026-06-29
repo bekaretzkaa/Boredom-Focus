@@ -16,5 +16,6 @@ data class StatisticsUiState(
     val dailyStats: List<DailyStatsEntity?> = listOf(),
     val periodStats: List<ChartItem> = listOf(),
     val totalFocusTimePeriod: Long? = null,
-    val averageFocusTimePeriod: Long? = null
+    val averageFocusTimePeriod: Long? = null,
+    val daysWithoutSession: Int = 0
 )
