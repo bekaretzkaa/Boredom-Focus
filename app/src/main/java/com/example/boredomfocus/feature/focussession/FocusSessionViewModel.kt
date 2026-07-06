@@ -137,7 +137,8 @@ class FocusSessionViewModel @Inject constructor(
     private fun finishFailedSession() {
         viewModelScope.launch {
             addSessionRepository.finishSession(
-                detoxMinutes = 0,
+                detoxMinutes = uiState.value.detoxUiState.selectedDetoxSeconds,
+                detoxSeconds = uiState.value.detoxUiState.detoxElapsedSeconds,
                 focusSeconds = 0,
                 completed = false,
                 isFocusOnly = focusOnly,
@@ -148,7 +149,8 @@ class FocusSessionViewModel @Inject constructor(
     private suspend fun finishCompletedSession() {
         if(focusOnly) {
             addSessionRepository.finishSession(
-                detoxMinutes = 0,
+                detoxMinutes = uiState.value.detoxUiState.selectedDetoxSeconds,
+                detoxSeconds = uiState.value.detoxUiState.detoxElapsedSeconds,
                 focusSeconds = uiState.value.focusUiState.focusSeconds,
                 completed = true,
                 isFocusOnly = true,
@@ -156,7 +158,8 @@ class FocusSessionViewModel @Inject constructor(
             )
         } else {
             addSessionRepository.finishSession(
-                detoxMinutes = (detoxDuration.minutes).toLong(),
+                detoxMinutes = uiState.value.detoxUiState.selectedDetoxSeconds,
+                detoxSeconds = uiState.value.detoxUiState.detoxElapsedSeconds,
                 focusSeconds = uiState.value.focusUiState.focusSeconds,
                 completed = true,
                 isFocusOnly = false,

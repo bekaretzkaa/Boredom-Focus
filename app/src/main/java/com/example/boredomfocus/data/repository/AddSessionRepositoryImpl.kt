@@ -17,6 +17,7 @@ class AddSessionRepositoryImpl @Inject constructor(
 
     override suspend fun finishSession(
         detoxMinutes: Long,
+        detoxSeconds: Long,
         focusSeconds: Long,
         completed: Boolean,
         isFocusOnly: Boolean,
@@ -28,6 +29,7 @@ class AddSessionRepositoryImpl @Inject constructor(
         db.withTransaction {
             val session = SessionEntity(
                 detoxMinutes = detoxMinutes,
+                detoxSeconds = detoxSeconds,
                 focusSeconds = focusSeconds,
                 date = time,
                 completed = completed,
@@ -38,7 +40,7 @@ class AddSessionRepositoryImpl @Inject constructor(
 
             dailyStatsDao.updateDailyStats(
                 date = today,
-                detoxMinutes = detoxMinutes,
+                detoxMinutes = if(completed) detoxMinutes else 0,
                 focusSeconds = focusSeconds,
                 streakCounted = streakCounted
             )

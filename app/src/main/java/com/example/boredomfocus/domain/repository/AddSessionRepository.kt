@@ -4,6 +4,7 @@ interface AddSessionRepository {
 
     suspend fun finishSession(
         detoxMinutes: Long,
+        detoxSeconds: Long,
         focusSeconds: Long,
         completed: Boolean,
         isFocusOnly: Boolean,

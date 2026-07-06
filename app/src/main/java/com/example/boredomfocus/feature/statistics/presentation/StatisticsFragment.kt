@@ -205,8 +205,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     }
 
     private fun renderLastSessions(sessions: List<SessionListItem>, period: StatisticsPeriod, previous: Int) {
+
+        binding.tvLastSessions1.text = when(period) {
+            StatisticsPeriod.WEEK -> "сессии за неделю"
+            StatisticsPeriod.MONTH -> "сессии за месяц"
+            StatisticsPeriod.ALL_TIME -> "последние сессии"
+        }
+
         if(sessions.isEmpty()) {
-            binding.tvLastSessions1.visibility = View.VISIBLE
             binding.tvLastSessions2.visibility = View.VISIBLE
             binding.tvLastSessions3.visibility = View.VISIBLE
             binding.flLastSessions.visibility = View.VISIBLE
@@ -214,19 +220,16 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             when(period) {
                 StatisticsPeriod.WEEK -> {
                     binding.ivLastSessions.setBackgroundResource(R.drawable.ic_event_busy)
-                    binding.tvLastSessions1.text = "сессии за неделю"
                     binding.tvLastSessions2.text = "На этой неделе пусто"
                     binding.tvLastSessions3.text = "На прошлой было $previous сессий"
                 }
                 StatisticsPeriod.MONTH -> {
                     binding.ivLastSessions.setBackgroundResource(R.drawable.ic_event_busy)
-                    binding.tvLastSessions1.text = "сессии за месяц"
                     binding.tvLastSessions2.text = "В этом месяце пусто"
                     binding.tvLastSessions3.text = "В прошлом месяце было $previous сессий"
                 }
                 StatisticsPeriod.ALL_TIME -> {
                     binding.ivLastSessions.setBackgroundResource(R.drawable.ic_play)
-                    binding.tvLastSessions1.text = "последние сессии"
                     binding.tvLastSessions2.text = "Ещё нет сессий"
                     binding.tvLastSessions3.text = "Начни первую — она появится здесь"
                 }
@@ -237,7 +240,6 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             sessionAdapter.submitList(sessions)
             binding.rvSessionsStatistics.visibility = View.VISIBLE
 
-            binding.tvLastSessions1.visibility = View.GONE
             binding.tvLastSessions2.visibility = View.GONE
             binding.tvLastSessions3.visibility = View.GONE
             binding.flLastSessions.visibility = View.GONE

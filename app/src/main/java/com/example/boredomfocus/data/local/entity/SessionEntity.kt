@@ -12,6 +12,8 @@ data class SessionEntity(
     val id: Long = 0,
     @ColumnInfo("detox_minutes")
     val detoxMinutes: Long,
+    @ColumnInfo("detox_seconds")
+    val detoxSeconds: Long,
     @ColumnInfo("focus_seconds")
     val focusSeconds: Long,
     val date: Long,

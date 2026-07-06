@@ -1,207 +1,118 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#0D0D0D"
-    android:padding="24dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#0D0D0D">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardChosenChartItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="#1E1E1E"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+    <View
+        android:id="@+id/viewDetox"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/red_detox_square"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="#303030">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cardChosenChartItemContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detoxBarContainer"
+        android:layout_width="200dp"
+        android:layout_height="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/bg_progress_gray"
+        app:layout_constraintTop_toTopOf="@id/viewDetox"
+        app:layout_constraintBottom_toBottomOf="@id/viewDetox"
+        app:layout_constraintStart_toEndOf="@id/viewDetox">
 
-            <TextView
-                android:id="@+id/tvChartItemLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="нед 3"
-                android:textAllCaps="true"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <View
+            android:id="@+id/viewDetoxProgress"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_progress_red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
 
-            <View
-                android:id="@+id/viewRedSquare2"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/red_square"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvChartItemLabel" />
-
-            <TextView
-                android:id="@+id/tvChartItemDetoxWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:fontFamily="@font/inter_medium"
-                android:text="Детокс"
-                android:textColor="#444444"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/viewRedSquare2"
-                app:layout_constraintStart_toEndOf="@+id/viewRedSquare2"
-                app:layout_constraintTop_toTopOf="@+id/viewRedSquare2" />
-
-            <TextView
-                android:id="@+id/tvChartItemDetoxTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
-                android:text="10 мин"
-                android:textColor="#E04A49"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/viewRedSquare2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/viewRedSquare2" />
-
-            <View
-                android:id="@+id/viewGrayLine1"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="20dp"
-                android:background="#333333"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewRedSquare2" />
-
-            <View
-                android:id="@+id/viewGreenSquare2"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/green_square"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewGrayLine1" />
-
-            <TextView
-                android:id="@+id/tvChartItemFocusWord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:fontFamily="@font/inter_medium"
-                android:text="Фокус"
-                android:textColor="#444444"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="@+id/viewGreenSquare2"
-                app:layout_constraintStart_toEndOf="@+id/viewRedSquare2"
-                app:layout_constraintTop_toTopOf="@+id/viewGreenSquare2" />
-
-            <TextView
-                android:id="@+id/tvChartItemFocusTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_bold"
-                android:text="30:25"
-                android:textColor="#639922"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="@+id/viewGreenSquare2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/viewGreenSquare2" />
-
-            <View
-                android:id="@+id/viewGrayLine2"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginTop="20dp"
-                android:background="#333333"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewGreenSquare2" />
-
-            <TextView
-                android:id="@+id/tvChartItemSessionCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/inter_medium"
-                android:text="5 сессий"
-                android:textColor="#444444"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewGrayLine2" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/tvLastSessions1"
+        android:id="@+id/tvSessionDetoxWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="Последние сессий"
-        android:textAllCaps="true"
-        android:textColor="#444444"
+        android:text="10 мин"
+        android:textColor="@color/red_basic"
         android:textSize="16sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardChosenChartItem" />
-
-    <FrameLayout
-        android:id="@+id/flLastSessions"
-        android:layout_width="66dp"
-        android:layout_height="66dp"
-        android:layout_marginTop="86dp"
-        android:background="@drawable/bg_gray"
+        android:layout_marginEnd="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/detoxBarContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLastSessions1">
+        app:layout_constraintTop_toTopOf="@+id/detoxBarContainer" />
 
-        <ImageView
-            android:id="@+id/ivLastSessions"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_play"
-            android:layout_gravity="center"/>
-    </FrameLayout>
+    <View
+        android:id="@+id/viewFocus"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/green_focus_square"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewDetox" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/focusBarContainer"
+        android:layout_width="200dp"
+        android:layout_height="8dp"
+        android:background="@drawable/bg_progress_gray"
+        android:layout_marginStart="8dp"
+        app:layout_constraintTop_toTopOf="@id/viewFocus"
+        app:layout_constraintBottom_toBottomOf="@id/viewFocus"
+        app:layout_constraintStart_toEndOf="@id/viewFocus">
+
+        <View
+            android:id="@+id/viewFocusProgress"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_progress_green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/tvLastSessions2"
+        android:id="@+id/tvSessionFocusWord"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_regular"
-        android:text="Ещё нет сессий"
-        android:textColor="#555555"
-        android:textSize="20sp"
-        android:layout_marginTop="16dp"
+        android:fontFamily="@font/inter_medium"
+        android:text="14:32"
+        android:textColor="@color/green_basic"
+        android:textSize="18sp"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/focusBarContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flLastSessions" />
+        app:layout_constraintTop_toTopOf="@+id/focusBarContainer" />
 
-    <TextView
-        android:id="@+id/tvLastSessions3"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_regular"
-        android:text="Начни первую — она появится здесь"
-        android:textColor="#333333"
-        android:textSize="20sp"
-        android:layout_marginTop="6dp"
-        android:paddingHorizontal="32dp"
-
-        android:textAlignment="center"
+        android:backgroundTint="@color/green_bg"
+        app:cardCornerRadius="8dp"
+        app:strokeColor="@color/green_bg"
+        android:layout_marginEnd="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/focusBarContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLastSessions2" />
+        app:layout_constraintTop_toTopOf="@+id/focusBarContainer" >
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:fontFamily="@font/inter_medium"
+            android:paddingHorizontal="12dp"
+            android:text="фокус"
+            android:textColor="@color/green_basic"
+            android:textSize="16sp" />
+    </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

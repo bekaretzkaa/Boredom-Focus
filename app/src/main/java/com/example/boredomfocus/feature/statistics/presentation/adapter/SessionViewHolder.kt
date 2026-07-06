@@ -13,7 +13,8 @@ class SessionViewHolder(
     ) {
         binding.sessionBarsView.bind(
             item.detoxTime,
-            item.focusTime
+            item.focusTime,
+            item.time
         )
     }
 

@@ -6,6 +6,7 @@ import com.example.boredomfocus.core.common.RangeDays
 import com.example.boredomfocus.core.common.RangeMillis
 import com.example.boredomfocus.core.common.epochDayToDayOfWeekIndex
 import com.example.boredomfocus.core.common.epochDayToRussianWeekDay
+import com.example.boredomfocus.core.common.epochMillisToTime
 import com.example.boredomfocus.core.common.formatDateFromEpochMillis
 import com.example.boredomfocus.core.common.getCalendarMonthRange
 import com.example.boredomfocus.core.common.getCalendarMonthRangeDay
@@ -131,13 +132,19 @@ class StatisticsViewModel @Inject constructor(
                 if(SessionListItem.Header(formatDateFromEpochMillis(entity.date)) in updatedLastSessions) {
                     updatedLastSessions.add(SessionListItem.Session(
                         entity.detoxMinutes.toInt() * 60,
-                        entity.focusSeconds.toInt()
+                        entity.detoxSeconds.toInt(),
+                        entity.focusSeconds.toInt(),
+                        epochMillisToTime(entity.date),
+                        entity.completed
                     ))
                 } else {
                     updatedLastSessions.add(SessionListItem.Header(formatDateFromEpochMillis(entity.date)))
                     updatedLastSessions.add(SessionListItem.Session(
                         entity.detoxMinutes.toInt() * 60,
-                        entity.focusSeconds.toInt()
+                        entity.detoxSeconds.toInt(),
+                        entity.focusSeconds.toInt(),
+                        epochMillisToTime(entity.date),
+                        entity.completed
                     ))
                 }
             }

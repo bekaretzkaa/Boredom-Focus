@@ -20,14 +20,21 @@ class SessionBarsView @JvmOverloads constructor(
 
     fun bind(
         detoxTime: Int,
-        focusTime: Int
+        focusTime: Int,
+        time: String
     ) {
-        binding.tvSessionDetoxWord.text = "${detoxTime / 60} мин"
-
         val focusMinutes = focusTime / 60
         val focusSeconds = focusTime % 60
 
+        binding.tvSessionDetoxWord.text = "${detoxTime / 60} мин"
+        binding.tvTime.text = time
         binding.tvSessionFocusWord.text = String.format("%02d:%02d", focusMinutes, focusSeconds)
+
+        when {
+            detoxTime == 0 -> {
+
+            }
+        }
 
         val (detoxPercent, focusPercent) = calculateProgress(detoxTime, focusTime)
 
