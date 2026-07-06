@@ -97,25 +97,30 @@ class SessionBarsView @JvmOverloads constructor(
             binding.viewFocus.setBackgroundResource(R.drawable.gray_empty_square)
         }
 
-        val (detoxPercent, focusPercent) = calculateProgress(detoxElapsedSeconds, focusTime)
+        val (detoxPercent, focusPercent) = calculateProgress(detoxSelectedMinutes, detoxElapsedSeconds, focusTime)
 
         setPercent(binding.viewDetoxProgress, detoxPercent)
         setPercent(binding.viewFocusProgress, focusPercent)
     }
 
     private fun calculateProgress(
-        detoxTime: Int,
+        detoxSelectedMinutes: Int,
+        detoxElapsedSeconds: Int,
         focusTime: Int
     ) : Pair<Float, Float> {
 
-        if(detoxTime == 0 && focusTime == 0) {
-            return 0f to 0f
+        if(detoxSelectedMinutes * 60 != detoxElapsedSeconds) {
+            return (detoxElapsedSeconds.toFloat() / (detoxSelectedMinutes * 60)) to 0f
+        } else {
+            if(focusTime == 0) {
+                return 0.8f to 0f
+            } else if (detoxElapsedSeconds == 0){
+                return 0f to 0.8f
+            } else {
+                val max = maxOf(detoxElapsedSeconds, focusTime)
+                return (detoxElapsedSeconds.toFloat() / max) to (focusTime.toFloat() / max)
+            }
         }
-
-        val max = maxOf(detoxTime, focusTime)
-
-        return (detoxTime.toFloat() / max) to (focusTime.toFloat() / max)
-
     }
 
     private fun setPercent(

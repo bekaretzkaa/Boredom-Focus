@@ -11,7 +11,7 @@
         android:fontFamily="@font/inter_medium"
         android:text="09:41"
         android:textColor="#333333"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/green_bg"
         app:cardCornerRadius="8dp"
-        app:strokeColor="@color/green_bg"
+        app:strokeColor="#0D0D0D"
         app:layout_constraintBottom_toBottomOf="@+id/focusBarContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/focusBarContainer" >

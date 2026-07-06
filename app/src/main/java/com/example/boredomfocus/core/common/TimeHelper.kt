@@ -1,6 +1,5 @@
 package com.example.boredomfocus.core.common
 
-import java.text.SimpleDateFormat
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
@@ -9,7 +8,6 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.time.temporal.TemporalAdjusters
-import java.util.Date
 import java.util.Locale
 
 data class RangeMillis(
@@ -211,7 +209,13 @@ fun daysWord(n: Int): String {
     }
 }
 
-fun epochMillisToTime(epochMillis: Long): String {
-    val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
-    return formatter.format(Date(epochMillis))
+fun epochMillisToTime(
+    epochMillis: Long,
+    zoneId: ZoneId = ZoneId.systemDefault()
+): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+
+    return Instant.ofEpochMilli(epochMillis)
+        .atZone(zoneId)
+        .format(formatter)
 }
