@@ -124,7 +124,7 @@ class StatisticsViewModel @Inject constructor(
             sessionRepository.getStatsSummaryBetween(currentRangeMillis.startMillis, currentRangeMillis.endMillis),
             sessionRepository.getStatsSummaryBetween(previousRangeMillis.startMillis, previousRangeMillis.endMillis),
             sessionRepository.getAllTimeFocusRecordFlow(),
-            sessionRepository.getLastSessions(10)
+            sessionRepository.getLastSessions(currentRangeMillis.startMillis, currentRangeMillis.endMillis)
         ) { statsSummary,statsSummaryLast, focusRecord, lastSessions ->
 
             val updatedLastSessions = mutableListOf<SessionListItem>()

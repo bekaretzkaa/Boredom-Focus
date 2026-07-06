@@ -1,10 +1,12 @@
 package com.example.boredomfocus.feature.sessionsettings.presentation
 
+import android.animation.ValueAnimator
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowInsetsControllerCompat
@@ -22,6 +24,7 @@ import com.example.boredomfocus.databinding.BottomSheetSessionSettingsBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,6 +38,8 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
     private var difficultySelector: AnimatedCardSelector? = null
     private var durationSelector: AnimatedCardGroupSelector? = null
     private var isRenderingFromSettings = false
+
+    private var lastRenderedFocusOnly: Boolean? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -142,26 +147,150 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun renderFocusOnly(focusOnly: Boolean) {
-        val green = "#639922".toColorInt()
-        val normalStroke = "#1A1A1A".toColorInt()
+        val previousFocusOnly = lastRenderedFocusOnly
+        lastRenderedFocusOnly = focusOnly
 
-        binding.cardFocusOnly.strokeColor = if(focusOnly) green else normalStroke
-        binding.tvFocusOnly1.setTextColor(if(focusOnly) green else "#888888".toColorInt())
+        val shouldAnimate = previousFocusOnly != null && previousFocusOnly != focusOnly
 
-        binding.flCircleGreen.visibility = if(focusOnly) View.VISIBLE else View.GONE
-        binding.viewCircle.visibility = if(focusOnly) View.GONE else View.VISIBLE
-
-        binding.btnStart.text = if(focusOnly) "Начать фокус" else "Начать детокс"
-
-        val alpha = if(focusOnly) 0.35f else 1f
-
-        binding.tvDetox.alpha = alpha
-        binding.llDetoxTimeButtons.alpha = alpha
-        binding.tvDifficulty.alpha = alpha
-        binding.llSettingsDifficultyButtons.alpha = alpha
+        binding.btnStart.text = if (focusOnly) {
+            "Начать фокус"
+        } else {
+            "Начать детокс"
+        }
 
         setDurationEnabled(!focusOnly)
         setDifficultyEnabled(!focusOnly)
+
+        if (shouldAnimate) {
+            animateFocusOnlyState(focusOnly)
+        } else {
+            applyFocusOnlyStateImmediately(focusOnly)
+        }
+    }
+
+    private fun applyFocusOnlyStateImmediately(focusOnly: Boolean) {
+        val green = "#639922".toColorInt()
+        val normalStroke = "#1A1A1A".toColorInt()
+
+        binding.cardFocusOnly.strokeColor = if (focusOnly) green else normalStroke
+        binding.tvFocusOnly1.setTextColor(if (focusOnly) green else "#888888".toColorInt())
+
+        binding.flCircleGreen.visibility = if (focusOnly) View.VISIBLE else View.GONE
+        binding.viewCircle.visibility = if (focusOnly) View.GONE else View.VISIBLE
+
+        val alpha = if (focusOnly) 0.35f else 1f
+
+        getDetoxSettingsViews().forEach {
+            it.alpha = alpha
+        }
+    }
+
+    private fun animateFocusOnlyState(focusOnly: Boolean) {
+        val green = "#639922".toColorInt()
+        val grayText = "#888888".toColorInt()
+        val normalStroke = "#1A1A1A".toColorInt()
+
+        val targetStrokeColor = if (focusOnly) green else normalStroke
+        val targetTextColor = if (focusOnly) green else grayText
+        val targetAlpha = if (focusOnly) 0.35f else 1f
+
+        animateCardStrokeColor(binding.cardFocusOnly, targetStrokeColor)
+        animateTextColor(binding.tvFocusOnly1, targetTextColor)
+
+        getDetoxSettingsViews().forEach { view ->
+            view.animate()
+                .alpha(targetAlpha)
+                .setDuration(160L)
+                .start()
+        }
+
+        animateFocusOnlyCircle(focusOnly)
+
+        binding.cardFocusOnly.animate()
+            .scaleX(1.02f)
+            .scaleY(1.02f)
+            .setDuration(80L)
+            .withEndAction {
+                binding.cardFocusOnly.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(80L)
+                    .start()
+            }
+            .start()
+    }
+
+    private fun getDetoxSettingsViews(): List<View> {
+        return listOf(
+            binding.tvDetox,
+            binding.llDetoxTimeButtons,
+            binding.tvDifficulty,
+            binding.llSettingsDifficultyButtons
+        )
+    }
+
+    private fun animateFocusOnlyCircle(focusOnly: Boolean) {
+        if (focusOnly) {
+            binding.flCircleGreen.alpha = 0f
+            binding.flCircleGreen.visibility = View.VISIBLE
+
+            binding.viewCircle.animate()
+                .alpha(0f)
+                .setDuration(120L)
+                .withEndAction {
+                    binding.viewCircle.visibility = View.GONE
+                    binding.viewCircle.alpha = 1f
+                }
+                .start()
+
+            binding.flCircleGreen.animate()
+                .alpha(1f)
+                .setDuration(160L)
+                .start()
+        } else {
+            binding.viewCircle.alpha = 0f
+            binding.viewCircle.visibility = View.VISIBLE
+
+            binding.flCircleGreen.animate()
+                .alpha(0f)
+                .setDuration(120L)
+                .withEndAction {
+                    binding.flCircleGreen.visibility = View.GONE
+                    binding.flCircleGreen.alpha = 1f
+                }
+                .start()
+
+            binding.viewCircle.animate()
+                .alpha(1f)
+                .setDuration(160L)
+                .start()
+        }
+    }
+
+    private fun animateCardStrokeColor(
+        card: MaterialCardView,
+        targetColor: Int
+    ) {
+        ValueAnimator.ofArgb(card.strokeColor, targetColor).apply {
+            duration = 160L
+            addUpdateListener { animator ->
+                card.strokeColor = animator.animatedValue as Int
+            }
+            start()
+        }
+    }
+
+    private fun animateTextColor(
+        textView: TextView,
+        targetColor: Int
+    ) {
+        ValueAnimator.ofArgb(textView.currentTextColor, targetColor).apply {
+            duration = 160L
+            addUpdateListener { animator ->
+                textView.setTextColor(animator.animatedValue as Int)
+            }
+            start()
+        }
     }
 
     private fun setDurationEnabled(enabled: Boolean) {
@@ -259,8 +388,8 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
                 AnimatedCardSelector.Item(
                     card = binding.cardDifficultyBeginner,
                     title = binding.tvDifficultyBeginner,
-                    selectedColorRes = R.color.difficulty_green,
-                    selectedBackgroundColorRes = R.color.difficulty_green_bg
+                    selectedColorRes = R.color.green_basic,
+                    selectedBackgroundColorRes = R.color.green_bg
                 ),
                 AnimatedCardSelector.Item(
                     card = binding.cardDifficultyFighter,
@@ -271,7 +400,7 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
                 AnimatedCardSelector.Item(
                     card = binding.cardDifficultyHardcore,
                     title = binding.tvDifficultyHardcore,
-                    selectedColorRes = R.color.difficulty_red,
+                    selectedColorRes = R.color.red_basic,
                     selectedBackgroundColorRes = R.color.difficulty_red_bg
                 )
             ),

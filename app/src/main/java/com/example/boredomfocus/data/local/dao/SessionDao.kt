@@ -38,8 +38,8 @@ interface SessionDao {
         toTimeStamp: Long
     ): Flow<StatsSummary>
 
-    @Query("SELECT * FROM sessions ORDER BY date DESC LIMIT :count")
-    fun getLastSessions(count: Int) : Flow<List<SessionEntity>>
+    @Query("SELECT * FROM sessions WHERE date >= :fromTimeStamp AND date < :toTimeStamp ORDER BY date DESC LIMIT 10")
+    fun getLastSessions(fromTimeStamp: Long, toTimeStamp: Long) : Flow<List<SessionEntity>>
 
     @Query("SELECT MAX(focus_seconds) FROM sessions")
     suspend fun getAllTimeFocusRecord(): Long?

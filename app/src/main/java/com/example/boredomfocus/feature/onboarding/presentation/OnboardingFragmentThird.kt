@@ -86,8 +86,8 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
                 AnimatedCardSelector.Item(
                     card = binding.cardDifficultyBeginner,
                     title = binding.tvDifficultyBeginner,
-                    selectedColorRes = R.color.difficulty_green,
-                    selectedBackgroundColorRes = R.color.difficulty_green_bg
+                    selectedColorRes = R.color.green_basic,
+                    selectedBackgroundColorRes = R.color.green_bg
                 ),
                 AnimatedCardSelector.Item(
                     card = binding.cardDifficultyFighter,
@@ -98,7 +98,7 @@ class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {
                 AnimatedCardSelector.Item(
                     card = binding.cardDifficultyHardcore,
                     title = binding.tvDifficultyHardcore,
-                    selectedColorRes = R.color.difficulty_red,
+                    selectedColorRes = R.color.red_basic,
                     selectedBackgroundColorRes = R.color.difficulty_red_bg
                 )
             ),

@@ -11,7 +11,7 @@ interface SessionRepository {
 
     fun getStatsSummaryBetween(fromTimeStamp: Long, toTimeStamp: Long): Flow<StatsSummary>
 
-    fun getLastSessions(count: Int) : Flow<List<SessionEntity>>
+    fun getLastSessions(fromTimeStamp: Long, toTimeStamp: Long) : Flow<List<SessionEntity>>
 
     suspend fun getAllTimeFocusRecord(): Long?
 

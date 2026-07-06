@@ -181,7 +181,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="выйти\nсвободно"
+                    android:text="все\nуведомления"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -226,7 +226,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="диалог\nвыхода"
+                    android:text="только\nважное"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -270,7 +270,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="выход\nзакрыт"
+                    android:text="полная\nтишина"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 

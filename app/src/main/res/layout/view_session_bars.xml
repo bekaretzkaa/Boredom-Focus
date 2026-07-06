@@ -106,7 +106,7 @@
         android:id="@+id/cardDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/green_bg"
+        app:cardBackgroundColor="@color/green_bg"
         app:cardCornerRadius="8dp"
         app:strokeColor="#0D0D0D"
         app:layout_constraintBottom_toBottomOf="@+id/focusBarContainer"
