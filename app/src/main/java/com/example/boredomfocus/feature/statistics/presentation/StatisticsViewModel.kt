@@ -131,7 +131,7 @@ class StatisticsViewModel @Inject constructor(
             lastSessions.forEach { entity ->
                 if(SessionListItem.Header(formatDateFromEpochMillis(entity.date)) in updatedLastSessions) {
                     updatedLastSessions.add(SessionListItem.Session(
-                        entity.detoxMinutes.toInt() * 60,
+                        entity.detoxMinutes.toInt(),
                         entity.detoxSeconds.toInt(),
                         entity.focusSeconds.toInt(),
                         epochMillisToTime(entity.date),
@@ -140,7 +140,7 @@ class StatisticsViewModel @Inject constructor(
                 } else {
                     updatedLastSessions.add(SessionListItem.Header(formatDateFromEpochMillis(entity.date)))
                     updatedLastSessions.add(SessionListItem.Session(
-                        entity.detoxMinutes.toInt() * 60,
+                        entity.detoxMinutes.toInt(),
                         entity.detoxSeconds.toInt(),
                         entity.focusSeconds.toInt(),
                         epochMillisToTime(entity.date),

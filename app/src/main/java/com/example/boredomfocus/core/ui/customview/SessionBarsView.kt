@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.ViewSessionBarsBinding
 
 class SessionBarsView @JvmOverloads constructor(
@@ -19,24 +21,83 @@ class SessionBarsView @JvmOverloads constructor(
     )
 
     fun bind(
-        detoxTime: Int,
+        detoxSelectedMinutes: Int,
+        detoxElapsedSeconds: Int,
         focusTime: Int,
-        time: String
+        time: String,
+        completed: Boolean
     ) {
         val focusMinutes = focusTime / 60
         val focusSeconds = focusTime % 60
 
-        binding.tvSessionDetoxWord.text = "${detoxTime / 60} мин"
         binding.tvTime.text = time
-        binding.tvSessionFocusWord.text = String.format("%02d:%02d", focusMinutes, focusSeconds)
 
-        when {
-            detoxTime == 0 -> {
-
+        if(completed) {
+            if(detoxElapsedSeconds == 0) {
+                binding.tvSessionDetoxWord.apply {
+                    text = String.format("%02d:%02d", focusMinutes, focusSeconds)
+                    setTextColor(ContextCompat.getColor(context, R.color.green_basic))
+                }
+                binding.tvSessionFocusWord.visibility = GONE
+                binding.cardDescription.apply {
+                    visibility = VISIBLE
+                    setCardBackgroundColor(ContextCompat.getColor(context, R.color.green_bg))
+                }
+                binding.tvDescription.apply {
+                    text = "фокус"
+                    setTextColor(ContextCompat.getColor(context, R.color.green_basic))
+                }
+                binding.viewDetox.setBackgroundResource(R.drawable.gray_empty_square)
+                binding.viewFocus.setBackgroundResource(R.drawable.green_focus_square)
+            } else if(focusTime == 0) {
+                binding.tvSessionDetoxWord.apply {
+                    text = "${detoxElapsedSeconds / 60} мин"
+                    setTextColor(ContextCompat.getColor(context, R.color.red_basic))
+                }
+                binding.tvSessionFocusWord.visibility = GONE
+                binding.cardDescription.apply {
+                    visibility = VISIBLE
+                    setCardBackgroundColor(ContextCompat.getColor(context, R.color.difficulty_red_bg))
+                }
+                binding.tvDescription.apply {
+                    text = "детокс"
+                    setTextColor(ContextCompat.getColor(context, R.color.red_basic))
+                }
+                binding.viewDetox.setBackgroundResource(R.drawable.red_detox_square)
+                binding.viewFocus.setBackgroundResource(R.drawable.gray_empty_square)
+            } else {
+                binding.tvSessionDetoxWord.apply {
+                    text = "${detoxElapsedSeconds / 60} мин"
+                    setTextColor(ContextCompat.getColor(context, R.color.red_basic))
+                }
+                binding.tvSessionFocusWord.apply {
+                    visibility = VISIBLE
+                    text = String.format("%02d:%02d", focusMinutes, focusSeconds)
+                }
+                binding.cardDescription.visibility = GONE
+                binding.viewDetox.setBackgroundResource(R.drawable.red_detox_square)
+                binding.viewFocus.setBackgroundResource(R.drawable.green_focus_square)
             }
+        } else {
+            binding.tvSessionDetoxWord.apply {
+                text = "${String.format("%02d:%02d", detoxElapsedSeconds / 60, detoxElapsedSeconds % 60)}/${detoxSelectedMinutes}:00"
+                setTextColor(ContextCompat.getColor(context, R.color.red_basic))
+            }
+            binding.tvSessionFocusWord.visibility = GONE
+            binding.cardDescription.apply {
+                visibility = VISIBLE
+                setCardBackgroundColor(ContextCompat.getColor(context, R.color.difficulty_red_bg))
+            }
+            binding.tvDescription.apply {
+                text = "прерван"
+                setTextColor(ContextCompat.getColor(context, R.color.red_basic))
+            }
+
+            binding.viewDetox.setBackgroundResource(R.drawable.red_detox_square)
+            binding.viewFocus.setBackgroundResource(R.drawable.gray_empty_square)
         }
 
-        val (detoxPercent, focusPercent) = calculateProgress(detoxTime, focusTime)
+        val (detoxPercent, focusPercent) = calculateProgress(detoxElapsedSeconds, focusTime)
 
         setPercent(binding.viewDetoxProgress, detoxPercent)
         setPercent(binding.viewFocusProgress, focusPercent)

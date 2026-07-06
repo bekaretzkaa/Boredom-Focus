@@ -12,9 +12,11 @@ class SessionViewHolder(
         item: SessionListItem.Session
     ) {
         binding.sessionBarsView.bind(
-            item.detoxTime,
+            item.detoxSelectedMinutes,
+            item.detoxElapsedSeconds,
             item.focusTime,
-            item.time
+            item.time,
+            item.completed
         )
     }
 

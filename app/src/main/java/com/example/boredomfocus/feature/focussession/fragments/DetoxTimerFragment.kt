@@ -87,6 +87,8 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.events.collect { event ->
+                    if (findNavController().currentDestination?.id != R.id.detoxTimerFragment) return@collect
+
                     when(event) {
                         is FocusSessionEvent.NavigateToStopDetoxDialog -> {
                             findNavController().navigate(R.id.actionDetoxTimerFragmentToStopDetoxDialogFragment)

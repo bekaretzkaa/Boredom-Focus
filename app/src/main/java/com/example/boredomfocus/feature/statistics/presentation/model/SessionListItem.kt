@@ -7,8 +7,8 @@ sealed class SessionListItem {
     ) : SessionListItem()
 
     data class Session(
-        val detoxSelected: Int,
-        val detoxTime: Int,
+        val detoxSelectedMinutes: Int,
+        val detoxElapsedSeconds: Int,
         val focusTime: Int,
         val time: String,
         val completed: Boolean

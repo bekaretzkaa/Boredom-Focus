@@ -92,6 +92,8 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.events.collect { event ->
+                    if (findNavController().currentDestination?.id != R.id.stopwatchFragment) return@collect
+
                     when(event) {
                         is FocusSessionEvent.NavigateToStopFocusDialog -> {
                             findNavController().navigate(R.id.actionStopwatchFragmentToStopFocusDialogFragment)

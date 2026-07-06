@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
         android:text="09:41"
-        android:textColor="#222222"
+        android:textColor="#333333"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
