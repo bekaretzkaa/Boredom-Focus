@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)          // Hilt
     id("com.google.devtools.ksp")     // KSP для Room и Hilt
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -70,4 +71,8 @@ dependencies {
     implementation(libs.tbuonomo.dotsindicator)
 
     implementation(libs.androidx.fragment.ktx)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 }

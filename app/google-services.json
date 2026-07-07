@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "758406747606",
+    "project_id": "boredom-focus",
+    "storage_bucket": "boredom-focus.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758406747606:android:ee8c4744b784b6dc09c077",
+        "android_client_info": {
+          "package_name": "com.example.boredomfocus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM0G9GD2bNQXP3TF2h1HfdV8vYkcOqBc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
