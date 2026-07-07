@@ -19,7 +19,16 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.boredomfocus.feature.settings.presentation.SettingsFragment"/>
+        android:name="com.example.boredomfocus.feature.settings.presentation.SettingsFragment">
+
+        <action
+            android:id="@+id/actionSettingsFragmentToAuthFragment"
+            app:destination="@id/authFragment"/>
+    </fragment>
+
+    <dialog
+        android:id="@+id/authFragment"
+        android:name="com.example.boredomfocus.feature.auth.AuthFragment"/>
 
     <navigation
         android:id="@+id/focusSessionGraph"

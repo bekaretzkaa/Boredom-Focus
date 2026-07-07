@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
@@ -36,6 +37,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupDurationSelector()
         setupDifficultySelector()
         observeSettings()
+
+        binding.btnSignIn.setOnClickListener {
+            findNavController().navigate(R.id.actionSettingsFragmentToAuthFragment)
+        }
     }
 
     private fun setupDurationSelector() {
