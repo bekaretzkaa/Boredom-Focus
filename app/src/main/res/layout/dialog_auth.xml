@@ -194,40 +194,68 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardGoogle"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#1A1A1A"
-        android:padding="22dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="18dp"
         android:layout_marginTop="12dp"
+        app:strokeColor="#1A1A1A"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOr">
 
         <LinearLayout
+            android:background="#1A1A1A"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_gravity="center">
+            android:gravity="center"
+            android:padding="22dp">
 
+            <TextView
+                android:id="@+id/tvGoogle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Продолжить с Google"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:layout_marginEnd="8dp"/>
+
+            <ImageView
+                android:id="@+id/ivGoogle"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/ic_google"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnStart"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tvNoAccount"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#1A1A1A"
-        android:drawable="@drawable/ic_google"
-        android:fontFamily="@font/inter_bold"
-        android:padding="22dp"
-        android:text="Продолжить с Google"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:cornerRadius="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:fontFamily="@font/inter_regular"
+        android:text="Нет аккаунта?"
+        android:textColor="#444444"
+        android:textSize="18sp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@id/tvCreate"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardGoogle" />
+
+    <TextView
+        android:id="@+id/tvCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:text="@string/create_account"
+        android:textColor="#888888"
+        android:textSize="18sp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvNoAccount"
         app:layout_constraintTop_toBottomOf="@+id/cardGoogle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
