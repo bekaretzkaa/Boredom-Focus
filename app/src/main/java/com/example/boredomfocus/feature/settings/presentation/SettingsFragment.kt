@@ -37,10 +37,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupDurationSelector()
         setupDifficultySelector()
         observeSettings()
-
-        binding.btnSignIn.setOnClickListener {
-            findNavController().navigate(R.id.actionSettingsFragmentToAuthFragment)
-        }
+        observeProfile()
     }
 
     private fun setupDurationSelector() {
@@ -170,6 +167,39 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             )
         } finally {
             isRenderingFromSettings = false
+        }
+    }
+
+    private fun observeProfile() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    if(state.isSignedIn) {
+                        binding.ivPersonIcon.visibility = View.GONE
+                        binding.tvPersonIcon.visibility = View.VISIBLE
+                        binding.tvPersonIcon.text = "B"
+
+                        binding.tvProfile1.text = state.name
+                        binding.tvProfile2.text = state.email
+
+                        binding.btnSignIn.text = "Выйти из аккаунта"
+                        binding.btnSignIn.setOnClickListener {
+                            viewModel.signOut()
+                        }
+                    } else {
+                        binding.ivPersonIcon.visibility = View.VISIBLE
+                        binding.tvPersonIcon.visibility = View.GONE
+
+                        binding.tvProfile1.text = "Гость"
+                        binding.tvProfile2.text = "Прогресс хранится\\nтолько на устройстве"
+
+                        binding.btnSignIn.text = "Войти"
+                        binding.btnSignIn.setOnClickListener {
+                            findNavController().navigate(R.id.actionSettingsFragmentToAuthFragment)
+                        }
+                    }
+                }
+            }
         }
     }
 

@@ -20,16 +20,25 @@ sealed interface AuthUiStatus {
 
     data object Unknown : AuthUiStatus
 
+    data object EmptySignUp : AuthUiStatus
+
     data object EmptySignIn : AuthUiStatus
 
-    data object EmptySignUp : AuthUiStatus
+    data class EmptyTwo(
+        val name: Boolean,
+        val email: Boolean,
+        val password: Boolean,
+        val confirmPassword: Boolean
+    ) : AuthUiStatus
+
+    data object PasswordMismatch : AuthUiStatus
+
+    data object EmptyName : AuthUiStatus
 
     data object EmptyEmail : AuthUiStatus
 
-    data object EmptyEmailPasswordMismatch : AuthUiStatus
-
     data object EmptyPassword : AuthUiStatus
 
-    data object PasswordMismatch : AuthUiStatus
+    data object EmptyConfirmPassword : AuthUiStatus
 
 }

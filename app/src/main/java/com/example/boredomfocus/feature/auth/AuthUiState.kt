@@ -1,6 +1,7 @@
 package com.example.boredomfocus.feature.auth
 
 data class AuthUiState(
+    val name: String = "",
     val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",

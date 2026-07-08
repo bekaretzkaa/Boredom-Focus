@@ -1,5 +1,6 @@
 package com.example.boredomfocus.feature.auth
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.domain.repository.AuthRepository
@@ -23,60 +24,100 @@ class AuthViewModel @Inject constructor(
     private val _event = MutableSharedFlow<AuthUiEvent>()
     val event = _event.asSharedFlow()
 
+    fun onNameChanged(name: String) {
+        _uiState.update {
+            it.copy(name = name)
+        }
+    }
     fun onEmailChanged(email: String) {
         _uiState.update {
             it.copy(email = email)
         }
     }
+
     fun onPasswordChanged(password: String) {
         _uiState.update {
             it.copy(password = password)
         }
     }
+
     fun onConfirmPasswordChanged(password: String) {
         _uiState.update {
             it.copy(confirmPassword = password)
         }
     }
+
     fun onSignTypeChanged(isSignIn: Boolean) {
         _uiState.update {
             it.copy(
                 isSignIn = isSignIn,
+                name = "",
                 confirmPassword = "",
             )
         }
     }
 
     fun signUp() {
+        val name = uiState.value.name.trim()
         val email = uiState.value.email.trim()
         val password = uiState.value.password.trim()
         val confirmPassword = uiState.value.confirmPassword.trim()
 
-        if(email.isBlank() && password.isBlank() && confirmPassword.isBlank()) {
-            _uiState.update {
-                it.copy(status = AuthUiStatus.EmptySignUp)
+        val emptyCount = listOf(
+            name,
+            email,
+            password,
+            confirmPassword
+        ).count { it.isBlank() }
+
+        when {
+            emptyCount == 4 -> {
+                _uiState.update {
+                    it.copy(status = AuthUiStatus.EmptySignUp)
+                }
+                return
             }
-            return
-        } else if(email.isBlank() && password != confirmPassword) {
-            _uiState.update {
-                it.copy(status = AuthUiStatus.EmptyEmailPasswordMismatch)
+
+            emptyCount >= 2 -> {
+                _uiState.update {
+                    it.copy(status = AuthUiStatus.EmptyTwo(
+                        name = name.isBlank(),
+                        email = email.isBlank(),
+                        password = password.isBlank(),
+                        confirmPassword = confirmPassword.isBlank()
+                    ))
+                }
+                return
             }
-            return
-        } else if(email.isBlank() && password == confirmPassword) {
-            _uiState.update {
-                it.copy(status = AuthUiStatus.EmptyEmail)
+
+            emptyCount == 1 -> {
+
+                if (name.isBlank()) {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.EmptyName)
+                    }
+                } else if (email.isBlank()) {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.EmptyEmail)
+                    }
+                } else if (password.isBlank()) {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.EmptyPassword)
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.EmptyConfirmPassword)
+                    }
+                }
+                return
             }
-            return
-        } else if(password.isBlank() && confirmPassword.isBlank()) {
-            _uiState.update {
-                it.copy(status = AuthUiStatus.EmptyPassword)
+
+            password != confirmPassword -> {
+                _uiState.update {
+                    it.copy(status = AuthUiStatus.PasswordMismatch)
+                }
+                return
             }
-            return
-        } else if(password != confirmPassword) {
-            _uiState.update {
-                it.copy(status = AuthUiStatus.PasswordMismatch)
-            }
-            return
         }
 
         viewModelScope.launch {
@@ -84,7 +125,7 @@ class AuthViewModel @Inject constructor(
                 it.copy(status = AuthUiStatus.Loading)
             }
 
-            when (val result = authRepository.signUp(email, password)) {
+            when (val result = authRepository.signUp(name, email, password)) {
                 is AuthResult.Success -> {
                     _uiState.update {
                         it.copy(status = AuthUiStatus.Success)
@@ -93,6 +134,7 @@ class AuthViewModel @Inject constructor(
 
                 is AuthResult.Error -> {
                     _uiState.update {
+                        Log.d("AuthViewModel", "signUp: ${result.error}")
                         it.copy(status = result.error.toAuthUiStatus())
                     }
                 }
@@ -104,17 +146,17 @@ class AuthViewModel @Inject constructor(
         val email = uiState.value.email.trim()
         val password = uiState.value.password.trim()
 
-        if(email.isBlank() && password.isBlank()) {
+        if (email.isBlank() && password.isBlank()) {
             _uiState.update {
                 it.copy(status = AuthUiStatus.EmptySignIn)
             }
             return
-        } else if(email.isBlank()) {
+        } else if (email.isBlank()) {
             _uiState.update {
                 it.copy(status = AuthUiStatus.EmptyEmail)
             }
             return
-        } else if(password.isEmpty()) {
+        } else if (password.isEmpty()) {
             _uiState.update {
                 it.copy(status = AuthUiStatus.EmptyPassword)
             }
@@ -142,8 +184,8 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private fun AuthError.toAuthUiStatus() : AuthUiStatus {
-        return when(this) {
+    private fun AuthError.toAuthUiStatus(): AuthUiStatus {
+        return when (this) {
             is AuthError.WeakPassword -> AuthUiStatus.WeakPassword
             is AuthError.EmailAlreadyExists -> AuthUiStatus.EmailAlreadyExists
             is AuthError.InvalidCredentials -> AuthUiStatus.InvalidCredentials

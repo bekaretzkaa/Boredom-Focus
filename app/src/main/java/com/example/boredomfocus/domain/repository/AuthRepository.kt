@@ -6,6 +6,7 @@ import com.example.boredomfocus.feature.auth.AuthResult
 interface AuthRepository {
 
     suspend fun signUp(
+        name: String,
         email: String,
         password: String
     ): AuthResult<AuthUser>

@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
@@ -20,6 +21,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
 ) : AuthRepository {
 
     override suspend fun signUp(
+        name: String,
         email: String,
         password: String
     ): AuthResult<AuthUser> {
@@ -32,9 +34,16 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 AuthError.Unknown
             )
 
+            val profileUpdates = UserProfileChangeRequest.Builder()
+                .setDisplayName(name)
+                .build()
+
+            user.updateProfile(profileUpdates).await()
+
             AuthResult.Success(
                 AuthUser(
                     uid = user.uid,
+                    name = user.displayName,
                     email = user.email
                 )
             )
@@ -60,6 +69,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             AuthResult.Success(
                 AuthUser(
                     uid = user.uid,
+                    name = user.displayName,
                     email = user.email
                 )
             )
@@ -75,6 +85,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         return user?.let {
             AuthUser(
                 uid = it.uid,
+                name = it.displayName,
                 email = it.email
             )
         }

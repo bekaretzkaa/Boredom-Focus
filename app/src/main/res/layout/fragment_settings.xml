@@ -80,6 +80,15 @@
                         android:layout_height="32dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_person" />
+
+                    <TextView
+                        android:id="@+id/tvPersonIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="B"
+                        android:textSize="32sp"/>
                 </FrameLayout>
 
                 <TextView
