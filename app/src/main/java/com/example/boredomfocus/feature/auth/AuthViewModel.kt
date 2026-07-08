@@ -33,21 +33,29 @@ class AuthViewModel @Inject constructor(
             it.copy(password = password)
         }
     }
+    fun onSignTypeChanged(isSignIn: Boolean) {
+        _uiState.update {
+            it.copy(isSignIn = isSignIn)
+        }
+    }
 
     fun signUp() {
         val email = uiState.value.email.trim()
         val password = uiState.value.password.trim()
 
         viewModelScope.launch {
-            try {
-                authRepository.signUp(email, password)
+            when (val result = authRepository.signUp(email, password)) {
+                is AuthResult.Success -> {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.Success)
+                    }
+                }
 
-                _event.emit(AuthUiEvent.ShowMessage("Аккаунт создан"))
-                _event.emit(AuthUiEvent.NavigateToBack)
-            } catch(e: AuthException) {
-                _event.emit(AuthUiEvent.ShowMessage(e.message ?: "Ошибка регистрации"))
-            } finally {
-
+                is AuthResult.Error -> {
+                    _uiState.update {
+                        it.copy(status = result.error.toAuthUiStatus())
+                    }
+                }
             }
         }
     }
@@ -57,16 +65,30 @@ class AuthViewModel @Inject constructor(
         val password = uiState.value.password.trim()
 
         viewModelScope.launch {
-            try {
-                authRepository.signIn(email, password)
+            when (val result = authRepository.signIn(email, password)) {
+                is AuthResult.Success -> {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.Success)
+                    }
+                }
 
-                _event.emit(AuthUiEvent.ShowMessage("Успешный вход"))
-                _event.emit(AuthUiEvent.NavigateToBack)
-            } catch (e: AuthException) {
-                _event.emit(AuthUiEvent.ShowMessage(e.message ?: "Ошибка входа"))
-            } finally {
-
+                is AuthResult.Error -> {
+                    _uiState.update {
+                        it.copy(status = result.error.toAuthUiStatus())
+                    }
+                }
             }
+        }
+    }
+
+    private fun AuthError.toAuthUiStatus() : AuthUiStatus {
+        return when(this) {
+            is AuthError.WeakPassword -> AuthUiStatus.WeakPassword
+            is AuthError.EmailAlreadyExists -> AuthUiStatus.EmailAlreadyExists
+            is AuthError.InvalidCredentials -> AuthUiStatus.InvalidCredentials
+            is AuthError.UserNotFound -> AuthUiStatus.UserNotFound
+            is AuthError.NetworkError -> AuthUiStatus.NetworkError
+            is AuthError.Unknown -> AuthUiStatus.Unknown
         }
     }
 

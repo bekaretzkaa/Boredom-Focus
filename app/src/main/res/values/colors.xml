@@ -13,6 +13,8 @@
     <color name="difficulty_orange_bg">#10FF9800</color>
     <color name="difficulty_red_bg">#10F44336</color>
 
+    <color name="difficulty_orange_bg_2">#1A1510</color>
+
     <color name="green_basic">#639922</color>
     <color name="red_basic">#E24B4A</color>
 
@@ -24,4 +26,6 @@
     <color name="gray_dark">#888888</color>
     <color name="green_bg">#0F1A0F</color>
     <color name="gray_bg_card">#141414</color>
+
+    <color name="text_field_icon">#777777</color>
 </resources>

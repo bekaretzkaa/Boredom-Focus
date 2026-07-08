@@ -2,7 +2,8 @@ package com.example.boredomfocus.data.repository
 
 import com.example.boredomfocus.domain.model.AuthUser
 import com.example.boredomfocus.domain.repository.AuthRepository
-import com.example.boredomfocus.feature.auth.AuthException
+import com.example.boredomfocus.feature.auth.AuthError
+import com.example.boredomfocus.feature.auth.AuthResult
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -20,40 +21,48 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     override suspend fun signUp(
         email: String,
         password: String
-    ): AuthUser {
+    ): AuthResult<AuthUser> {
         return try {
             val result = firebaseAuth
                 .createUserWithEmailAndPassword(email, password)
                 .await()
 
-            val user = result?.user ?: throw AuthException("Не удалось создать пользователя")
+            val user = result?.user ?: return AuthResult.Error(
+                AuthError.Unknown
+            )
 
-            AuthUser(
-                uid = user.uid,
-                email = user.email
+            AuthResult.Success(
+                AuthUser(
+                    uid = user.uid,
+                    email = user.email
+                )
             )
         } catch (e: Exception) {
-            throw e.toAuthException()
+            AuthResult.Error(e.toAuthError())
         }
     }
 
     override suspend fun signIn(
         email: String,
         password: String
-    ): AuthUser {
+    ): AuthResult<AuthUser> {
         return try {
             val result = firebaseAuth
                 .signInWithEmailAndPassword(email, password)
                 .await()
 
-            val user = result?.user ?: throw AuthException("Не удалось войти в аккаунт")
+            val user = result?.user ?: return AuthResult.Error(
+                AuthError.Unknown
+            )
 
-            AuthUser(
-                uid = user.uid,
-                email = user.email
+            AuthResult.Success(
+                AuthUser(
+                    uid = user.uid,
+                    email = user.email
+                )
             )
         } catch (e: Exception) {
-            throw e.toAuthException()
+            AuthResult.Error(e.toAuthError())
         }
     }
 
@@ -72,21 +81,14 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         firebaseAuth.signOut()
     }
 
-    private fun Exception.toAuthException(): AuthException {
+    private fun Exception.toAuthError(): AuthError {
         return when(this) {
-            is FirebaseAuthWeakPasswordException ->  AuthException("Пароль слишком слабый")
-
-            is FirebaseAuthUserCollisionException -> AuthException("Пользователь с таким email уже существует")
-
-            is FirebaseAuthInvalidCredentialsException -> AuthException("Неверный email или пароль")
-
-            is FirebaseAuthInvalidUserException -> AuthException("Пользователь с таким email не найден")
-
-            is FirebaseNetworkException -> AuthException("Проблема с интернет-соединением")
-
-            is AuthException -> this
-
-            else -> AuthException(message ?: "Неизвестная ошибка")
+            is FirebaseAuthWeakPasswordException -> AuthError.WeakPassword
+            is FirebaseAuthInvalidCredentialsException -> AuthError.InvalidCredentials
+            is FirebaseAuthUserCollisionException -> AuthError.EmailAlreadyExists
+            is FirebaseAuthInvalidUserException -> AuthError.UserNotFound
+            is FirebaseNetworkException -> AuthError.NetworkError
+            else -> AuthError.Unknown
         }
     }
 }

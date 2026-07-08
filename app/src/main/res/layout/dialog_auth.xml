@@ -101,6 +101,18 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/tvEmailWrong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="Пользователь с таким email уже существует"
+                android:textColor="@color/red_basic"
+                android:textSize="17sp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
+
+            <TextView
                 android:id="@+id/tvPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,9 +121,9 @@
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="18sp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="6dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilEmail" />
+                app:layout_constraintTop_toBottomOf="@+id/tvEmailWrong" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilPassword"
@@ -135,7 +147,9 @@
                 app:boxStrokeWidthFocused="1.5dp"
 
                 app:endIconMode="password_toggle"
-                app:endIconTint="#777777">
+                app:endIconTint="#777777"
+
+                app:errorIconDrawable="@null">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
@@ -155,16 +169,82 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/tvPasswordWrong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="Пароль слишком слабый"
+                android:textColor="@color/red_basic"
+                android:textSize="17sp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+
+            <TextView
+                android:id="@+id/tvPasswordConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_regular"
+                android:text="Подтвердите пароль"
+                android:textAllCaps="true"
+                android:textColor="#444444"
+                android:textSize="18sp"
+                android:layout_marginTop="6dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPasswordWrong" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPasswordConfirm"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                app:boxBackgroundColor="#1A1A1A"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="12dp"
+
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxStrokeColor="@color/text_field_stroke"
+                app:boxStrokeWidth="1dp"
+                app:boxStrokeWidthFocused="1.5dp"
+                app:endIconMode="password_toggle"
+
+                app:endIconTint="#777777"
+                app:hintEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPasswordConfirm">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPasswordConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:fontFamily="@font/inter_medium"
+                    android:hint="••••••••"
+                    android:inputType="textPassword"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="8dp"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#3A3A3A"
+                    android:textSize="16sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
                 android:id="@+id/tvPasswordForgot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:fontFamily="@font/inter_regular"
                 android:text="Забыл пароль?"
                 android:textColor="#444444"
                 android:textSize="18sp"
-                android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tilPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/tilPasswordConfirm" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignIn"
@@ -261,12 +341,12 @@
                 android:id="@+id/tvNoAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="4dp"
                 android:fontFamily="@font/inter_regular"
                 android:text="Нет аккаунта?"
                 android:textColor="#444444"
                 android:textSize="18sp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toStartOf="@id/tvCreate"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -282,24 +362,51 @@
                 android:textSize="18sp"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="16dp"
+                android:clickable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tvNoAccount"
                 app:layout_constraintTop_toBottomOf="@+id/cardGoogle" />
 
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardToast"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/inter_regular"
-                android:text="Результат"
-                android:textColor="#888888"
-                android:textSize="18sp"
+                android:layout_marginTop="12dp"
+                android:clickable="true"
+                app:cardCornerRadius="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvNoAccount" />
+                app:layout_constraintTop_toBottomOf="@+id/tvNoAccount"
+                app:strokeColor="@color/difficulty_orange">
+
+                <LinearLayout
+                    android:id="@+id/llToast"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/difficulty_orange_bg_2"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingVertical="12dp"
+                    android:paddingHorizontal="22dp">
+
+                    <ImageView
+                        android:id="@+id/ivToast"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/ic_wifi_off"
+                        android:layout_marginEnd="16dp"/>
+
+                    <TextView
+                        android:id="@+id/tvToast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/inter_regular"
+                        android:text="Пролема с интернет-\nсоединением"
+                        android:textColor="@color/difficulty_orange"
+                        android:textSize="18sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
