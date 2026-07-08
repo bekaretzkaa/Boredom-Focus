@@ -33,17 +33,57 @@ class AuthViewModel @Inject constructor(
             it.copy(password = password)
         }
     }
+    fun onConfirmPasswordChanged(password: String) {
+        _uiState.update {
+            it.copy(confirmPassword = password)
+        }
+    }
     fun onSignTypeChanged(isSignIn: Boolean) {
         _uiState.update {
-            it.copy(isSignIn = isSignIn)
+            it.copy(
+                isSignIn = isSignIn,
+                confirmPassword = "",
+            )
         }
     }
 
     fun signUp() {
         val email = uiState.value.email.trim()
         val password = uiState.value.password.trim()
+        val confirmPassword = uiState.value.confirmPassword.trim()
+
+        if(email.isBlank() && password.isBlank() && confirmPassword.isBlank()) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.EmptySignUp)
+            }
+            return
+        } else if(email.isBlank() && password != confirmPassword) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.EmptyEmailPasswordMismatch)
+            }
+            return
+        } else if(email.isBlank() && password == confirmPassword) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.EmptyEmail)
+            }
+            return
+        } else if(password.isBlank() && confirmPassword.isBlank()) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.EmptyPassword)
+            }
+            return
+        } else if(password != confirmPassword) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.PasswordMismatch)
+            }
+            return
+        }
 
         viewModelScope.launch {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.Loading)
+            }
+
             when (val result = authRepository.signUp(email, password)) {
                 is AuthResult.Success -> {
                     _uiState.update {
@@ -64,7 +104,28 @@ class AuthViewModel @Inject constructor(
         val email = uiState.value.email.trim()
         val password = uiState.value.password.trim()
 
+        if(email.isBlank() && password.isBlank()) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.EmptySignIn)
+            }
+            return
+        } else if(email.isBlank()) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.EmptyEmail)
+            }
+            return
+        } else if(password.isEmpty()) {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.EmptyPassword)
+            }
+            return
+        }
+
         viewModelScope.launch {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.Loading)
+            }
+
             when (val result = authRepository.signIn(email, password)) {
                 is AuthResult.Success -> {
                     _uiState.update {

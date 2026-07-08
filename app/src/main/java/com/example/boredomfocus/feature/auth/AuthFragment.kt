@@ -125,6 +125,8 @@ class AuthFragment : DialogFragment() {
                         binding.btnSignIn.setOnClickListener {
                             viewModel.signIn()
                         }
+
+                        binding.etPasswordConfirm.text?.clear()
                     } else {
                         binding.tvAuth.text = "Создать аккаунт"
                         binding.tvPasswordConfirm.visibility = View.VISIBLE
@@ -141,20 +143,30 @@ class AuthFragment : DialogFragment() {
                         binding.btnSignIn.setOnClickListener {
                             viewModel.signUp()
                         }
+
+                        binding.etPasswordConfirm.doAfterTextChanged {
+                            viewModel.onConfirmPasswordChanged(it.toString())
+                        }
                     }
 
                     val redBasic = ContextCompat.getColor(requireContext(), R.color.red_basic)
                     val textFieldIcon = ContextCompat.getColor(requireContext(), R.color.text_field_icon)
 
-                    binding.tilPassword.error = null
-                    binding.tilPassword.setEndIconTintList(ColorStateList.valueOf(textFieldIcon))
-                    binding.tvPasswordWrong.visibility = View.GONE
-
                     binding.tilEmail.error = null
                     binding.tilEmail.setEndIconTintList(ColorStateList.valueOf(textFieldIcon))
                     binding.tvEmailWrong.visibility = View.GONE
 
+                    binding.tilPassword.error = null
+                    binding.tilPassword.setEndIconTintList(ColorStateList.valueOf(textFieldIcon))
+                    binding.tvPasswordWrong.visibility = View.GONE
+
+                    binding.tilPasswordConfirm.error = null
+                    binding.tilPasswordConfirm.setEndIconTintList(ColorStateList.valueOf(textFieldIcon))
+                    binding.tvPasswordConfirmWrong.visibility = View.GONE
+
                     binding.cardToast.visibility = View.GONE
+
+                    binding.loadingOverlay.visibility = if(state.status == AuthUiStatus.Loading) View.VISIBLE else View.GONE
 
                     when(state.status) {
                         is AuthUiStatus.Success -> {
@@ -170,29 +182,26 @@ class AuthFragment : DialogFragment() {
                             findNavController().popBackStack()
                         }
                         is AuthUiStatus.WeakPassword -> {
-                            binding.tilPassword.error = redBasic.toString()
-                            binding.tilPassword.setEndIconTintList(ColorStateList.valueOf(redBasic))
+                            makeRed(redBasic,
+                                email = false,
+                                password = true,
+                                confirmPassword = false
+                            )
                             binding.tvPasswordWrong.visibility = View.VISIBLE
                             binding.tvPasswordWrong.text = "Пароль слишком слабый"
                         }
                         is AuthUiStatus.EmailAlreadyExists -> {
-                            binding.tilEmail.error = redBasic.toString()
-                            binding.tilEmail.setEndIconTintList(ColorStateList.valueOf(redBasic))
+                            makeRed(redBasic, email = true, password = false, confirmPassword = false)
                             binding.tvEmailWrong.visibility = View.VISIBLE
                             binding.tvEmailWrong.text = "Пользователь с таким email уже существует"
                         }
                         is AuthUiStatus.InvalidCredentials -> {
-                            binding.tilEmail.error = redBasic.toString()
-                            binding.tilEmail.setEndIconTintList(ColorStateList.valueOf(redBasic))
-
-                            binding.tilPassword.error = redBasic.toString()
-                            binding.tilPassword.setEndIconTintList(ColorStateList.valueOf(redBasic))
+                            makeRed(redBasic, email = true, password = true, confirmPassword = false)
                             binding.tvPasswordWrong.visibility = View.VISIBLE
                             binding.tvPasswordWrong.text = "Неверный email или пароль"
                         }
                         is AuthUiStatus.UserNotFound -> {
-                            binding.tilEmail.error = redBasic.toString()
-                            binding.tilEmail.setEndIconTintList(ColorStateList.valueOf(redBasic))
+                            makeRed(redBasic, email = true, password = false, confirmPassword = false)
                             binding.tvEmailWrong.visibility = View.VISIBLE
                             binding.tvEmailWrong.text = "Пользователь с таким email не найден"
                         }
@@ -205,25 +214,73 @@ class AuthFragment : DialogFragment() {
                             binding.tvToast.setTextColor(ContextCompat.getColor(requireContext(), R.color.difficulty_orange))
                         }
                         is AuthUiStatus.Unknown -> {
-                            binding.tilEmail.error = redBasic.toString()
-                            binding.tilEmail.setEndIconTintList(ColorStateList.valueOf(redBasic))
+                            binding.cardToast.visibility = View.VISIBLE
+                            binding.cardToast.strokeColor = ContextCompat.getColor(requireContext(), R.color.red_basic)
+                            binding.llToast.background  = ContextCompat.getColor(requireContext(), R.color.difficulty_red_bg_2).toDrawable()
+                            binding.ivToast.setBackgroundResource(R.drawable.ic_warning_red)
+                            binding.tvToast.text = "Неизвестная ошибка"
+                            binding.tvToast.setTextColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
+                        }
 
-                            binding.tilPassword.error = redBasic.toString()
-                            binding.tilPassword.setEndIconTintList(ColorStateList.valueOf(redBasic))
+                        is AuthUiStatus.EmptySignIn -> {
+                            makeRed(redBasic, email = true, password = true, confirmPassword = false)
                             binding.tvPasswordWrong.visibility = View.VISIBLE
-                            binding.tvPasswordWrong.text = "Незвестная ошибка"
+                            binding.tvPasswordWrong.text = "Заполните все поля"
                         }
 
-                        is AuthUiStatus.Loading -> {
-
+                        is AuthUiStatus.EmptySignUp -> {
+                            makeRed(redBasic, email = true, password = true, confirmPassword = true)
+                            binding.tvPasswordConfirmWrong.visibility = View.VISIBLE
+                            binding.tvPasswordConfirmWrong.text = "Заполните все поля"
                         }
 
-                        is AuthUiStatus.Idle -> {
-
+                        is AuthUiStatus.EmptyEmail -> {
+                            makeRed(redBasic, email = true, password = false, confirmPassword = false)
+                            binding.tvEmailWrong.visibility = View.VISIBLE
+                            binding.tvEmailWrong.text = "Заполните поле"
                         }
+
+                        is AuthUiStatus.EmptyPassword -> {
+                            makeRed(redBasic, email = false, password = true, confirmPassword = false)
+                            binding.tvPasswordWrong.visibility = View.VISIBLE
+                            binding.tvPasswordWrong.text = "Заполните поле"
+                        }
+
+                        is AuthUiStatus.PasswordMismatch -> {
+                            makeRed(redBasic, email = false, password = true, confirmPassword = true)
+                            binding.tvPasswordConfirmWrong.visibility = View.VISIBLE
+                            binding.tvPasswordConfirmWrong.text = "Пароли не совпадают"
+                        }
+
+                        is AuthUiStatus.EmptyEmailPasswordMismatch -> {
+                            makeRed(redBasic, email = true, password = true, confirmPassword = true)
+                            binding.tvEmailWrong.visibility = View.VISIBLE
+                            binding.tvEmailWrong.text = "Заполните поле"
+
+                            makeRed(redBasic, email = false, password = true, confirmPassword = true)
+                            binding.tvPasswordConfirmWrong.visibility = View.VISIBLE
+                            binding.tvPasswordConfirmWrong.text = "Пароли не совпадают"
+                        }
+
+                        else -> {}
                     }
                 }
             }
+        }
+    }
+
+    private fun makeRed(color: Int, email: Boolean, password: Boolean, confirmPassword: Boolean) {
+        if (email) {
+            binding.tilEmail.error = color.toString()
+            binding.tilEmail.setEndIconTintList(ColorStateList.valueOf(color))
+        }
+        if (password) {
+            binding.tilPassword.error = color.toString()
+            binding.tilPassword.setEndIconTintList(ColorStateList.valueOf(color))
+        }
+        if (confirmPassword) {
+            binding.tilPasswordConfirm.error = color.toString()
+            binding.tilPasswordConfirm.setEndIconTintList(ColorStateList.valueOf(color))
         }
     }
 }

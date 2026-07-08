@@ -20,4 +20,16 @@ sealed interface AuthUiStatus {
 
     data object Unknown : AuthUiStatus
 
+    data object EmptySignIn : AuthUiStatus
+
+    data object EmptySignUp : AuthUiStatus
+
+    data object EmptyEmail : AuthUiStatus
+
+    data object EmptyEmailPasswordMismatch : AuthUiStatus
+
+    data object EmptyPassword : AuthUiStatus
+
+    data object PasswordMismatch : AuthUiStatus
+
 }

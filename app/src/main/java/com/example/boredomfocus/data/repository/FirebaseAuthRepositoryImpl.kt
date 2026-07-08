@@ -10,6 +10,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import javax.inject.Inject
@@ -55,6 +56,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 AuthError.Unknown
             )
 
+            delay(2000)
             AuthResult.Success(
                 AuthUser(
                     uid = user.uid,
@@ -62,6 +64,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 )
             )
         } catch (e: Exception) {
+            delay(2000)
             AuthResult.Error(e.toAuthError())
         }
     }
