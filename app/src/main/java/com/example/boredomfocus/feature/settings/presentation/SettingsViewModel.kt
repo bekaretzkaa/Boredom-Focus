@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -25,9 +26,10 @@ class SettingsViewModel @Inject constructor(
 
 
     val uiState: StateFlow<SettingsUiState> =
-        appSettingsRepository.getSettings().map { settings ->
-            val user = authRepository.getCurrentUser()
-
+        combine(
+            appSettingsRepository.getSettings(),
+            authRepository.getCurrentUser()
+        ) { settings, user ->
             SettingsUiState(
                 isLoading = false,
                 detoxDuration = settings.detoxDuration,

@@ -10,15 +10,30 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import javax.inject.Inject
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.callbackFlow
 
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
+
+    private val _currentUser = MutableStateFlow(firebaseAuth.currentUser?.toAuthUser())
+    override fun getCurrentUser(): Flow<AuthUser?> = _currentUser.asStateFlow()
+
+    init {
+        firebaseAuth.addAuthStateListener { auth ->
+            _currentUser.value = auth.currentUser?.toAuthUser()
+        }
+    }
 
     override suspend fun signUp(
         name: String,
@@ -30,9 +45,7 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 .createUserWithEmailAndPassword(email, password)
                 .await()
 
-            val user = result?.user ?: return AuthResult.Error(
-                AuthError.Unknown
-            )
+            val user = result.user ?: return AuthResult.Error(AuthError.Unknown)
 
             val profileUpdates = UserProfileChangeRequest.Builder()
                 .setDisplayName(name)
@@ -40,13 +53,13 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
 
             user.updateProfile(profileUpdates).await()
 
-            AuthResult.Success(
-                AuthUser(
-                    uid = user.uid,
-                    name = user.displayName,
-                    email = user.email
-                )
+            val authUser = AuthUser(
+                uid = user.uid,
+                name = name,
+                email = user.email ?: email
             )
+            _currentUser.value = authUser
+            AuthResult.Success(authUser)
         } catch (e: Exception) {
             AuthResult.Error(e.toAuthError())
         }
@@ -65,34 +78,25 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 AuthError.Unknown
             )
 
-            delay(2000)
-            AuthResult.Success(
-                AuthUser(
-                    uid = user.uid,
-                    name = user.displayName,
-                    email = user.email
-                )
+            delay(1000)
+
+            val authUser = AuthUser(
+                uid = user.uid,
+                name = user.displayName,
+                email = user.email
             )
+
+            _currentUser.value = authUser
+            AuthResult.Success(authUser)
         } catch (e: Exception) {
             delay(2000)
             AuthResult.Error(e.toAuthError())
         }
     }
 
-    override fun getCurrentUser(): AuthUser? {
-        val user = firebaseAuth.currentUser
-
-        return user?.let {
-            AuthUser(
-                uid = it.uid,
-                name = it.displayName,
-                email = it.email
-            )
-        }
-    }
-
     override fun signOut() {
         firebaseAuth.signOut()
+        _currentUser.value = null
     }
 
     private fun Exception.toAuthError(): AuthError {
@@ -104,5 +108,13 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
             is FirebaseNetworkException -> AuthError.NetworkError
             else -> AuthError.Unknown
         }
+    }
+
+    private fun FirebaseUser.toAuthUser(): AuthUser {
+        return AuthUser(
+            uid = uid,
+            name = displayName,
+            email = email
+        )
     }
 }

@@ -128,13 +128,14 @@ class AuthViewModel @Inject constructor(
             when (val result = authRepository.signUp(name, email, password)) {
                 is AuthResult.Success -> {
                     _uiState.update {
-                        it.copy(status = AuthUiStatus.Success)
+                        it.copy(
+                            status = AuthUiStatus.Success,
+                        )
                     }
                 }
 
                 is AuthResult.Error -> {
                     _uiState.update {
-                        Log.d("AuthViewModel", "signUp: ${result.error}")
                         it.copy(status = result.error.toAuthUiStatus())
                     }
                 }

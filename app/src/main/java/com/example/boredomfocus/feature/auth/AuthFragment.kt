@@ -130,6 +130,8 @@ class AuthFragment : DialogFragment() {
 
                         binding.etName.text?.clear()
                         binding.etPasswordConfirm.text?.clear()
+
+                        binding.tvSigning.text = "Входим..."
                     } else {
                         binding.tvAuth.text = "Создать аккаунт"
                         binding.tvPasswordConfirm.visibility = View.VISIBLE
@@ -155,6 +157,7 @@ class AuthFragment : DialogFragment() {
                         binding.etName.doAfterTextChanged {
                             viewModel.onNameChanged(it.toString())
                         }
+                        binding.tvSigning.text = "Регистрируемся..."
                     }
 
                     val redBasic = ContextCompat.getColor(requireContext(), R.color.red_basic)
@@ -182,15 +185,6 @@ class AuthFragment : DialogFragment() {
 
                     when(state.status) {
                         is AuthUiStatus.Success -> {
-                            binding.cardToast.visibility = View.VISIBLE
-                            binding.cardToast.strokeColor = ContextCompat.getColor(requireContext(), R.color.green_basic)
-                            binding.llToast.background  = ContextCompat.getColor(requireContext(), R.color.green_bg).toDrawable()
-                            binding.ivToast.setBackgroundResource(R.drawable.ic_check_green)
-                            binding.tvToast.text = if(state.isSignIn) "Успешный вход" else "Успешная регистрация"
-                            binding.tvToast.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
-
-                            delay(5000)
-
                             findNavController().popBackStack()
                         }
                         is AuthUiStatus.WeakPassword -> {

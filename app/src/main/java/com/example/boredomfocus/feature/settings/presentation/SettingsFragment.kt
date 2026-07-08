@@ -175,9 +175,14 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     if(state.isSignedIn) {
-                        binding.ivPersonIcon.visibility = View.GONE
-                        binding.tvPersonIcon.visibility = View.VISIBLE
-                        binding.tvPersonIcon.text = "B"
+                        if(state.name.isNotBlank()) {
+                            binding.ivPersonIcon.visibility = View.GONE
+                            binding.tvPersonIcon.visibility = View.VISIBLE
+                            binding.tvPersonIcon.text = state.name.first().toString()
+                        } else {
+                            binding.ivPersonIcon.visibility = View.VISIBLE
+                            binding.tvPersonIcon.visibility = View.GONE
+                        }
 
                         binding.tvProfile1.text = state.name
                         binding.tvProfile2.text = state.email

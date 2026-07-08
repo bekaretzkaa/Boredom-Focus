@@ -2,6 +2,7 @@ package com.example.boredomfocus.domain.repository
 
 import com.example.boredomfocus.domain.model.AuthUser
 import com.example.boredomfocus.feature.auth.AuthResult
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
 
@@ -16,7 +17,7 @@ interface AuthRepository {
         password: String
     ): AuthResult<AuthUser>
 
-    fun getCurrentUser(): AuthUser?
+    fun getCurrentUser(): Flow<AuthUser?>
 
     fun signOut()
 
