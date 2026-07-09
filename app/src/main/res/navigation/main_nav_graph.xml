@@ -28,7 +28,7 @@
 
     <dialog
         android:id="@+id/authFragment"
-        android:name="com.example.boredomfocus.feature.auth.AuthFragment"/>
+        android:name="com.example.boredomfocus.feature.auth.AuthDialogFragment"/>
 
     <navigation
         android:id="@+id/focusSessionGraph"

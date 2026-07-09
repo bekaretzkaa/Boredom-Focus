@@ -1,6 +1,5 @@
 package com.example.boredomfocus.feature.auth
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -11,6 +10,10 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.widget.doAfterTextChanged
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,16 +22,19 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.DialogAuthBinding
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AuthFragment : DialogFragment() {
+class AuthDialogFragment : DialogFragment() {
 
     private val viewModel: AuthViewModel by viewModels()
     private var _binding: DialogAuthBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var credentialManager: CredentialManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +73,12 @@ class AuthFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        credentialManager = CredentialManager.create(requireContext())
+
+        binding.cardGoogle.setOnClickListener {
+            signInWithGoogle()
+        }
 
         observeEvents()
 
@@ -220,12 +232,12 @@ class AuthFragment : DialogFragment() {
                             binding.tvToast.text = "Проблема с интернет-соединением"
                             binding.tvToast.setTextColor(ContextCompat.getColor(requireContext(), R.color.difficulty_orange))
                         }
-                        is AuthUiStatus.Unknown -> {
+                        is AuthUiStatus.Unknown, AuthUiStatus.GoogleFailed -> {
                             binding.cardToast.visibility = View.VISIBLE
                             binding.cardToast.strokeColor = ContextCompat.getColor(requireContext(), R.color.red_basic)
                             binding.llToast.background  = ContextCompat.getColor(requireContext(), R.color.difficulty_red_bg_2).toDrawable()
                             binding.ivToast.setBackgroundResource(R.drawable.ic_warning_red)
-                            binding.tvToast.text = "Неизвестная ошибка"
+                            binding.tvToast.text = if(state.status == AuthUiStatus.GoogleFailed) "Не удалось авторизоваться с помощью Google" else "Неизвестная ошибка"
                             binding.tvToast.setTextColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
                         }
 
@@ -300,6 +312,47 @@ class AuthFragment : DialogFragment() {
         if (confirmPassword) {
             binding.tilPasswordConfirm.error = color.toString()
             binding.tilPasswordConfirm.setEndIconTintList(ColorStateList.valueOf(color))
+        }
+    }
+
+    private fun signInWithGoogle() {
+        val googleOption = GetSignInWithGoogleOption.Builder(
+            serverClientId = getString(R.string.default_web_client_id)
+        ).build()
+
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleOption)
+            .build()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val result = credentialManager.getCredential(
+                    request = request,
+                    context = requireActivity()
+                )
+
+                handleGoogleCredential(result)
+            } catch (e: Exception) {
+                viewModel.onGoogleSignInFailed()
+            }
+        }
+    }
+
+    private fun handleGoogleCredential(result: GetCredentialResponse) {
+        val credential = result.credential
+
+        if (
+            credential is CustomCredential &&
+            credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+        ) {
+            val googleIdTokenCredential = GoogleIdTokenCredential
+                .createFrom(credential.data)
+
+            viewModel.signInWithGoogle(
+                idToken = googleIdTokenCredential.idToken
+            )
+        } else {
+            viewModel.onGoogleSignInFailed()
         }
     }
 }

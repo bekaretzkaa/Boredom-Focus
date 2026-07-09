@@ -21,4 +21,6 @@ interface AuthRepository {
 
     fun signOut()
 
+    suspend fun signInWithGoogle(idToken: String) : AuthResult<AuthUser>
+
 }

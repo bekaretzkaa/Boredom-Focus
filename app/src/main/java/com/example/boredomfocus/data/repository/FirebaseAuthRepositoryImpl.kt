@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -97,6 +98,22 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
     override fun signOut() {
         firebaseAuth.signOut()
         _currentUser.value = null
+    }
+
+    override suspend fun signInWithGoogle(idToken: String): AuthResult<AuthUser> {
+        return try {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+            val result = firebaseAuth
+                .signInWithCredential(credential)
+                .await()
+
+            val user = result.user ?: return AuthResult.Error(AuthError.Unknown)
+
+            AuthResult.Success(user.toAuthUser())
+        } catch (e: Exception) {
+            AuthResult.Error(e.toAuthError())
+        }
     }
 
     private fun Exception.toAuthError(): AuthError {

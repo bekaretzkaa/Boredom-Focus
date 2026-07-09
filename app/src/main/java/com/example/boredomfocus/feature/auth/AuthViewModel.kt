@@ -185,6 +185,33 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun signInWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            _uiState.update {
+                it.copy(status = AuthUiStatus.Loading)
+            }
+            when(val result = authRepository.signInWithGoogle(idToken)) {
+                is AuthResult.Success -> {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.Success)
+                    }
+                }
+
+                is AuthResult.Error -> {
+                    _uiState.update {
+                        it.copy(status = result.error.toAuthUiStatus())
+                    }
+                }
+            }
+        }
+    }
+
+    fun onGoogleSignInFailed() {
+        _uiState.update {
+            it.copy(status = AuthUiStatus.GoogleFailed)
+        }
+    }
+
     private fun AuthError.toAuthUiStatus(): AuthUiStatus {
         return when (this) {
             is AuthError.WeakPassword -> AuthUiStatus.WeakPassword

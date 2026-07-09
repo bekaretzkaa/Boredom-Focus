@@ -41,4 +41,6 @@ sealed interface AuthUiStatus {
 
     data object EmptyConfirmPassword : AuthUiStatus
 
+    data object GoogleFailed : AuthUiStatus
+
 }
