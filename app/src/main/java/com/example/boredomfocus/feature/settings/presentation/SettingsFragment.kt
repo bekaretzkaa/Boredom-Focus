@@ -15,6 +15,7 @@ import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.core.ui.selector.AnimatedCardGroupSelector
 import com.example.boredomfocus.core.ui.selector.AnimatedCardSelector
 import com.example.boredomfocus.databinding.FragmentSettingsBinding
+import com.example.boredomfocus.feature.settings.dialogs.SignOutDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -38,6 +39,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupDifficultySelector()
         observeSettings()
         observeProfile()
+        setupSignOutResultListener()
     }
 
     private fun setupDurationSelector() {
@@ -189,7 +191,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
                         binding.btnSignIn.text = "Выйти из аккаунта"
                         binding.btnSignIn.setOnClickListener {
-                            viewModel.signOut()
+                            SignOutDialogFragment().show(
+                                parentFragmentManager,
+                                "SignOutDialogFragment"
+                            )
                         }
                     } else {
                         binding.ivPersonIcon.visibility = View.VISIBLE
@@ -204,6 +209,20 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun setupSignOutResultListener() {
+        parentFragmentManager.setFragmentResultListener(
+            SignOutDialogFragment.REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, result ->
+
+            val isConfirmed = result.getBoolean(SignOutDialogFragment.RESULT_CONFIRMED)
+
+            if(isConfirmed) {
+                viewModel.signOut()
             }
         }
     }
