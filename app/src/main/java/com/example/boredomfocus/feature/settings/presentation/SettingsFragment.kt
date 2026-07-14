@@ -205,7 +205,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
                         binding.btnSignIn.text = "Войти"
                         binding.btnSignIn.setOnClickListener {
-                            findNavController().navigate(R.id.actionSettingsFragmentToAuthFragment)
+                            findNavController().navigate(R.id.actionSettingsFragmentToAuthGraph)
                         }
                     }
                 }

@@ -43,4 +43,8 @@ sealed interface AuthUiStatus {
 
     data object GoogleFailed : AuthUiStatus
 
+    data object EmailSent : AuthUiStatus
+
+    data object EmailNotVerified : AuthUiStatus
+
 }

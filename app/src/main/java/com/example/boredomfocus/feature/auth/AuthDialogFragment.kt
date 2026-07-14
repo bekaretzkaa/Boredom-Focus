@@ -15,6 +15,7 @@ import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class AuthDialogFragment : DialogFragment() {
 
-    private val viewModel: AuthViewModel by viewModels()
+    private val viewModel: AuthViewModel by activityViewModels()
     private var _binding: DialogAuthBinding? = null
     private val binding get() = _binding!!
 
@@ -106,10 +107,16 @@ class AuthDialogFragment : DialogFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.event.collect { event ->
                     when(event) {
-                        is AuthUiEvent.ShowMessage -> {
-                        }
-                        is AuthUiEvent.NavigateToBack -> {
+                        AuthUiEvent.LoginCompleted -> {
                             findNavController().popBackStack()
+                        }
+
+                        AuthUiEvent.OpenConfirmEmail -> {
+                            findNavController().navigate(R.id.actionAuthFragmentToConfirmEmailFragment)
+                        }
+
+                        AuthUiEvent.RegistrationCompleted -> {
+
                         }
                     }
                 }

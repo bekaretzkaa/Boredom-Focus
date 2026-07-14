@@ -6,5 +6,6 @@ data class AuthUiState(
     val password: String = "",
     val confirmPassword: String = "",
     val isSignIn: Boolean = true,
-    val status: AuthUiStatus = AuthUiStatus.Idle
+    val status: AuthUiStatus = AuthUiStatus.Idle,
+    val isEmailVerified: Boolean = false
 )

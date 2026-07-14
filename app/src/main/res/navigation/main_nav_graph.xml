@@ -22,13 +22,28 @@
         android:name="com.example.boredomfocus.feature.settings.presentation.SettingsFragment">
 
         <action
-            android:id="@+id/actionSettingsFragmentToAuthFragment"
-            app:destination="@id/authFragment"/>
+            android:id="@+id/actionSettingsFragmentToAuthGraph"
+            app:destination="@id/authGraph"/>
     </fragment>
 
-    <dialog
-        android:id="@+id/authFragment"
-        android:name="com.example.boredomfocus.feature.auth.AuthDialogFragment"/>
+    <navigation
+        android:id="@+id/authGraph"
+        app:startDestination="@id/authFragment">
+
+        <dialog
+            android:id="@+id/authFragment"
+            android:name="com.example.boredomfocus.feature.auth.AuthDialogFragment">
+
+            <action
+                android:id="@+id/actionAuthFragmentToConfirmEmailFragment"
+                app:destination="@id/confirmEmailFragment"/>
+        </dialog>
+
+        <dialog
+            android:id="@+id/confirmEmailFragment"
+            android:name="com.example.boredomfocus.feature.auth.ConfirmEmailDialogFragment"/>
+
+    </navigation>
 
     <navigation
         android:id="@+id/focusSessionGraph"

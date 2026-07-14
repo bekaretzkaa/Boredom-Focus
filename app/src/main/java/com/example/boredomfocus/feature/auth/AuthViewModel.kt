@@ -122,15 +122,24 @@ class AuthViewModel @Inject constructor(
 
         viewModelScope.launch {
             _uiState.update {
-                it.copy(status = AuthUiStatus.Loading)
+                it.copy(status = AuthUiStatus.Loading, isEmailVerified = false)
             }
 
             when (val result = authRepository.signUp(name, email, password)) {
                 is AuthResult.Success -> {
-                    _uiState.update {
-                        it.copy(
-                            status = AuthUiStatus.Success,
-                        )
+                    when(authRepository.sendEmailVerification()) {
+                        is AuthResult.Success -> {
+                            _uiState.update {
+                                it.copy(status = AuthUiStatus.EmailSent)
+                            }
+                            _event.emit(AuthUiEvent.OpenConfirmEmail)
+                        }
+
+                        is AuthResult.Error -> {
+                            _uiState.update {
+                                it.copy(status = AuthUiStatus.Unknown)
+                            }
+                        }
                     }
                 }
 
@@ -174,6 +183,8 @@ class AuthViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(status = AuthUiStatus.Success)
                     }
+
+                    _event.emit(AuthUiEvent.LoginCompleted)
                 }
 
                 is AuthResult.Error -> {
@@ -209,6 +220,41 @@ class AuthViewModel @Inject constructor(
     fun onGoogleSignInFailed() {
         _uiState.update {
             it.copy(status = AuthUiStatus.GoogleFailed)
+        }
+    }
+
+    fun checkEmailVerification() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(status = AuthUiStatus.Loading) }
+
+            when (val result = authRepository.checkEmailVerification()) {
+                is AuthResult.Success -> {
+                    if (result.data) {
+                        _uiState.update {
+                            it.copy(status = AuthUiStatus.Success, isEmailVerified = true)
+                        }
+                        _event.emit(AuthUiEvent.RegistrationCompleted)
+                    } else {
+                        _uiState.update {
+                            it.copy(status = AuthUiStatus.EmailNotVerified)
+                        }
+                    }
+                }
+
+                is AuthResult.Error -> {
+                    _uiState.update {
+                        it.copy(status = AuthUiStatus.Unknown)
+                    }
+                }
+            }
+        }
+    }
+
+    fun onConfirmEmailScreenClosed() {
+        if (!uiState.value.isEmailVerified) {
+            viewModelScope.launch {
+                authRepository.signOut()
+            }
         }
     }
 

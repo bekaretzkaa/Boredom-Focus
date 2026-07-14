@@ -116,6 +116,31 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun sendEmailVerification(): AuthResult<Unit> {
+        return try {
+            val user = firebaseAuth.currentUser ?: return AuthResult.Error(AuthError.Unknown)
+
+            user.sendEmailVerification().await()
+
+            AuthResult.Success(Unit)
+        } catch (e: Exception) {
+            AuthResult.Error(e.toAuthError())
+        }
+    }
+
+    override suspend fun checkEmailVerification(): AuthResult<Boolean> {
+        return try {
+            val user = firebaseAuth.currentUser ?: return AuthResult.Error(AuthError.Unknown)
+
+            user.reload().await()
+
+            AuthResult.Success(user.isEmailVerified)
+
+        } catch (e: Exception) {
+            AuthResult.Error(e.toAuthError())
+        }
+    }
+
     private fun Exception.toAuthError(): AuthError {
         return when(this) {
             is FirebaseAuthWeakPasswordException -> AuthError.WeakPassword

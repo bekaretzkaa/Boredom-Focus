@@ -23,4 +23,8 @@ interface AuthRepository {
 
     suspend fun signInWithGoogle(idToken: String) : AuthResult<AuthUser>
 
+    suspend fun sendEmailVerification() : AuthResult<Unit>
+
+    suspend fun checkEmailVerification() : AuthResult<Boolean>
+
 }
