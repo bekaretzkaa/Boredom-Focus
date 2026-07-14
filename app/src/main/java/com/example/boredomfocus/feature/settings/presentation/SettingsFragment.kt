@@ -1,14 +1,18 @@
 package com.example.boredomfocus.feature.settings.presentation
 
+import android.Manifest
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
+import com.example.boredomfocus.core.permission.PermissionViewModel
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
@@ -23,6 +27,7 @@ import kotlinx.coroutines.launch
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val viewModel: SettingsViewModel by viewModels()
+    private val permissionViewModel: PermissionViewModel by activityViewModels()
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
@@ -30,6 +35,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var difficultySelector: AnimatedCardSelector? = null
     private var durationSelector: AnimatedCardGroupSelector? = null
     private var isRenderingFromSettings = false
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            permissionViewModel.refreshPermissions()
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,6 +50,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         observeSettings()
         observeProfile()
         setupSignOutResultListener()
+        setupClicks()
+        observePermissions()
     }
 
     private fun setupDurationSelector() {
@@ -147,6 +159,32 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    private fun observePermissions() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                permissionViewModel.uiState.collect { state ->
+                    binding.switchDnd.isChecked = state.doNotDisturb
+                    binding.switchNotification.isChecked = state.postNotifications
+                }
+            }
+        }
+    }
+    private fun setupClicks() {
+        binding.switchDnd.setOnClickListener {
+            if (!permissionViewModel.uiState.value.doNotDisturb) {
+                startActivity(permissionViewModel.getDndSettingsIntent())
+            }
+        }
+
+        binding.switchNotification.setOnClickListener {
+            if (!permissionViewModel.uiState.value.postNotifications) {
+                notificationPermissionLauncher.launch(
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            }
+        }
+    }
+
     private fun renderSettings(state: SettingsUiState) {
         isRenderingFromSettings = true
 
@@ -225,6 +263,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                 viewModel.signOut()
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        permissionViewModel.refreshPermissions()
     }
 
     override fun onDestroyView() {

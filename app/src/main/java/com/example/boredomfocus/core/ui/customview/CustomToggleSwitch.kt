@@ -18,7 +18,6 @@ class CustomToggleSwitch @JvmOverloads constructor(
     private var checkedChangeListener: ((Boolean) -> Unit)? = null
 
     var isChecked: Boolean = false
-        private set
 
     init {
         val typedArray = context.obtainStyledAttributes(

@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.boredomfocus.core.permission.PermissionItem
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.permission.PermissionStatus
@@ -16,6 +19,7 @@ import com.example.boredomfocus.core.permission.PermissionViewModel
 import com.example.boredomfocus.databinding.ItemPermissionBinding
 import com.example.boredomfocus.databinding.OnboardingFragmentSecondBinding
 import com.example.boredomfocus.feature.onboarding.presentation.OnboardingViewModel
+import kotlinx.coroutines.launch
 
 class OnboardingFragmentSecond : Fragment(R.layout.onboarding_fragment_second) {
 
@@ -45,10 +49,7 @@ class OnboardingFragmentSecond : Fragment(R.layout.onboarding_fragment_second) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        permissionViewModel.permissionStatus.observe(viewLifecycleOwner) { status ->
-            renderPermissions(status)
-        }
-        permissionViewModel.refreshPermissions()
+        observePermissions()
 
         binding.btnOnboarding2Allow.setOnClickListener {
             requestAllPermissions()
@@ -96,18 +97,23 @@ class OnboardingFragmentSecond : Fragment(R.layout.onboarding_fragment_second) {
     }
 
     private fun requestAllPermissions() {
-        if(permissionViewModel.requiresRuntimeNotificationPermission()) {
-            if(!permissionViewModel.isPostNotificationsGranted()) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                    return
-                }
+        val state = permissionViewModel.uiState.value
+
+        if (permissionViewModel.requiresRuntimeNotificationPermission() &&
+            !permissionViewModel.uiState.value.postNotifications) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                notificationPermissionLauncher.launch(
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+                return
             }
         }
+
         checkAndRequestDnd()
     }
     private fun checkAndRequestDnd() {
-        if(!permissionViewModel.isDoNotDisturbGranted()) {
+        if (!permissionViewModel.uiState.value.doNotDisturb) {
             startActivity(permissionViewModel.getDndSettingsIntent())
         }
     }
@@ -119,6 +125,16 @@ class OnboardingFragmentSecond : Fragment(R.layout.onboarding_fragment_second) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun observePermissions() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                permissionViewModel.uiState.collect { state ->
+                    renderPermissions(state)
+                }
+            }
+        }
     }
 
 }
