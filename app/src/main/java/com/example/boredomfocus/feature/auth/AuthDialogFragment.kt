@@ -17,6 +17,7 @@ import androidx.credentials.GetCredentialResponse
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -31,7 +32,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class AuthDialogFragment : DialogFragment() {
 
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val viewModel: AuthViewModel by hiltNavGraphViewModels(R.id.authGraph)
     private var _binding: DialogAuthBinding? = null
     private val binding get() = _binding!!
 
@@ -108,7 +109,7 @@ class AuthDialogFragment : DialogFragment() {
                 viewModel.event.collect { event ->
                     when(event) {
                         AuthUiEvent.LoginCompleted -> {
-                            findNavController().popBackStack()
+                            findNavController().popBackStack(R.id.settingsFragment, false)
                         }
 
                         AuthUiEvent.OpenConfirmEmail -> {

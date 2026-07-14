@@ -141,6 +141,14 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteAccount() {
+        try {
+            val user = firebaseAuth.currentUser ?: return
+
+            user.delete().await()
+        } catch (e: Exception) {}
+    }
+
     private fun Exception.toAuthError(): AuthError {
         return when(this) {
             is FirebaseAuthWeakPasswordException -> AuthError.WeakPassword

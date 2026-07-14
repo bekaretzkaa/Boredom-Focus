@@ -253,6 +253,7 @@ class AuthViewModel @Inject constructor(
     fun onConfirmEmailScreenClosed() {
         if (!uiState.value.isEmailVerified) {
             viewModelScope.launch {
+                authRepository.deleteAccount()
                 authRepository.signOut()
             }
         }

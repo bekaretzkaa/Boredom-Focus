@@ -11,6 +11,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ConfirmEmailDialogFragment : DialogFragment() {
 
-    private val viewModel: AuthViewModel by activityViewModels()
+    private val viewModel: AuthViewModel by hiltNavGraphViewModels(R.id.authGraph)
     private var _binding: DialogConfirmEmailBinding? = null
     private val binding get() = _binding!!
 
@@ -64,6 +65,7 @@ class ConfirmEmailDialogFragment : DialogFragment() {
     }
 
     override fun onDestroyView() {
+        viewModel.onConfirmEmailScreenClosed()
         super.onDestroyView()
         _binding = null
     }
@@ -73,6 +75,11 @@ class ConfirmEmailDialogFragment : DialogFragment() {
 
         binding.btnConfirmed.setOnClickListener {
             viewModel.checkEmailVerification()
+        }
+
+        binding.btnChangeEmail.setOnClickListener {
+            viewModel.onConfirmEmailScreenClosed()
+            findNavController().popBackStack()
         }
 
         observeUiState()
@@ -85,13 +92,7 @@ class ConfirmEmailDialogFragment : DialogFragment() {
                 viewModel.event.collect { event ->
                     when(event) {
                         AuthUiEvent.RegistrationCompleted -> {
-                            findNavController().navigate(
-                                R.id.settingsFragment,
-                                null,
-                                NavOptions.Builder()
-                                    .setPopUpTo(R.id.authGraph, true)
-                                    .build()
-                            )
+                            findNavController().popBackStack(R.id.settingsFragment, false)
                         }
                         else -> Unit
                     }
@@ -105,6 +106,7 @@ class ConfirmEmailDialogFragment : DialogFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     binding.loadingOverlay.isVisible = false
+                    binding.tvEmailDescription2.text = state.email
 
                     when(state.status) {
                         AuthUiStatus.EmailSent -> {

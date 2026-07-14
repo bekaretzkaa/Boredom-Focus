@@ -27,4 +27,6 @@ interface AuthRepository {
 
     suspend fun checkEmailVerification() : AuthResult<Boolean>
 
+    suspend fun deleteAccount()
+
 }
