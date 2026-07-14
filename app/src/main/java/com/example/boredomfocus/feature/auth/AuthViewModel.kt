@@ -259,6 +259,12 @@ class AuthViewModel @Inject constructor(
         }
     }
 
+    fun clearStatus() {
+        _uiState.update {
+            it.copy(status = AuthUiStatus.Idle)
+        }
+    }
+
     private fun AuthError.toAuthUiStatus(): AuthUiStatus {
         return when (this) {
             is AuthError.WeakPassword -> AuthUiStatus.WeakPassword

@@ -24,70 +24,71 @@
                 android:paddingHorizontal="24dp"
                 android:paddingVertical="30dp">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/cardIcon"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    app:cardBackgroundColor="#0F1A0F"
-                    app:cardCornerRadius="36dp"
-                    app:strokeColor="@color/green_basic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/ivBackgroundIcon"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_email" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <TextView
-                    android:id="@+id/tvEmail"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/layoutStatus"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_bold"
-                    android:text="Подтвердите email"
-                    android:textColor="@color/white"
-                    android:textSize="26sp"
-                    android:layout_marginTop="12dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardIcon" />
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
 
-                <TextView
-                    android:id="@+id/tvEmailDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/inter_medium"
-                    android:text="Мы отправили письмо на"
-                    android:textAlignment="center"
-                    android:textColor="#444444"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+                    app:layout_constraintEnd_toEndOf="parent">
 
-                <TextView
-                    android:id="@+id/tvEmailDescription2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/inter_medium"
-                    android:text="alex@gmail.com"
-                    android:textAlignment="center"
-                    android:textColor="#666666"
-                    android:textSize="22sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEmailDescription" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardIcon"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        app:cardBackgroundColor="#0F1A0F"
+                        app:cardCornerRadius="36dp"
+                        app:strokeColor="@color/green_basic">
+
+                        <ImageView
+                            android:id="@+id/ivBackgroundIcon"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_email"/>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:id="@+id/tvEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="Подтвердите email"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"/>
+
+                    <TextView
+                        android:id="@+id/tvEmailDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="Мы отправили письмо на"
+                        android:textAlignment="center"
+                        android:textColor="#444444"
+                        android:textSize="18sp"/>
+
+                    <TextView
+                        android:id="@+id/tvEmailDescription2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="alex@gmail.com"
+                        android:textAlignment="center"
+                        android:textColor="#666666"
+                        android:textSize="22sp"/>
+
+                </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnConfirmed"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:backgroundTint="@color/white"
@@ -97,14 +98,14 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     app:cornerRadius="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+
+                    app:layout_constraintTop_toBottomOf="@id/layoutStatus"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEmailDescription2"/>
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnChangeEmail"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:backgroundTint="#141414"
@@ -113,13 +114,13 @@
                     android:text="Изменить email"
                     android:textColor="#444444"
                     android:textSize="20sp"
+                    app:cornerRadius="20dp"
                     app:strokeColor="#444444"
                     app:strokeWidth="1dp"
-                    app:cornerRadius="20dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
+
+                    app:layout_constraintTop_toBottomOf="@id/btnConfirmed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/btnConfirmed"/>
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -10,12 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.DialogConfirmEmailBinding
@@ -28,6 +27,8 @@ class ConfirmEmailDialogFragment : DialogFragment() {
     private val viewModel: AuthViewModel by hiltNavGraphViewModels(R.id.authGraph)
     private var _binding: DialogConfirmEmailBinding? = null
     private val binding get() = _binding!!
+
+    private var lastStatus: AuthUiStatus? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +66,12 @@ class ConfirmEmailDialogFragment : DialogFragment() {
     }
 
     override fun onDestroyView() {
+        // Cancel animations to prevent callbacks after view destruction
+        _binding?.apply {
+            layoutStatus.animate().cancel()
+            cardDialog.animate().cancel()
+        }
+        
         viewModel.onConfirmEmailScreenClosed()
         super.onDestroyView()
         _binding = null
@@ -84,6 +91,8 @@ class ConfirmEmailDialogFragment : DialogFragment() {
 
         observeUiState()
         observeEvents()
+
+        playEnterAnimation()
     }
 
     private fun observeEvents() {
@@ -105,36 +114,104 @@ class ConfirmEmailDialogFragment : DialogFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
-                    binding.loadingOverlay.isVisible = false
+                    val binding = _binding ?: return@collect
+                    
                     binding.tvEmailDescription2.text = state.email
 
-                    when(state.status) {
-                        AuthUiStatus.EmailSent -> {
-                            binding.cardIcon.setBackgroundColor(Color.parseColor("#0F1A0F"))
-                            binding.cardIcon.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
-                            binding.ivBackgroundIcon.setImageResource(R.drawable.ic_email)
+                    if (lastStatus != state.status) {
+                        lastStatus = state.status
 
-                            binding.tvEmail.text = "Подтвердите email"
-                            binding.tvEmailDescription.text = "Мы отправили письмо на"
+                        animateStatusChange {
+                            renderStatus(state.status)
                         }
-
-                        AuthUiStatus.EmailNotVerified -> {
-                            binding.cardIcon.setBackgroundColor(Color.parseColor("#1E1010"))
-                            binding.cardIcon.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
-                            binding.ivBackgroundIcon.setImageResource(R.drawable.ic_email_not)
-
-                            binding.tvEmail.text = "Email не подтвержден"
-                            binding.tvEmailDescription.text = "Пройдите по ссылке из письма, затем нажмите кнопку снова."
-                        }
-
-                        AuthUiStatus.Loading -> {
-                            binding.loadingOverlay.isVisible = true
-                        }
-
-                        else -> Unit
                     }
+
+                    binding.loadingOverlay.isVisible =
+                        state.status == AuthUiStatus.Loading
                 }
             }
+        }
+    }
+
+
+    private fun renderStatus(status: AuthUiStatus) {
+        val binding = _binding ?: return
+        val context = context ?: return
+
+        when(status) {
+
+            AuthUiStatus.EmailSent -> {
+                binding.cardIcon.setCardBackgroundColor(
+                    Color.parseColor("#0F1A0F")
+                )
+
+                binding.cardIcon.setStrokeColor(
+                    ContextCompat.getColor(context, R.color.green_basic)
+                )
+
+                binding.ivBackgroundIcon.setImageResource(R.drawable.ic_email)
+
+                binding.tvEmail.text = "Подтвердите email"
+                binding.tvEmailDescription.text = "Мы отправили письмо на"
+            }
+
+            AuthUiStatus.EmailNotVerified -> {
+                binding.cardIcon.setCardBackgroundColor(
+                    Color.parseColor("#1E1010")
+                )
+
+                binding.cardIcon.setStrokeColor(
+                    ContextCompat.getColor(context, R.color.red_basic)
+                )
+
+                binding.ivBackgroundIcon.setImageResource(R.drawable.ic_email_not)
+
+                binding.tvEmail.text = "Email не подтвержден"
+                binding.tvEmailDescription.text =
+                    "Пройдите по ссылке из письма,\nзатем нажмите кнопку снова."
+            }
+
+            else -> Unit
+        }
+    }
+
+    private fun animateStatusChange(block: () -> Unit) {
+        _binding?.layoutStatus?.animate()
+            ?.alpha(0f)
+            ?.translationY(-16f)
+            ?.setDuration(120)
+            ?.withEndAction {
+                if (_binding == null) return@withEndAction
+                
+                block()
+
+                _binding?.layoutStatus?.apply {
+                    translationY = 16f
+
+                    animate()
+                        .alpha(1f)
+                        .translationY(0f)
+                        .setDuration(220)
+                        .setInterpolator(FastOutSlowInInterpolator())
+                        .start()
+                }
+            }
+            ?.start()
+    }
+
+    private fun playEnterAnimation() {
+        _binding?.cardDialog?.apply {
+            alpha = 0f
+            scaleX = 0.94f
+            scaleY = 0.94f
+
+            animate()
+                .alpha(1f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(220)
+                .setInterpolator(FastOutSlowInInterpolator())
+                .start()
         }
     }
 }
