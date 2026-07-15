@@ -6,11 +6,16 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class PermissionViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -38,11 +43,23 @@ class PermissionViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun refreshPermissions() {
-        _uiState.value = permissionManager.getPermissionStatus()
+        val status = permissionManager.getPermissionStatus()
+        _uiState.value = status
     }
 
     fun getDndSettingsIntent() = permissionManager.getDndSettingsIntent()
 
     fun requiresRuntimeNotificationPermission() =
         permissionManager.requiresRuntimeNotificationPermission()
+
+
+    fun onNotificationPermissionResult(granted: Boolean) {
+        _uiState.update {
+            it.copy(postNotifications = granted)
+        }
+        viewModelScope.launch {
+            delay(300)
+            refreshPermissions()
+        }
+    }
 }

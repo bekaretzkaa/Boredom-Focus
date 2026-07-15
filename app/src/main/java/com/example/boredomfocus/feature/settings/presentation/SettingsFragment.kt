@@ -2,6 +2,7 @@ package com.example.boredomfocus.feature.settings.presentation
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -21,6 +22,7 @@ import com.example.boredomfocus.core.ui.selector.AnimatedCardSelector
 import com.example.boredomfocus.databinding.FragmentSettingsBinding
 import com.example.boredomfocus.feature.settings.dialogs.SignOutDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -38,7 +40,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            permissionViewModel.refreshPermissions()
+            permissionViewModel.onNotificationPermissionResult(granted)
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -163,8 +165,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 permissionViewModel.uiState.collect { state ->
-                    binding.switchDnd.isChecked = state.doNotDisturb
-                    binding.switchNotification.isChecked = state.postNotifications
+                    binding.switchDnd.setChecked(state.doNotDisturb)
+                    binding.switchNotification.setChecked(state.postNotifications)
                 }
             }
         }
@@ -269,6 +271,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         super.onResume()
 
         permissionViewModel.refreshPermissions()
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(300)
+            permissionViewModel.refreshPermissions()
+        }
     }
 
     override fun onDestroyView() {
