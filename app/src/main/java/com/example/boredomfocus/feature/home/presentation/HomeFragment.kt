@@ -156,8 +156,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
             if(!confirmed) return@setFragmentResultListener
 
-            val detoxDuration = bundle.getSerializable(SessionWarningDialogFragment.ARG_DURATION) as DetoxDuration
-            val difficulty = bundle.getSerializable(SessionWarningDialogFragment.ARG_DIFFICULTY) as Difficulty
+            val detoxDuration = bundle.getSerializable(SessionWarningDialogFragment.ARG_DURATION) as? DetoxDuration
+                ?: DetoxDuration.FIVE_MINUTES
+            val difficulty = bundle.getSerializable(SessionWarningDialogFragment.ARG_DIFFICULTY) as? Difficulty
+                ?: Difficulty.BEGINNER
             val focusOnly = bundle.getBoolean(SessionWarningDialogFragment.ARG_FOCUS_ONLY)
 
             val args = bundleOf(

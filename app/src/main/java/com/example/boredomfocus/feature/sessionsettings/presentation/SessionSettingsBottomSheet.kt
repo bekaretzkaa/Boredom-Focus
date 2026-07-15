@@ -159,7 +159,6 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
         }
 
         setDurationEnabled(!focusOnly)
-        setDifficultyEnabled(!focusOnly)
 
         if (shouldAnimate) {
             animateFocusOnlyState(focusOnly)
@@ -223,9 +222,7 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
     private fun getDetoxSettingsViews(): List<View> {
         return listOf(
             binding.tvDetox,
-            binding.llDetoxTimeButtons,
-            binding.tvDifficulty,
-            binding.llSettingsDifficultyButtons
+            binding.llDetoxTimeButtons
         )
     }
 
@@ -299,16 +296,6 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
             binding.cardTimeSeven,
             binding.cardTimeTen,
             binding.cardTimeFifteen
-        ).forEach {
-            it.isEnabled = enabled
-            it.isClickable = enabled
-        }
-    }
-    private fun setDifficultyEnabled(enabled: Boolean) {
-        listOf(
-            binding.cardDifficultyBeginner,
-            binding.cardDifficultyFighter,
-            binding.cardDifficultyHardcore
         ).forEach {
             it.isEnabled = enabled
             it.isClickable = enabled

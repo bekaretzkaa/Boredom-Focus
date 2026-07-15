@@ -11,11 +11,15 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.permission.PermissionViewModel
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.databinding.DialogSessionWarningBinding
+import kotlinx.coroutines.launch
 
 class SessionWarningDialogFragment : DialogFragment() {
 
@@ -48,6 +52,12 @@ class SessionWarningDialogFragment : DialogFragment() {
 
     private val difficulty: Difficulty
         get() = requireArguments().getSerializable(ARG_DIFFICULTY) as Difficulty
+
+    private val detoxDuration: DetoxDuration
+        get() = requireArguments().getSerializable(ARG_DURATION) as DetoxDuration
+
+    private val focusOnly: Boolean
+        get() = requireArguments().getBoolean(ARG_FOCUS_ONLY)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,33 +102,53 @@ class SessionWarningDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnStart.text = "Начать сессию"
-        binding.btnCancel.text = "Отмена"
-        binding.cardInstruction.visibility = View.VISIBLE
-        binding.cardSettings.visibility = View.GONE
+        observePermissions()
+    }
 
-        binding.btnStart.setOnClickListener {
-            parentFragmentManager.setFragmentResult(
-                REQUEST_KEY,
-                bundleOf(KEY_CONFIRMED to true)
-            )
-            dismiss()
-        }
+    private fun observePermissions() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                permissionViewModel.uiState.collect { state ->
 
-        binding.btnCancel.setOnClickListener {
-            parentFragmentManager.setFragmentResult(
-                REQUEST_KEY,
-                bundleOf(KEY_CONFIRMED to false)
-            )
-            dismiss()
-        }
+                    binding.btnStart.setOnClickListener {
+                        parentFragmentManager.setFragmentResult(
+                            REQUEST_KEY,
+                            bundleOf(
+                                KEY_CONFIRMED to true,
+                                ARG_DURATION to detoxDuration,
+                                ARG_DIFFICULTY to difficulty,
+                                ARG_FOCUS_ONLY to focusOnly
+                            )
+                        )
+                        dismiss()
+                    }
 
+                    binding.btnCancel.setOnClickListener {
+                        parentFragmentManager.setFragmentResult(
+                            REQUEST_KEY,
+                            bundleOf(KEY_CONFIRMED to false)
+                        )
+                        dismiss()
+                    }
 
+                    binding.btnStart.text = "Начать сессию"
+                    binding.btnCancel.text = "Отмена"
+                    binding.cardInstruction.visibility = View.VISIBLE
+                    binding.cardSettings.visibility = View.GONE
 
-        when(difficulty) {
-            Difficulty.BEGINNER -> showBeginnerUi()
-            Difficulty.FIGHTER -> showFighterUi()
-            Difficulty.HARDCORE -> showHardcoreUi()
+                    if(difficulty == Difficulty.BEGINNER) {
+                        showBeginnerUi()
+                    } else if(state.doNotDisturb) {
+                        when(difficulty) {
+                            Difficulty.BEGINNER -> showBeginnerUi()
+                            Difficulty.FIGHTER -> showFighterUi()
+                            Difficulty.HARDCORE -> showHardcoreUi()
+                        }
+                    } else {
+                        showPermissionDnd()
+                    }
+                }
+            }
         }
     }
 
@@ -156,6 +186,11 @@ class SessionWarningDialogFragment : DialogFragment() {
     }
 
     private fun showPermissionDnd() {
+        binding.cardDifficulty.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.difficulty_red_bg))
+        binding.cardDifficulty.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
+        binding.tvDifficulty.text = "Ошибка"
+        binding.tvDifficulty.setTextColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
+
         binding.tvStart.text = "Включите Do Not Disturb"
         binding.tvSessionDescription.text = "Для этого уровня нужен режим Do Not Disturb, а он сейчас выключен в настройках телефона."
 
@@ -164,6 +199,14 @@ class SessionWarningDialogFragment : DialogFragment() {
 
         binding.btnStart.text = "Проверить снова"
         binding.btnCancel.text = "Открыть настройки"
+
+        binding.btnStart.setOnClickListener {
+            permissionViewModel.refreshPermissions()
+        }
+
+        binding.btnCancel.setOnClickListener {
+            startActivity(permissionViewModel.getDndSettingsIntent())
+        }
     }
 
 }
