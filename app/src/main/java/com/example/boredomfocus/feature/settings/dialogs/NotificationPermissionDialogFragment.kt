@@ -26,7 +26,6 @@ import kotlin.getValue
 
 class NotificationPermissionDialogFragment : DialogFragment() {
 
-    private val viewModel: SettingsViewModel by hiltNavGraphViewModels(R.id.settingsGraph)
     private val permissionViewModel: PermissionViewModel by activityViewModels()
 
     private var _binding: DialogNotificationPermissionBinding? = null

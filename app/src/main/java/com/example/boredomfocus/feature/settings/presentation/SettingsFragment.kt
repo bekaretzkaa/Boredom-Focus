@@ -176,8 +176,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.switchDnd.setOnClickListener {
             if (!permissionViewModel.uiState.value.doNotDisturb) {
                 findNavController().navigate(R.id.actionSettingsFragmentToDndPermission)
-
-                startActivity(permissionViewModel.getDndSettingsIntent())
             }
         }
 
