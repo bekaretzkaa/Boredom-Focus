@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.core.view.doOnPreDraw
+import com.example.boredomfocus.feature.sessionsettings.dialogs.SessionWarningDialogFragment
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -41,6 +42,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 .show(childFragmentManager, SessionSettingsBottomSheet.TAG)
         }
         setupSessionBottomSheetResult()
+        setupSessionWarningDialogResult()
 
         observeUiState()
 
@@ -133,6 +135,30 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     ?: Difficulty.BEGINNER
 
             val focusOnly = bundle.getBoolean(SessionSettingsBottomSheet.KEY_FOCUS_ONLY)
+
+            SessionWarningDialogFragment.newInstance(
+                detoxDuration = detoxDuration,
+                difficulty = difficulty,
+                focusOnly = focusOnly
+            ).show(
+                childFragmentManager,
+                SessionWarningDialogFragment.TAG
+            )
+        }
+    }
+
+    private fun setupSessionWarningDialogResult() {
+        childFragmentManager.setFragmentResultListener(
+            SessionWarningDialogFragment.REQUEST_KEY,
+            viewLifecycleOwner
+        ) { _, bundle ->
+            val confirmed = bundle.getBoolean(SessionWarningDialogFragment.KEY_CONFIRMED)
+
+            if(!confirmed) return@setFragmentResultListener
+
+            val detoxDuration = bundle.getSerializable(SessionWarningDialogFragment.ARG_DURATION) as DetoxDuration
+            val difficulty = bundle.getSerializable(SessionWarningDialogFragment.ARG_DIFFICULTY) as Difficulty
+            val focusOnly = bundle.getBoolean(SessionWarningDialogFragment.ARG_FOCUS_ONLY)
 
             val args = bundleOf(
                 "detoxDuration" to detoxDuration,

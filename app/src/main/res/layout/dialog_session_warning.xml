@@ -1,0 +1,264 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:paddingHorizontal="24dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardDialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#141414"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="30dp"
+            android:paddingVertical="30dp">
+
+            <LinearLayout
+                android:id="@+id/layoutStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardDifficulty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#0F1A0F"
+                    app:cardCornerRadius="36dp"
+                    app:strokeColor="@color/green_basic">
+
+                    <TextView
+                        android:id="@+id/tvDifficulty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Уровень: Новичок"
+                        android:textSize="20sp"
+                        android:textColor="@color/green_basic"
+                        android:paddingHorizontal="18dp"
+                        android:paddingVertical="4dp"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/tvStart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Начать сессию?"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="30sp"/>
+
+                <TextView
+                    android:id="@+id/tvSessionDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/inter_medium"
+                    android:text="На этом уровне Do Not Disturb остается выключенным - во время детокса и фокуса"
+                    android:textAlignment="center"
+                    android:textColor="#444444"
+                    android:textSize="20sp"/>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardInstruction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    app:cardBackgroundColor="#1A1A1A"
+                    app:strokeColor="#1A1A1A">
+
+                    <TextView
+                        android:id="@+id/tvInstruction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Все звонки и уведомления будут приходить как обычно"
+                        android:textAlignment="center"
+                        android:textColor="#666666"
+                        android:textSize="19sp"
+                        android:fontFamily="@font/inter_medium"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="18dp"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:cardBackgroundColor="#1A1A1A"
+                    app:strokeColor="#1A1A1A"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutStatus">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="16dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardOne"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            app:cardBackgroundColor="#2A2A2A"
+                            app:cardCornerRadius="13dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:strokeColor="#2A2A2A">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="1"
+                                android:textColor="#888888"
+                                android:textSize="18sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/tvOne"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Нажмите Открыть настройки ниже"
+                            android:textColor="#666666"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/inter_medium"
+                            android:layout_marginStart="12dp"
+                            app:layout_constraintStart_toEndOf="@+id/cardOne"
+                            app:layout_constraintTop_toTopOf="@+id/cardOne"
+                            app:layout_constraintEnd_toEndOf="parent"/>
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardTwo"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            app:cardBackgroundColor="#2A2A2A"
+                            app:cardCornerRadius="13dp"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvOne"
+                            app:strokeColor="#2A2A2A">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="2"
+                                android:textColor="#888888"
+                                android:textSize="18sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/tvTwo"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="12dp"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="Найдите Boredom Focus в списке"
+                            android:textColor="#666666"
+                            android:textSize="18sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/cardTwo"
+                            app:layout_constraintTop_toTopOf="@+id/cardTwo" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardThree"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_marginTop="8dp"
+                            app:cardBackgroundColor="#2A2A2A"
+                            app:cardCornerRadius="13dp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTwo"
+                            app:strokeColor="#2A2A2A">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="3"
+                                android:textColor="#888888"
+                                android:textSize="18sp" />
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/tvThree"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="12dp"
+                            android:fontFamily="@font/inter_medium"
+                            android:text="Переключите Разрешить"
+                            android:textColor="#666666"
+                            android:textSize="18sp"
+                            app:layout_constraintBottom_toBottomOf="@+id/cardThree"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/cardThree"
+                            app:layout_constraintTop_toTopOf="@+id/cardThree" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:backgroundTint="@color/white"
+                android:fontFamily="@font/inter_bold"
+                android:padding="20dp"
+                android:text="Начать сессию"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:cornerRadius="20dp"
+
+                app:layout_constraintTop_toBottomOf="@id/layoutStatus"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#141414"
+                android:fontFamily="@font/inter_bold"
+                android:padding="20dp"
+                android:text="Отмена"
+                android:textColor="#444444"
+                android:textSize="20sp"
+                app:cornerRadius="20dp"
+                app:strokeColor="#444444"
+                app:strokeWidth="1dp"
+
+                app:layout_constraintTop_toBottomOf="@id/btnStart"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>
