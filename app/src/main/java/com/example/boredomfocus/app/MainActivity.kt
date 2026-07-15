@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.llNavSettings.setOnClickListener {
-            navigateToTopLevel(R.id.settingsFragment)
+            navigateToTopLevel(R.id.settingsGraph)
         }
     }
 

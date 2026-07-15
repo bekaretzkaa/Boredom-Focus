@@ -534,7 +534,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_notification_off" />
+                            android:src="@drawable/ic_dnd" />
                     </FrameLayout>
 
                     <TextView

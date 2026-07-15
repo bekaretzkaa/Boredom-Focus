@@ -17,14 +17,35 @@
         android:id="@+id/statisticsFragment"
         android:name="com.example.boredomfocus.feature.statistics.presentation.StatisticsFragment"/>
 
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.boredomfocus.feature.settings.presentation.SettingsFragment">
+    <navigation
+        android:id="@+id/settingsGraph"
+        app:startDestination="@id/settingsFragment">
 
-        <action
-            android:id="@+id/actionSettingsFragmentToAuthGraph"
-            app:destination="@id/authGraph"/>
-    </fragment>
+        <fragment
+            android:id="@+id/settingsFragment"
+            android:name="com.example.boredomfocus.feature.settings.presentation.SettingsFragment">
+
+            <action
+                android:id="@+id/actionSettingsFragmentToNotificationPermission"
+                app:destination="@id/notificationPermissionDialogFragment"/>
+
+            <action
+                android:id="@+id/actionSettingsFragmentToDndPermission"
+                app:destination="@id/dndPermissionDialogFragment"/>
+
+            <action
+                android:id="@+id/actionSettingsFragmentToAuthGraph"
+                app:destination="@id/authGraph"/>
+        </fragment>
+
+        <dialog
+            android:id="@+id/notificationPermissionDialogFragment"
+            android:name="com.example.boredomfocus.feature.settings.dialogs.NotificationPermissionDialogFragment"/>
+
+        <dialog
+            android:id="@+id/dndPermissionDialogFragment"
+            android:name="com.example.boredomfocus.feature.settings.dialogs.DndPermissionDialogFragment"/>
+    </navigation>
 
     <navigation
         android:id="@+id/authGraph"
