@@ -2,6 +2,7 @@ package com.example.boredomfocus.feature.settings.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.boredomfocus.core.notification.ReminderScheduler
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
@@ -16,12 +17,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val appSettingsRepository: AppSettingsRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val reminderScheduler: ReminderScheduler
 ) : ViewModel() {
 
 
@@ -63,4 +66,22 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun saveReminder(
+        hour: Int,
+        minute: Int
+    ) {
+        reminderScheduler.schedule(hour, minute)
+    }
+
+    init {
+
+        val calendar = Calendar.getInstance().apply {
+            add(Calendar.MINUTE, 1)
+        }
+
+        saveReminder(
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE)
+        )
+    }
 }

@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import androidx.core.os.bundleOf
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -27,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.card.MaterialCardView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class SessionSettingsBottomSheet : BottomSheetDialogFragment() {

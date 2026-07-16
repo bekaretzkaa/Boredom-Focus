@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
@@ -15,6 +16,7 @@ import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
@@ -28,6 +30,10 @@ class AppSettingsRepositoryImpl @Inject constructor(
         val DIFFICULTY = stringPreferencesKey("difficulty")
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
         val FIRST_LAUNCH = longPreferencesKey("first_launch")
+
+        val REMINDER_ENABLED = booleanPreferencesKey("reminder_enabled")
+        val REMINDER_HOUR = intPreferencesKey("reminder_hour")
+        val REMINDER_MINUTE = intPreferencesKey("reminder_minute")
     }
 
     override fun getSettings(): Flow<AppSettings> {
@@ -54,12 +60,28 @@ class AppSettingsRepositoryImpl @Inject constructor(
 
                 val firstLaunchDate = preferences[Keys.FIRST_LAUNCH]
 
+                val reminderEnabled = preferences[Keys.REMINDER_ENABLED] ?: false
+                val reminderHour = preferences[Keys.REMINDER_HOUR] ?: 21
+                val reminderMinute = preferences[Keys.REMINDER_MINUTE] ?: 0
+
                 AppSettings(
                     detoxDuration = detoxDuration,
                     difficulty = difficulty,
-                    firstLaunch = firstLaunchDate
+                    firstLaunch = firstLaunchDate,
+                    reminderEnabled = reminderEnabled,
+                    reminderHour = reminderHour,
+                    reminderMinute = reminderMinute
                 )
             }
+    }
+
+    override suspend fun getCurrentSettings(): AppSettings {
+        val preferences = dataStore.data.first()
+        return AppSettings(
+            reminderEnabled = preferences[Keys.REMINDER_ENABLED] ?: false,
+            reminderHour = preferences[Keys.REMINDER_HOUR] ?: 21,
+            reminderMinute = preferences[Keys.REMINDER_MINUTE] ?: 0
+        )
     }
 
     override fun isOnboardingCompleted(): Flow<Boolean> {
@@ -110,5 +132,13 @@ class AppSettingsRepositoryImpl @Inject constructor(
         }
 
         return firstLaunchDate
+    }
+
+    override suspend fun saveReminder(enabled: Boolean, hour: Int, minute: Int) {
+        dataStore.edit { preferences ->
+            preferences[Keys.REMINDER_HOUR] = hour
+            preferences[Keys.REMINDER_MINUTE] = minute
+            preferences[Keys.REMINDER_ENABLED] = enabled
+        }
     }
 }

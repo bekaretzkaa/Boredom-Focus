@@ -9,6 +9,8 @@ interface AppSettingsRepository {
 
     fun getSettings(): Flow<AppSettings>
 
+    suspend fun getCurrentSettings(): AppSettings
+
     fun isOnboardingCompleted(): Flow<Boolean>
 
     suspend fun setOnboardingCompleted(completed: Boolean)
@@ -18,5 +20,7 @@ interface AppSettingsRepository {
     suspend fun saveDifficulty(difficulty: Difficulty)
 
     suspend fun ensureFirstLaunchDateExists(): Long
+
+    suspend fun saveReminder(enabled: Boolean, hour: Int, minute: Int)
 
 }
