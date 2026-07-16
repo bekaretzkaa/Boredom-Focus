@@ -4,6 +4,8 @@
     <!-- Runtime permissions -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /> <!-- Special permissions -->
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:name=".app.BoredomFocusApp"
@@ -30,7 +32,17 @@
 
         <receiver
             android:name=".core.notification.ReminderReceiver"
+            android:enabled="true"
             android:exported="false" />
+
+        <receiver
+            android:name=".core.notification.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

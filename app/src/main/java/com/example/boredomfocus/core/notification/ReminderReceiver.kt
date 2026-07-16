@@ -17,10 +17,14 @@ class ReminderReceiver : BroadcastReceiver() {
     @Inject
     lateinit var notificationHelper: NotificationHelper
 
-    override fun onReceive(
-        context: Context,
-        intent: Intent
-    ) {
+    @Inject
+    lateinit var reminderScheduler: ReminderScheduler
+
+    override fun onReceive(context: Context, intent: Intent) {
+        val hour = intent.getIntExtra("hour", 21)
+        val minute = intent.getIntExtra("minute", 0)
+
         notificationHelper.showReminder()
+        reminderScheduler.scheduleNext(hour, minute)
     }
 }

@@ -67,21 +67,18 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun saveReminder(
+        enabled: Boolean,
         hour: Int,
         minute: Int
     ) {
-        reminderScheduler.schedule(hour, minute)
-    }
+        viewModelScope.launch {
+            appSettingsRepository.saveReminder(enabled, hour, minute)
 
-    init {
-
-        val calendar = Calendar.getInstance().apply {
-            add(Calendar.MINUTE, 1)
+            if (enabled) {
+                reminderScheduler.schedule(hour, minute)
+            } else {
+                reminderScheduler.cancel()
+            }
         }
-
-        saveReminder(
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE)
-        )
     }
 }
