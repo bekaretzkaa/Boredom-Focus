@@ -39,7 +39,9 @@ class SettingsViewModel @Inject constructor(
                 difficulty = settings.difficulty,
                 isSignedIn = user != null,
                 name = user?.name ?: "",
-                email = user?.email ?: ""
+                email = user?.email ?: "",
+                reminderHour = settings.reminderHour,
+                reminderMinute = settings.reminderMinute
             )
         }.stateIn(
             viewModelScope,

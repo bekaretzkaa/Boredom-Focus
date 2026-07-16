@@ -659,20 +659,35 @@
                         android:textColor="#C3C3C3"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/tvSettingsNotificationTimeWord2"
+                        app:layout_constraintEnd_toStartOf="@+id/timeCard"
                         app:layout_constraintStart_toEndOf="@+id/flSettingsNotificationTimeIconContainer"
                         app:layout_constraintTop_toTopOf="@id/viewNotificationLine" />
 
-                    <TextView
-                        android:id="@+id/tvSettingsNotificationTimeWord2"
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/timeCard"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="21:00 »"
-                        android:textColor="#444444"
-                        android:textSize="16sp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardCornerRadius="12dp"
+                        app:cardBackgroundColor="#222222"
+                        app:strokeColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="@+id/tvSettingsNotificationTimeWord1"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvSettingsNotificationTimeWord1" />
+                        app:layout_constraintTop_toTopOf="@+id/tvSettingsNotificationTimeWord1" >
+
+                        <TextView
+                            android:id="@+id/tvSettingsNotificationTimeWord2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="21:00"
+                            android:textColor="#888888"
+                            android:textSize="16sp"
+                            android:paddingVertical="12dp"
+                            android:paddingHorizontal="20dp"/>
+                    </com.google.android.material.card.MaterialCardView>
+
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -798,85 +813,6 @@
                         app:layout_constraintTop_toTopOf="@+id/flSettingsStarIconContainer" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/tvSettingsDeleteWord1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:text="опасная зона"
-                android:textAllCaps="true"
-                android:textColor="#7D2D2C"
-                android:textSize="16sp"
-                android:layout_marginTop="18dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardSettingsApp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardSettingsDelete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#161616"
-                android:layout_marginTop="8dp"
-                app:cardCornerRadius="22dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSettingsDeleteWord1"
-                app:strokeColor="#0D0D0D">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cardSettingsDeleteContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="16dp"
-                    android:paddingVertical="20dp">
-
-                    <FrameLayout
-                        android:id="@+id/flSettingsDeleteIconContainer"
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"
-                        android:background="@drawable/bg_ic_notification_off"
-                        app:layout_constraintBottom_toBottomOf="@+id/tvSettingsDeleteWord3"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvSettingsDeleteWord2">
-
-                        <ImageView
-                            android:id="@+id/ivSettingsDeleteIcon"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_delete" />
-                    </FrameLayout>
-
-                    <TextView
-                        android:id="@+id/tvSettingsDeleteWord2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="12dp"
-                        android:fontFamily="@font/inter_medium"
-                        android:text="Сбросить всю статистику"
-                        android:textColor="#e04a49"
-                        android:textSize="20sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/flSettingsDeleteIconContainer"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvSettingsDeleteWord3"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Стрик, история, рекорды — всё"
-                        android:textColor="#444444"
-                        android:textSize="16sp"
-                        android:layout_marginStart="12dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/flSettingsDeleteIconContainer"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSettingsDeleteWord2" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

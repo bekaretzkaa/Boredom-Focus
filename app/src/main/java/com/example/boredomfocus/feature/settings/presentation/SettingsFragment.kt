@@ -22,9 +22,12 @@ import com.example.boredomfocus.core.ui.selector.AnimatedCardGroupSelector
 import com.example.boredomfocus.core.ui.selector.AnimatedCardSelector
 import com.example.boredomfocus.databinding.FragmentSettingsBinding
 import com.example.boredomfocus.feature.settings.dialogs.SignOutDialogFragment
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment(R.layout.fragment_settings) {
@@ -39,11 +42,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private var durationSelector: AnimatedCardGroupSelector? = null
     private var isRenderingFromSettings = false
 
-    private val notificationPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-            permissionViewModel.onNotificationPermissionResult(granted)
-        }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSettingsBinding.bind(view)
@@ -55,6 +53,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         setupSignOutResultListener()
         setupClicks()
         observePermissions()
+
+        binding.timeCard.setOnClickListener {
+            showTimePickerDialog()
+        }
     }
 
     private fun setupDurationSelector() {
@@ -209,6 +211,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         } finally {
             isRenderingFromSettings = false
         }
+
+        binding.tvSettingsNotificationTimeWord2.text = String.format(Locale.getDefault(), "%02d:%02d", state.reminderHour, state.reminderMinute)
     }
 
     private fun observeProfile() {
@@ -281,5 +285,21 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         difficultySelector = null
         durationSelector = null
         _binding = null
+    }
+
+    private fun showTimePickerDialog() {
+        val picker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(viewModel.uiState.value.reminderHour)
+            .setMinute(viewModel.uiState.value.reminderMinute)
+            .setTitleText("Время напоминания")
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .build()
+
+        picker.addOnPositiveButtonClickListener {
+            viewModel.saveReminder(true, picker.hour, picker.minute)
+        }
+
+        picker.show(childFragmentManager, "reminder_time_picker")
     }
 }

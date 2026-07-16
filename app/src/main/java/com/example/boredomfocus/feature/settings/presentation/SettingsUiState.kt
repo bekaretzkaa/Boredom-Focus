@@ -9,5 +9,7 @@ data class SettingsUiState(
     val difficulty: Difficulty = Difficulty.BEGINNER,
     val isSignedIn: Boolean = false,
     val name: String = "",
-    val email: String = ""
+    val email: String = "",
+    val reminderHour: Int = 21,
+    val reminderMinute: Int = 0
 )
