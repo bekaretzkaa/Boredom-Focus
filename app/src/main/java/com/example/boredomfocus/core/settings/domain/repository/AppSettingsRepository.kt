@@ -23,4 +23,9 @@ interface AppSettingsRepository {
 
     suspend fun saveReminder(enabled: Boolean, hour: Int, minute: Int)
 
+    suspend fun savePreviousInterruptionFilter(filter: Int)
+
+    fun getPreviousInterruptionFilter(): Flow<Int>
+
+    suspend fun clearPreviousInterruptionFilter()
 }

@@ -1,5 +1,6 @@
 package com.example.boredomfocus.core.settings.data.repository
 
+import android.app.NotificationManager
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
@@ -34,6 +35,8 @@ class AppSettingsRepositoryImpl @Inject constructor(
         val REMINDER_ENABLED = booleanPreferencesKey("reminder_enabled")
         val REMINDER_HOUR = intPreferencesKey("reminder_hour")
         val REMINDER_MINUTE = intPreferencesKey("reminder_minute")
+
+        val PREVIOUS_INTERRUPTION_FILTER = intPreferencesKey("previous_interruption_filter")
     }
 
     override fun getSettings(): Flow<AppSettings> {
@@ -139,6 +142,24 @@ class AppSettingsRepositoryImpl @Inject constructor(
             preferences[Keys.REMINDER_HOUR] = hour
             preferences[Keys.REMINDER_MINUTE] = minute
             preferences[Keys.REMINDER_ENABLED] = enabled
+        }
+    }
+
+    override suspend fun savePreviousInterruptionFilter(filter: Int) {
+        dataStore.edit { preferences ->
+            preferences[Keys.PREVIOUS_INTERRUPTION_FILTER] = filter
+        }
+    }
+
+    override fun getPreviousInterruptionFilter(): Flow<Int> {
+        return dataStore.data.map { preferences ->
+            preferences[Keys.PREVIOUS_INTERRUPTION_FILTER] ?: -1
+        }
+    }
+
+    override suspend fun clearPreviousInterruptionFilter() {
+        dataStore.edit { preferences ->
+            preferences[Keys.PREVIOUS_INTERRUPTION_FILTER] = -1
         }
     }
 }

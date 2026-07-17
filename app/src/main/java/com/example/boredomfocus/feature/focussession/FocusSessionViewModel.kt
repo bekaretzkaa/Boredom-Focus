@@ -5,8 +5,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.core.common.formatSeconds
+import com.example.boredomfocus.core.permission.DndManager
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
+import com.example.boredomfocus.core.settings.domain.model.SessionPhase
 import com.example.boredomfocus.data.repository.AddSessionRepositoryImpl
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository
@@ -32,7 +34,8 @@ class FocusSessionViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
     private val sessionRepository: SessionRepository,
     private val dailyStatsRepository: DailyStatsRepository,
-    private val addSessionRepository: AddSessionRepositoryImpl
+    private val addSessionRepository: AddSessionRepositoryImpl,
+    private val dndManager: DndManager
 ) : ViewModel() {
 
     val detoxDuration: DetoxDuration = savedStateHandle["detoxDuration"] ?: DetoxDuration.FIVE_MINUTES
@@ -147,6 +150,8 @@ class FocusSessionViewModel @Inject constructor(
         }
     }
     private suspend fun finishCompletedSession() {
+        dndManager.onSessionEnd()
+
         if(focusOnly) {
             addSessionRepository.finishSession(
                 detoxMinutes = 0,
@@ -268,7 +273,10 @@ class FocusSessionViewModel @Inject constructor(
             )
         }
 
-        runDetoxTimer()
+        viewModelScope.launch {
+            dndManager.onSessionStart(difficulty, SessionPhase.DETOX)
+            runDetoxTimer()
+        }
     }
     private fun pauseDetoxTimer() {
         if(!isDetoxRunning) return
@@ -289,6 +297,10 @@ class FocusSessionViewModel @Inject constructor(
         runDetoxTimer()
     }
     private fun stopDetoxTimer() {
+        viewModelScope.launch {
+            dndManager.onSessionEnd()
+        }
+
         detoxJob?.cancel()
         detoxJob = null
         pausedDetoxRemainingMillis = null
@@ -350,8 +362,10 @@ class FocusSessionViewModel @Inject constructor(
                 )
             )
         }
-
-        runFocusStopwatch()
+        viewModelScope.launch {
+            dndManager.onPhaseChanged(difficulty, SessionPhase.FOCUS)
+            runFocusStopwatch()
+        }
     }
     private fun pauseFocusStopwatch() {
         if(!isFocusRunning) return
@@ -370,6 +384,10 @@ class FocusSessionViewModel @Inject constructor(
         runFocusStopwatch()
     }
     private fun stopFocusStopwatch() {
+        viewModelScope.launch {
+            dndManager.onSessionEnd()
+        }
+
         focusJob?.cancel()
         focusJob = null
         pausedFocusElapsedMillis = 0L
