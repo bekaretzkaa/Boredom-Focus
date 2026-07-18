@@ -67,7 +67,16 @@ class FocusSessionViewModel @Inject constructor(
             service!!.initSession(difficulty, focusOnly)
 
             viewModelScope.launch {
-                service!!.uiState.collect { _uiState.value = it }
+                service!!.uiState.collect { serviceState ->
+                    _uiState.update { current ->
+                        current.copy(
+                            detoxUiState = serviceState.detoxUiState,
+                            focusUiState = current.focusUiState.copy(
+                                focusSeconds = serviceState.focusUiState.focusSeconds
+                            )
+                        )
+                    }
+                }
             }
             viewModelScope.launch {
                 service!!.events.collect { _events.send(it) }

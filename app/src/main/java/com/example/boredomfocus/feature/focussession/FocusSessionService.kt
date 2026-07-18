@@ -92,6 +92,7 @@ class FocusSessionService : Service() {
         _uiState.update { state ->
             state.copy(
                 detoxUiState = state.detoxUiState.copy(
+                    selectedDetoxSeconds = totalSeconds,
                     detoxElapsedSeconds = 0,
                     detoxRemainingSeconds = totalSeconds,
                     detoxProgress = 1f
