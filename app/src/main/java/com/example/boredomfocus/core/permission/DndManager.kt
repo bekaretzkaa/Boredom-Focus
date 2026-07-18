@@ -54,6 +54,15 @@ class DndManager @Inject constructor(
         settingsRepository.clearPreviousInterruptionFilter()
     }
 
+    suspend fun recoverIfSessionKilled(isSessionRunning: Boolean) {
+        if(!isSessionRunning) return
+
+        val saved = settingsRepository.getPreviousInterruptionFilter().first()
+        if(saved != -1) {
+            onSessionEnd()
+        }
+    }
+
     private fun applyFilter(level: Difficulty, phase: SessionPhase) {
         val filter = filterFor(level, phase)
         if(notificationManager.currentInterruptionFilter != filter) {
@@ -68,40 +77,6 @@ class DndManager @Inject constructor(
             SessionPhase.DETOX -> NotificationManager.INTERRUPTION_FILTER_NONE
             SessionPhase.FOCUS -> NotificationManager.INTERRUPTION_FILTER_PRIORITY
         }
-    }
-
-    suspend fun enable(level: Difficulty) {
-        if(!notificationManager.isNotificationPolicyAccessGranted) return
-
-        val savedFilter = settingsRepository.getPreviousInterruptionFilter().first()
-
-        if(savedFilter == -1) {
-            settingsRepository.savePreviousInterruptionFilter(
-                notificationManager.currentInterruptionFilter
-            )
-        }
-
-        notificationManager.setInterruptionFilter(
-            when(level) {
-                Difficulty.BEGINNER -> NotificationManager.INTERRUPTION_FILTER_ALL
-                Difficulty.FIGHTER -> NotificationManager.INTERRUPTION_FILTER_PRIORITY
-                Difficulty.HARDCORE -> NotificationManager.INTERRUPTION_FILTER_NONE
-            }
-        )
-    }
-
-    suspend fun restore() {
-
-        if (!notificationManager.isNotificationPolicyAccessGranted) return
-
-        val savedFilter =
-            settingsRepository.getPreviousInterruptionFilter().first()
-
-        if (savedFilter == -1) return
-
-        notificationManager.setInterruptionFilter(savedFilter)
-
-        settingsRepository.clearPreviousInterruptionFilter()
     }
 
 }

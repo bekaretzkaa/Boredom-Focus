@@ -37,6 +37,8 @@ class AppSettingsRepositoryImpl @Inject constructor(
         val REMINDER_MINUTE = intPreferencesKey("reminder_minute")
 
         val PREVIOUS_INTERRUPTION_FILTER = intPreferencesKey("previous_interruption_filter")
+
+        val isSessionRunning = booleanPreferencesKey("is_session_running")
     }
 
     override fun getSettings(): Flow<AppSettings> {
@@ -160,6 +162,16 @@ class AppSettingsRepositoryImpl @Inject constructor(
     override suspend fun clearPreviousInterruptionFilter() {
         dataStore.edit { preferences ->
             preferences[Keys.PREVIOUS_INTERRUPTION_FILTER] = -1
+        }
+    }
+
+    override suspend fun isSessionRunning(): Boolean {
+        return dataStore.data.first()[Keys.isSessionRunning] ?: false
+    }
+
+    override suspend fun setSessionRunning(running: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[Keys.isSessionRunning] = running
         }
     }
 }

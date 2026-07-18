@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
 
         setupBottomNavigation()
         observeDestinations()
+
+        viewModel.checkDndMode()
     }
 
     private fun observeOnboarding() {

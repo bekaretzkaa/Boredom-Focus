@@ -28,4 +28,8 @@ interface AppSettingsRepository {
     fun getPreviousInterruptionFilter(): Flow<Int>
 
     suspend fun clearPreviousInterruptionFilter()
+
+    suspend fun isSessionRunning(): Boolean
+
+    suspend fun setSessionRunning(running: Boolean)
 }
