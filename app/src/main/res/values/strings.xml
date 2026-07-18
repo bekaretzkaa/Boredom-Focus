@@ -5,4 +5,30 @@
 
     <string name="create_account"><u>Создать</u></string>
     <string name="sign_in_account"><u>Войти</u></string>
+
+
+    <!-- HOME Fragment -->
+    <string name="home_focus_record">Рекорд фокуса</string>
+    <string name="home_best_time_without_phone">Лучшее время без телефона</string>
+
+    <string name="home_start_detox">Начать детокс</string>
+    <string name="home_another_session">Ещё одна сессия</string>
+
+    <string name="home_session_today">Сегодня уже была сессия</string>
+
+    <string name="home_streak_days">Стрик\nдней подряд</string>
+    <string name="home_sessions_this_week">Сессий\nна этой неделе</string>
+
+    <string name="day_mon">Пн</string>
+    <string name="day_tue">Вт</string>
+    <string name="day_wed">Ср</string>
+    <string name="day_thu">Чт</string>
+    <string name="day_fri">Пт</string>
+    <string name="day_sat">Сб</string>
+    <string name="day_sun">Вс</string>
+
+    <string name="quote_text">«Дисциплина — это выбор между тем, чего хочешь сейчас, и тем, чего хочешь больше всего»</string>
+    <string name="quote_author">— Авраам Линкольн</string>
+
+
 </resources>

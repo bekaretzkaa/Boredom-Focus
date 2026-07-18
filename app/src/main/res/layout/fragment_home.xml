@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="рекорд фокуса"
+        android:text="@string/home_focus_record"
         android:textAllCaps="true"
         android:textColor="#444444"
         android:textSize="22sp"
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
         android:paddingBottom="12dp"
-        android:text="лучшее время без телефона"
+        android:text="@string/home_best_time_without_phone"
         android:textColor="#444444"
         android:textSize="22sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_regular"
-                android:text="пн"
+                android:text="@string/day_mon"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -106,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_regular"
-                android:text="вт"
+                android:text="@string/day_tue"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_regular"
-                android:text="ср"
+                android:text="@string/day_wed"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_regular"
-                android:text="чт"
+                android:text="@string/day_thu"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -178,7 +178,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_regular"
-                android:text="пт"
+                android:text="@string/day_fri"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_regular"
-                android:text="сб"
+                android:text="@string/day_sat"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -226,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:fontFamily="@font/inter_regular"
-                android:text="вс"
+                android:text="@string/day_sun"
                 android:textColor="#444444"
                 android:textSize="16sp" />
 
@@ -261,7 +261,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/inter_medium"
-        android:text="сегодня уже была сессия"
+        android:text="@string/home_session_today"
         android:textColor="#639922"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -276,7 +276,7 @@
         android:backgroundTint="@color/white"
         android:fontFamily="@font/inter_bold"
         android:padding="22dp"
-        android:text="Начать детокс"
+        android:text="@string/home_start_detox"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:layout_marginTop="12dp"
@@ -326,7 +326,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="стрик\nдней подряд"
+                android:text="@string/home_streak_days"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -368,7 +368,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="сессий\nна этой неделю"
+                android:text="@string/home_sessions_this_week"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -399,7 +399,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_italic"
-                android:text="\«Дисциплина — это выбор между тем, чего хочешь сейчас, и тем, чего хочешь больше всего\»"
+                android:text="@string/quote_text"
                 android:textColor="#777777"
                 android:textSize="20sp" />
 
@@ -407,7 +407,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="— Авраам Линкольн"
+                android:text="@string/quote_author"
                 android:textColor="#555555"
                 android:textSize="14sp" />
         </LinearLayout>

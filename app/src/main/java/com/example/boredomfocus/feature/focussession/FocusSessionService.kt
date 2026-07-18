@@ -16,7 +16,6 @@ import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.core.settings.domain.model.SessionPhase
 import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
 import com.example.boredomfocus.domain.repository.AddSessionRepository
-import com.example.boredomfocus.domain.repository.SessionRepository
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

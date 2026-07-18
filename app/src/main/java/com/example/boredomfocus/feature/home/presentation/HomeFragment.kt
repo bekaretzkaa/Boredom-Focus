@@ -88,11 +88,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         if(state.todayStreak) {
             binding.tvStreakCounted.visibility = View.VISIBLE
             binding.viewStreakCounted.visibility = View.VISIBLE
-            binding.btnStartDetox.text = "Ещё одна сессия"
+            binding.btnStartDetox.text = getString(R.string.home_another_session)
         } else {
             binding.tvStreakCounted.visibility = View.GONE
             binding.viewStreakCounted.visibility = View.GONE
-            binding.btnStartDetox.text = "Начать детокс"
+            binding.btnStartDetox.text = getString(R.string.home_start_detox)
         }
     }
 
@@ -109,7 +109,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         days.forEachIndexed { index, view ->
             val entity = state.dailyStats.getOrNull(index)
-            Log.d("HomeFragment", "renderWeekCircles: $entity")
 
             val background = when {
                 entity == null -> R.drawable.circle_empty
