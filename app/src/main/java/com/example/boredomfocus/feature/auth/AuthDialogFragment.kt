@@ -115,7 +115,6 @@ class AuthDialogFragment : DialogFragment() {
         }
 
         binding.tvCreate.setOnClickListener {
-            Log.d("AUTH", "CLICK: ${viewModel.uiState.value.isSignIn}")
             viewModel.onSignTypeChanged(!viewModel.uiState.value.isSignIn)
         }
 
@@ -179,8 +178,10 @@ class AuthDialogFragment : DialogFragment() {
                             .alpha(0f)
                             .setDuration(80)
                             .withEndAction {
-                                binding.tvAuth.text =
-                                    if(state.isSignIn) "Войти" else "Создать аккаунт"
+                                binding.tvAuth.setText(
+                                    if (state.isSignIn) R.string.auth_sign_in
+                                    else R.string.auth_sign_up
+                                )
 
                                 binding.tvAuth.animate()
                                     .alpha(1f)
@@ -188,7 +189,7 @@ class AuthDialogFragment : DialogFragment() {
                                     .start()
                             }.start()
 
-                        animateButton(if(state.isSignIn) "Войти" else "Создать аккаунт")
+                        animateButton(if(state.isSignIn) getString(R.string.auth_sign_in) else getString(R.string.auth_sign_up))
 
                     }
 
@@ -199,17 +200,17 @@ class AuthDialogFragment : DialogFragment() {
                     }
 
                     if(state.isSignIn) {
-                        binding.tvNoAccount.text = "Нет аккаунта?"
+                        binding.tvNoAccount.text = getString(R.string.auth_no_account)
                         binding.tvCreate.setText(R.string.create_account)
 
                         binding.etName.text?.clear()
                         binding.etPasswordConfirm.text?.clear()
 
-                        binding.tvSigning.text = "Входим..."
+                        binding.tvSigning.text = getString(R.string.auth_loading_sign_in)
                     } else {
-                        binding.tvNoAccount.text = "Уже есть аккаунт?"
+                        binding.tvNoAccount.text = getString(R.string.auth_have_account)
                         binding.tvCreate.setText(R.string.sign_in_account)
-                        binding.tvSigning.text = "Регистрируемся..."
+                        binding.tvSigning.text = getString(R.string.auth_loading_sign_up)
                     }
                 }
             }
@@ -233,29 +234,29 @@ class AuthDialogFragment : DialogFragment() {
                     confirmPassword = false
                 )
                 showError(binding.tvPasswordWrong)
-                binding.tvPasswordWrong.text = "Пароль слишком слабый"
+                binding.tvPasswordWrong.text = getString(R.string.auth_error_weak_password)
             }
             is AuthUiStatus.EmailAlreadyExists -> {
                 makeRed(redBasic, name = false, email = true, password = false, confirmPassword = false)
                 showError(binding.tvEmailWrong)
-                binding.tvEmailWrong.text = "Пользователь с таким email уже существует"
+                binding.tvEmailWrong.text = getString(R.string.auth_error_email_exists)
             }
             is AuthUiStatus.InvalidCredentials -> {
                 makeRed(redBasic, name = false, email = true, password = true, confirmPassword = false)
                 showError(binding.tvPasswordWrong)
-                binding.tvPasswordWrong.text = "Неверный email или пароль"
+                binding.tvPasswordWrong.text = getString(R.string.auth_error_invalid_credentials)
             }
             is AuthUiStatus.UserNotFound -> {
                 makeRed(redBasic, name = false, email = true, password = false, confirmPassword = false)
                 showError(binding.tvEmailWrong)
-                binding.tvEmailWrong.text = "Пользователь с таким email не найден"
+                binding.tvEmailWrong.text = getString(R.string.auth_error_user_not_found)
             }
             is AuthUiStatus.NetworkError -> {
                 showToast()
                 binding.cardToast.strokeColor = ContextCompat.getColor(requireContext(), R.color.difficulty_orange)
                 binding.llToast.background  = ContextCompat.getColor(requireContext(), R.color.difficulty_orange_bg_2).toDrawable()
                 binding.ivToast.setBackgroundResource(R.drawable.ic_wifi_off)
-                binding.tvToast.text = "Проблема с интернет-соединением"
+                binding.tvToast.text = getString(R.string.auth_error_network)
                 binding.tvToast.setTextColor(ContextCompat.getColor(requireContext(), R.color.difficulty_orange))
             }
             is AuthUiStatus.Unknown, AuthUiStatus.GoogleFailed -> {
@@ -263,56 +264,56 @@ class AuthDialogFragment : DialogFragment() {
                 binding.cardToast.strokeColor = ContextCompat.getColor(requireContext(), R.color.red_basic)
                 binding.llToast.background  = ContextCompat.getColor(requireContext(), R.color.difficulty_red_bg_2).toDrawable()
                 binding.ivToast.setBackgroundResource(R.drawable.ic_warning_red)
-                binding.tvToast.text = if(state.status == AuthUiStatus.GoogleFailed) "Не удалось авторизоваться с помощью Google" else "Неизвестная ошибка"
+                binding.tvToast.text = if(state.status == AuthUiStatus.GoogleFailed) getString(R.string.auth_error_google) else getString(R.string.auth_error_unknown)
                 binding.tvToast.setTextColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
             }
 
             is AuthUiStatus.EmptySignUp -> {
                 makeRed(redBasic, name = true, email = true, password = true, confirmPassword = true)
                 showError(binding.tvPasswordConfirmWrong)
-                binding.tvPasswordConfirmWrong.text = "Заполните все поля"
+                binding.tvPasswordConfirmWrong.text = getString(R.string.auth_error_fill_all_fields)
             }
 
             is AuthUiStatus.EmptySignIn -> {
                 makeRed(redBasic, name = false, email = true, password = true, confirmPassword = false)
                 showError(binding.tvPasswordWrong)
-                binding.tvPasswordWrong.text = "Заполните все поля"
+                binding.tvPasswordWrong.text = getString(R.string.auth_error_fill_all_fields)
             }
 
             is AuthUiStatus.EmptyName -> {
                 makeRed(redBasic, name = true, email = false, password = false, confirmPassword = false)
                 showError(binding.tvNameWrong)
-                binding.tvNameWrong.text = "Заполните поле"
+                binding.tvNameWrong.text = getString(R.string.auth_error_fill_field)
             }
 
             is AuthUiStatus.EmptyEmail -> {
                 makeRed(redBasic, name = false, email = true, password = false, confirmPassword = false)
                 showError(binding.tvEmailWrong)
-                binding.tvEmailWrong.text = "Заполните поле"
+                binding.tvEmailWrong.text = getString(R.string.auth_error_fill_field)
             }
 
             is AuthUiStatus.EmptyPassword -> {
                 makeRed(redBasic, name = false, email = false, password = true, confirmPassword = false)
                 showError(binding.tvPasswordWrong)
-                binding.tvPasswordWrong.text = "Заполните поле"
+                binding.tvPasswordWrong.text = getString(R.string.auth_error_fill_field)
             }
 
             is AuthUiStatus.EmptyConfirmPassword -> {
                 makeRed(redBasic, name = false, email = false, password = false, confirmPassword = true)
                 showError(binding.tvPasswordConfirmWrong)
-                binding.tvPasswordConfirmWrong.text = "Заполните поле"
+                binding.tvPasswordConfirmWrong.text = getString(R.string.auth_error_fill_field)
             }
 
             is AuthUiStatus.PasswordMismatch -> {
                 makeRed(redBasic, name = false, email = false, password = true, confirmPassword = true)
                 showError(binding.tvPasswordConfirmWrong)
-                binding.tvPasswordConfirmWrong.text = "Пароли не совпадают"
+                binding.tvPasswordConfirmWrong.text = getString(R.string.auth_error_passwords_not_match)
             }
 
             is AuthUiStatus.EmptyTwo -> {
                 makeRed(redBasic, state.status.name, state.status.email, state.status.password, state.status.confirmPassword)
                 showError(binding.tvPasswordConfirmWrong)
-                binding.tvPasswordConfirmWrong.text = "Заполните все поля"
+                binding.tvPasswordConfirmWrong.text = getString(R.string.auth_error_fill_all_fields)
             }
 
             else -> {}

@@ -1,7 +1,10 @@
 package com.example.boredomfocus.feature.statistics.presentation
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
+import com.example.boredomfocus.R
 import com.example.boredomfocus.core.common.RangeDays
 import com.example.boredomfocus.core.common.RangeMillis
 import com.example.boredomfocus.core.common.epochDayToDayOfWeekIndex
@@ -34,12 +37,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
-import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.YearMonth
-import java.time.ZoneId
-import java.time.format.TextStyle
-import java.util.Locale
 import javax.inject.Inject
 private data class SessionGroupFlow(
     val statsSummary: StatsSummary? = null,
@@ -57,9 +55,10 @@ private data class DailyStatsGroupFlow(
 )
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
+    application: Application,
     private val sessionRepository: SessionRepository,
     private val dailyStatsRepository: DailyStatsRepository
-) : ViewModel() {
+) : AndroidViewModel(application) {
 
     private val currentWeekRangeMillis = getCalendarWeekRange(0)
     private val previousWeekRangeMillis = getCalendarWeekRange(-1)
@@ -129,7 +128,7 @@ class StatisticsViewModel @Inject constructor(
 
             val updatedLastSessions = mutableListOf<SessionListItem>()
             lastSessions.forEach { entity ->
-                if(SessionListItem.Header(formatDateFromEpochMillis(entity.date)) in updatedLastSessions) {
+                if(SessionListItem.Header(formatDateFromEpochMillis(getApplication(),entity.date)) in updatedLastSessions) {
                     updatedLastSessions.add(SessionListItem.Session(
                         entity.detoxMinutes.toInt(),
                         entity.detoxSeconds.toInt(),
@@ -138,7 +137,7 @@ class StatisticsViewModel @Inject constructor(
                         entity.completed
                     ))
                 } else {
-                    updatedLastSessions.add(SessionListItem.Header(formatDateFromEpochMillis(entity.date)))
+                    updatedLastSessions.add(SessionListItem.Header(formatDateFromEpochMillis(getApplication() ,entity.date)))
                     updatedLastSessions.add(SessionListItem.Session(
                         entity.detoxMinutes.toInt(),
                         entity.detoxSeconds.toInt(),
@@ -202,11 +201,11 @@ class StatisticsViewModel @Inject constructor(
                     val first = periodStats.first() as MonthWeekStatsResult
                     val last = periodStats.last() as MonthWeekStatsResult
                     for(i in 1..first.weekIndex) {
-                        updatedPeriodStats.add(ChartItem("$i НЕД", -1, -1, -1))
+                        updatedPeriodStats.add(ChartItem(application.getString(R.string.statistics_week_number, i), -1, -1, -1))
                     }
                     updatedPeriodStats.addAll(periodStats.map { toChartItem(it) })
                     for(i in last.weekIndex+2..getCurrentMonthWeeksCount()) {
-                        updatedPeriodStats.add(ChartItem("$i НЕД", -1, -1, -1))
+                        updatedPeriodStats.add(ChartItem(application.getString(R.string.statistics_week_number, i), -1, -1, -1))
                     }
                     val averageFocusTimeDivider = (LocalDate.now().toEpochDay() - currentRangeDays.startDay)
                     averageFocusTime = focusTime / if(averageFocusTimeDivider == 0L) 1 else averageFocusTimeDivider
@@ -287,7 +286,7 @@ class StatisticsViewModel @Inject constructor(
 
             is MonthWeekStatsResult -> {
                 ChartItem(
-                    label = "${item.weekIndex + 1} НЕД",
+                    label = application.getString(R.string.statistics_week_number, item.weekIndex+1),
                     detoxMinutes = item.totalDetoxMinutes.toInt(),
                     focusMinutes = (item.totalFocusSeconds / 60).toInt(),
                     sessionsCount = item.sessionCount

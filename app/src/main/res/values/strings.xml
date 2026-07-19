@@ -3,10 +3,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="create_account"><u>Создать</u></string>
-    <string name="sign_in_account"><u>Войти</u></string>
-
-
 
     <!-- HOME Fragment -->
     <string name="home_focus_record">Рекорд фокуса</string>
@@ -185,5 +181,179 @@
     <string name="settings_sign_out_cancel">
         Отмена
     </string>
+
+
+
+    <!-- AUTH dialog -->
+    <string name="auth_sign_in">Войти</string>
+    <string name="auth_sign_up">Создать аккаунт</string>
+
+    <string name="auth_name">Имя</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Пароль</string>
+    <string name="auth_confirm_password">Подтвердите пароль</string>
+
+    <string name="auth_name_hint">John</string>
+    <string name="auth_email_hint">your@email.com</string>
+    <string name="auth_password_hint">••••••••</string>
+
+    <string name="auth_forgot_password">Забыли пароль?</string>
+
+    <string name="auth_or">или</string>
+
+    <string name="auth_continue_google">Продолжить с Google</string>
+
+    <string name="auth_no_account">Нет аккаунта?</string>
+    <string name="auth_have_account">Уже есть аккаунт?</string>
+
+    <string name="auth_create_account">Создать аккаунт</string>
+    <string name="auth_sign_in_account">Войти</string>
+
+    <string name="auth_loading_sign_in">Входим...</string>
+    <string name="auth_loading_sign_up">Регистрируемся...</string>
+
+    <string name="auth_error_fill_field">Заполните поле</string>
+    <string name="auth_error_fill_all_fields">Заполните все поля</string>
+    <string name="auth_error_weak_password">Пароль слишком слабый</string>
+    <string name="auth_error_passwords_not_match">Пароли не совпадают</string>
+    <string name="auth_error_invalid_credentials">Неверный email или пароль</string>
+    <string name="auth_error_email_exists">Пользователь с таким email уже существует</string>
+    <string name="auth_error_user_not_found">Пользователь с таким email не найден</string>
+
+    <string name="auth_error_network">Проблема с интернет-соединением</string>
+    <string name="auth_error_unknown">Неизвестная ошибка</string>
+    <string name="auth_error_google">Не удалось авторизоваться с помощью Google</string>
+
+    <string name="create_account"><u>Создать</u></string>
+    <string name="sign_in_account"><u>Войти</u></string>
+
+
+    <!-- CONFIRM EMAIL dialog -->
+    <string name="auth_confirm_email_title">Подтвердите email</string>
+    <string name="auth_confirm_email_description">Мы отправили письмо на</string>
+    <string name="auth_confirm_email_not_verified_title">Email не подтвержден</string>
+    <string name="auth_confirm_email_not_verified_description">Пройдите по ссылке из письма,\nзатем нажмите кнопку снова.</string>
+
+    <string name="auth_confirm_email_button">Я подтвердил</string>
+    <string name="auth_confirm_email_change">Изменить email</string>
+    <string name="auth_loading_checking_email">Проверяем...</string>
+
+
+
+    <!-- STATISTICS fragment -->
+    <string name="statistics_title">Статистика</string>
+
+    <string name="statistics_week">Неделя</string>
+    <string name="statistics_month">Месяц</string>
+    <string name="statistics_all_time">Всё время</string>
+
+    <string name="statistics_focus_record">рекорд фокуса</string>
+    <string name="statistics_focus_average">среднее фокуса</string>
+    <string name="statistics_sessions_month">сессий за месяц</string>
+    <string name="statistics_sessions_week">сессий за неделю</string>
+    <string name="statistics_sessions_total">всего сессий</string>
+    <string name="statistics_detox_completed">детоксов завершено</string>
+
+    <string name="statistics_best_all_time">↑ лучший за всё время</string>
+    <string name="statistics_focus_average_default">↑ +0:50 от прошлого</string>
+    <string name="statistics_sessions_default">↓ −3 от прошлого</string>
+    <string name="statistics_detox_default">↓ −5%% от прошлого</string>
+
+    <string name="statistics_total_focus_week">всего фокуса за \nнеделю</string>
+    <string name="statistics_total_focus_month">всего фокуса за \nмесяц</string>
+    <string name="statistics_total_focus_all_time">всего фокуса за \nвсё время</string>
+
+    <string name="statistics_average_focus_day">в среднем фокуса за день</string>
+
+    <string name="statistics_this_week">эта неделя</string>
+
+    <string name="statistics_monday">пн</string>
+    <string name="statistics_tuesday">вт</string>
+    <string name="statistics_wednesday">ср</string>
+    <string name="statistics_thursday">чт</string>
+    <string name="statistics_friday">пт</string>
+    <string name="statistics_saturday">сб</string>
+    <string name="statistics_sunday">вс</string>
+
+    <string name="statistics_focus">фокус</string>
+    <string name="statistics_detox">детокс</string>
+
+    <string name="statistics_week_3">нед 3</string>
+
+    <string name="statistics_session_count">%1$d сессий</string>
+
+    <string name="statistics_last_sessions">последние сессии</string>
+    <string name="statistics_last_sessions_week">сессии за неделю</string>
+    <string name="statistics_last_sessions_month">сессии за месяц</string>
+
+    <string name="statistics_no_sessions">Ещё нет сессий</string>
+    <string name="statistics_no_sessions_week">На этой неделе пусто</string>
+    <string name="statistics_no_sessions_month">В этом месяце пусто</string>
+
+    <string name="statistics_previous_week_sessions">На прошлой было %1$d сессий</string>
+    <string name="statistics_previous_month_sessions">В прошлом месяце было %1$d сессий</string>
+
+    <string name="statistics_start_first_session">Начни первую — она появится здесь</string>
+
+    <string name="statistics_all_time_label">за всё время</string>
+    <string name="statistics_since_day_one">с первого дня</string>
+
+    <string name="statistics_first_record">↑ твой первый рекорд</string>
+    <string name="statistics_new_record">★ новый рекорд</string>
+
+    <string name="statistics_first_week">первая неделя</string>
+    <string name="statistics_first_month">первый месяц</string>
+
+    <string name="statistics_starting_point">отправная точка</string>
+    <string name="statistics_beginning">начало пути</string>
+    <string name="statistics_first_result">первый результат</string>
+
+    <string name="statistics_goal">цель: %1$s</string>
+    <string name="statistics_previous_week">прошлая: %1$s</string>
+    <string name="statistics_previous_month">прошлый: %1$s</string>
+
+    <string name="statistics_week_started">начало недели</string>
+    <string name="statistics_month_started">начало месяца</string>
+
+    <string name="statistics_just_started">это только начало</string>
+    <string name="statistics_start_session">начни сессию</string>
+
+    <string name="statistics_previous_sessions_week">прошлая: %1$d</string>
+    <string name="statistics_previous_sessions_month">прошлый: %1$d</string>
+
+    <string name="statistics_days_without_sessions">%1$d дней без сессий</string>
+
+    <string name="statistics_too_early">рано судить</string>
+    <string name="statistics_start_today">начни сегодня</string>
+
+    <string name="statistics_stable">— стабильно</string>
+
+    <string name="statistics_better_time">↑ +%1$s от прошлого</string>
+    <string name="statistics_worse_time">↓ −%1$s от прошлого</string>
+
+    <string name="statistics_previous_peak">прошлый был пиком</string>
+
+    <string name="statistics_better_sessions">↑ +%1$d от прошлого</string>
+    <string name="statistics_worse_sessions">↓ −%1$d от прошлого</string>
+
+    <string name="statistics_less_than_usual">меньше обычного</string>
+
+    <string name="statistics_perfect">идеально ✓</string>
+    <string name="statistics_perfect_week">идеальная неделя ✓</string>
+    <string name="statistics_perfect_month">идеальный месяц ✓</string>
+
+    <string name="statistics_better_percent">↑ +%1$.1f%% от прошлого</string>
+    <string name="statistics_worse_percent">↓ −%1$.1f%% от прошлого</string>
+    <string name="statistics_usually_percent">обычно у тебя %1$.1f%%</string>
+
+    <string name="statistics_minutes">%1$d мин</string>
+    <string name="statistics_hours_minutes">%1$d ч %2$d мин</string>
+    
+    <string name="statistics_interrupted">прерван</string>
+
+    <string name="statistics_week_number">%1$d НЕД</string>
+
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
 
 </resources>

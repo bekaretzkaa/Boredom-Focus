@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_bold"
-                android:text="Статистика"
+                android:text="@string/statistics_title"
                 android:textColor="@color/white"
                 android:textSize="32sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -59,7 +59,7 @@
                         android:id="@+id/tvWeek"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Неделя"
+                        android:text="@string/statistics_week"
                         android:textSize="18sp"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
@@ -82,7 +82,7 @@
                         android:id="@+id/tvMonth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Месяц"
+                        android:text="@string/statistics_month"
                         android:textSize="18sp"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
@@ -105,7 +105,7 @@
                         android:id="@+id/tvAllTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Всё время"
+                        android:text="@string/statistics_all_time"
                         android:textSize="18sp"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
@@ -161,7 +161,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="рекорд фокуса"
+                            android:text="@string/statistics_focus_record"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -170,7 +170,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="↑ лучший за всё время"
+                            android:text="@string/statistics_best_all_time"
                             android:textColor="#639922"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -211,7 +211,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="среднее фокуса"
+                            android:text="@string/statistics_focus_average"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -220,7 +220,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="↑ +0:50 от прошлого"
+                            android:text="@string/statistics_focus_average_default"
                             android:textColor="#639922"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -261,7 +261,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="сессий за месяц"
+                            android:text="@string/statistics_sessions_month"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -270,7 +270,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="↓ −3 от прошлого"
+                            android:text="@string/statistics_sessions_default"
                             android:textColor="#E24B4A"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -311,7 +311,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="детоксов завершено"
+                            android:text="@string/statistics_detox_completed"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -320,7 +320,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter_medium"
-                            android:text="↓ −5% от прошлого"
+                            android:text="@string/statistics_detox_default"
                             android:textColor="#E24B4A"
                             android:textSize="14sp" />
 
@@ -364,7 +364,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_medium"
-                        android:text="всего фокуса за неделю"
+                        android:text="@string/statistics_total_focus_week"
                         android:textColor="#444444"
                         android:textSize="14sp"
                         android:layout_marginStart="4dp"
@@ -412,7 +412,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_medium"
-                        android:text="в среднем фокуса за день"
+                        android:text="@string/statistics_average_focus_day"
                         android:textColor="#444444"
                         android:textSize="14sp"
                         android:layout_marginStart="4dp"
@@ -442,7 +442,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:text="эта неделя"
+                android:text="@string/statistics_this_week"
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="16sp"
@@ -490,7 +490,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="пн"
+                            android:text="@string/statistics_monday"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -514,7 +514,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="вт"
+                            android:text="@string/statistics_tuesday"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -538,7 +538,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="ср"
+                            android:text="@string/statistics_wednesday"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -562,7 +562,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="чт"
+                            android:text="@string/statistics_thursday"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -586,7 +586,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="пт"
+                            android:text="@string/statistics_friday"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -610,7 +610,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="сб"
+                            android:text="@string/statistics_saturday"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -634,7 +634,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
                             android:fontFamily="@font/inter_regular"
-                            android:text="вс"
+                            android:text="@string/statistics_sunday"
                             android:textColor="#444444"
                             android:textSize="16sp" />
 
@@ -669,7 +669,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="фокус"
+                    android:text="@string/statistics_focus"
                     android:textColor="#444444"
                     android:textSize="18sp" />
 
@@ -686,7 +686,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="детокс"
+                    android:text="@string/statistics_detox"
                     android:textColor="#444444"
                     android:textSize="18sp" />
 
@@ -724,7 +724,7 @@
                         android:id="@+id/tvChartItemLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="нед 3"
+                        android:text="@string/statistics_week_3"
                         android:textAllCaps="true"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -744,7 +744,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter_medium"
-                        android:text="Детокс"
+                        android:text="@string/statistics_detox"
                         android:textColor="#444444"
                         android:textSize="18sp"
                         android:layout_marginStart="12dp"
@@ -790,7 +790,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/inter_medium"
-                        android:text="Фокус"
+                        android:text="@string/statistics_focus"
                         android:textColor="#444444"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="@+id/viewGreenSquare2"
@@ -842,7 +842,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:text="Последние сессий"
+                android:text="@string/statistics_last_sessions"
                 android:textAllCaps="true"
                 android:textColor="#444444"
                 android:textSize="16sp"
@@ -874,7 +874,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="Ещё нет сессий"
+                android:text="@string/statistics_no_sessions"
                 android:textColor="#555555"
                 android:textSize="20sp"
                 android:layout_marginTop="16dp"
@@ -888,7 +888,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_regular"
-                android:text="Начни первую — она\nпоявится здесь"
+                android:text="@string/statistics_start_first_session"
                 android:textColor="#333333"
                 android:textSize="20sp"
                 android:layout_marginTop="6dp"

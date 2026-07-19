@@ -3,8 +3,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="create_account"><u>Создать</u></string>
-    <string name="sign_in_account"><u>Войти</u></string>
 
 
 
@@ -180,5 +178,178 @@
         Cancel
     </string>
 
+
+
+    <!-- AUTH dialog -->
+    <string name="auth_sign_in">Sign In</string>
+    <string name="auth_sign_up">Create Account</string>
+
+    <string name="auth_name">Name</string>
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_confirm_password">Confirm Password</string>
+
+    <string name="auth_name_hint">John</string>
+    <string name="auth_email_hint">your@email.com</string>
+    <string name="auth_password_hint">••••••••</string>
+
+    <string name="auth_forgot_password">Forgot password?</string>
+
+    <string name="auth_or">or</string>
+
+    <string name="auth_continue_google">Continue with Google</string>
+
+    <string name="auth_no_account">Don\'t have an account?</string>
+    <string name="auth_have_account">Already have an account?</string>
+
+    <string name="auth_create_account">Create Account</string>
+    <string name="auth_sign_in_account">Sign In</string>
+
+    <string name="auth_loading_sign_in">Signing in...</string>
+    <string name="auth_loading_sign_up">Creating account...</string>
+
+    <string name="auth_error_fill_field">Fill in this field</string>
+    <string name="auth_error_fill_all_fields">Fill in all fields</string>
+    <string name="auth_error_weak_password">Password is too weak</string>
+    <string name="auth_error_passwords_not_match">Passwords do not match</string>
+    <string name="auth_error_invalid_credentials">Invalid email or password</string>
+    <string name="auth_error_email_exists">An account with this email already exists</string>
+    <string name="auth_error_user_not_found">User with this email was not found</string>
+
+    <string name="auth_error_network">No internet connection</string>
+    <string name="auth_error_unknown">Unknown error</string>
+    <string name="auth_error_google">Google sign-in failed</string>
+
+    <string name="create_account"><u>Create</u></string>
+    <string name="sign_in_account"><u>Sing in</u></string>
+
+
+    <!-- CONFIRM EMAIL dialog -->
+    <string name="auth_confirm_email_title">Verify your email</string>
+    <string name="auth_confirm_email_description">We\'ve sent a verification email to</string>
+    <string name="auth_confirm_email_not_verified_title">Email not verified</string>
+    <string name="auth_confirm_email_not_verified_description">Open the link in the email, then tap the button again.</string>
+
+    <string name="auth_confirm_email_button">I\'ve Verified It</string>
+    <string name="auth_confirm_email_change">Change Email</string>
+    <string name="auth_loading_checking_email">Checking...</string>
+
+
+
+    <!-- STATISTICS fragment -->
+    <string name="statistics_title">Statistics</string>
+
+    <string name="statistics_week">Week</string>
+    <string name="statistics_month">Month</string>
+    <string name="statistics_all_time">All Time</string>
+
+    <string name="statistics_focus_record">focus record</string>
+    <string name="statistics_focus_average">average focus</string>
+    <string name="statistics_sessions_month">sessions this month</string>
+    <string name="statistics_sessions_week">sessions this week</string>
+    <string name="statistics_sessions_total">total sessions</string>
+    <string name="statistics_detox_completed">detox completed</string>
+
+    <string name="statistics_best_all_time">↑ best of all time</string>
+    <string name="statistics_focus_average_default">↑ +0:50 from previous</string>
+    <string name="statistics_sessions_default">↓ −3 from previous</string>
+    <string name="statistics_detox_default">↓ −5%% from previous</string>
+
+    <string name="statistics_total_focus_week">total focus this \nweek</string>
+    <string name="statistics_total_focus_month">total focus this \nmonth</string>
+    <string name="statistics_total_focus_all_time">total focus \nall time</string>
+
+    <string name="statistics_average_focus_day">average focus per day</string>
+
+    <string name="statistics_this_week">THIS WEEK</string>
+
+    <string name="statistics_monday">Mon</string>
+    <string name="statistics_tuesday">Tue</string>
+    <string name="statistics_wednesday">Wed</string>
+    <string name="statistics_thursday">Thu</string>
+    <string name="statistics_friday">Fri</string>
+    <string name="statistics_saturday">Sat</string>
+    <string name="statistics_sunday">Sun</string>
+
+    <string name="statistics_focus">focus</string>
+    <string name="statistics_detox">detox</string>
+
+    <string name="statistics_week_3">Week 3</string>
+
+    <string name="statistics_session_count">%1$d sessions</string>
+
+    <string name="statistics_last_sessions">recent Sessions</string>
+    <string name="statistics_last_sessions_week">sessions this week</string>
+    <string name="statistics_last_sessions_month">sessions this month</string>
+
+    <string name="statistics_no_sessions">No sessions yet</string>
+    <string name="statistics_no_sessions_week">No sessions this week</string>
+    <string name="statistics_no_sessions_month">No sessions this month</string>
+
+    <string name="statistics_previous_week_sessions">%1$d sessions last week</string>
+    <string name="statistics_previous_month_sessions">%1$d sessions last month</string>
+
+    <string name="statistics_start_first_session">Start your first session — it will appear here</string>
+
+    <string name="statistics_all_time_label">all time</string>
+    <string name="statistics_since_day_one">since day one</string>
+
+    <string name="statistics_first_record">↑ your first record</string>
+    <string name="statistics_new_record">★ new record</string>
+
+    <string name="statistics_first_week">first week</string>
+    <string name="statistics_first_month">first month</string>
+
+    <string name="statistics_starting_point">starting point</string>
+    <string name="statistics_beginning">beginning</string>
+    <string name="statistics_first_result">first result</string>
+
+    <string name="statistics_goal">goal: %1$s</string>
+    <string name="statistics_previous_week">last: %1$s</string>
+    <string name="statistics_previous_month">last: %1$s</string>
+
+    <string name="statistics_week_started">week just started</string>
+    <string name="statistics_month_started">month just started</string>
+
+    <string name="statistics_just_started">just getting started</string>
+    <string name="statistics_start_session">start a session</string>
+
+    <string name="statistics_previous_sessions_week">last: %1$d</string>
+    <string name="statistics_previous_sessions_month">last: %1$d</string>
+
+    <string name="statistics_days_without_sessions">%1$d days without sessions</string>
+
+    <string name="statistics_too_early">too early to tell</string>
+    <string name="statistics_start_today">start today</string>
+
+    <string name="statistics_stable">— stable</string>
+
+    <string name="statistics_better_time">↑ +%1$s from previous</string>
+    <string name="statistics_worse_time">↓ −%1$s from previous</string>
+
+    <string name="statistics_previous_peak">previous period was the peak</string>
+
+    <string name="statistics_better_sessions">↑ +%1$d from previous</string>
+    <string name="statistics_worse_sessions">↓ −%1$d from previous</string>
+
+    <string name="statistics_less_than_usual">below usual</string>
+
+    <string name="statistics_perfect">perfect ✓</string>
+    <string name="statistics_perfect_week">perfect week ✓</string>
+    <string name="statistics_perfect_month">perfect month ✓</string>
+
+    <string name="statistics_better_percent">↑ +%1$.1f%% from previous</string>
+    <string name="statistics_worse_percent">↓ −%1$.1f%% from previous</string>
+    <string name="statistics_usually_percent">usually %1$.1f%%</string>
+
+    <string name="statistics_minutes">%1$d min</string>
+    <string name="statistics_hours_minutes">%1$d h %2$d min</string>
+
+    <string name="statistics_interrupted">interrupted</string>
+
+    <string name="statistics_week_number">%1$d WEEK</string>
+
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
 
 </resources>

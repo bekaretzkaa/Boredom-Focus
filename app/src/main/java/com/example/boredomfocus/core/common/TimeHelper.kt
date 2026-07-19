@@ -1,5 +1,7 @@
 package com.example.boredomfocus.core.common
 
+import android.content.Context
+import com.example.boredomfocus.R
 import java.time.DayOfWeek
 import java.time.Instant
 import java.time.LocalDate
@@ -103,6 +105,7 @@ fun getLastThreeCalendarMonthsRangeDay(
 }
 
 fun formatDateFromEpochMillis(
+    context: Context,
     epochMillis: Long,
     zoneId: ZoneId = ZoneId.systemDefault()
 ): String {
@@ -114,12 +117,13 @@ fun formatDateFromEpochMillis(
     val yesterday = today.minusDays(1)
 
     return when (date) {
-        today -> "Сегодня"
-        yesterday -> "Вчера"
+        today -> context.getString(R.string.today)
+        yesterday -> context.getString(R.string.yesterday)
         else -> {
-            val formatter = DateTimeFormatter
-                .ofPattern("d MMMM", Locale("ru"))
-
+            val formatter = DateTimeFormatter.ofPattern(
+                "d MMMM",
+                context.resources.configuration.locales[0]
+            )
             date.format(formatter)
         }
     }
@@ -158,34 +162,25 @@ fun epochDayToDayOfWeekIndex(epochDay: Long): Int {
 }
 
 fun epochDayToRussianWeekDay(epochDay: Long): String {
-    return when (LocalDate.ofEpochDay(epochDay).dayOfWeek) {
-        DayOfWeek.MONDAY -> "ПН"
-        DayOfWeek.TUESDAY -> "ВТ"
-        DayOfWeek.WEDNESDAY -> "СР"
-        DayOfWeek.THURSDAY -> "ЧТ"
-        DayOfWeek.FRIDAY -> "ПТ"
-        DayOfWeek.SATURDAY -> "СБ"
-        DayOfWeek.SUNDAY -> "ВС"
-    }
+    return LocalDate.ofEpochDay(epochDay)
+        .dayOfWeek
+        .getDisplayName(TextStyle.SHORT, Locale.getDefault())
+        .uppercase(Locale.getDefault())
 }
 
 fun toRussianWeekDay(day: Int): String {
-    return when(day) {
-        1 -> "ПН"
-        2 -> "ВТ"
-        3 -> "СР"
-        4 -> "ЧТ"
-        5 -> "ПТ"
-        6 -> "СБ"
-        7 -> "ВС"
-        else -> ""
-    }
+    return DayOfWeek.of(day)
+        .getDisplayName(TextStyle.SHORT, Locale.getDefault())
+        .uppercase(Locale.getDefault())
 }
 
 fun getMonthName(yearMonth: String): String {
     return YearMonth.parse(yearMonth)
         .month
-        .getDisplayName(TextStyle.FULL_STANDALONE, Locale("ru"))
+        .getDisplayName(
+            TextStyle.FULL_STANDALONE,
+            Locale.getDefault()
+        )
 }
 
 fun getYearMonthByOffset(

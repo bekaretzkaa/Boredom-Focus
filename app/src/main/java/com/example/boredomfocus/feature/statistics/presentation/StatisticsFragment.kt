@@ -207,9 +207,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private fun renderLastSessions(sessions: List<SessionListItem>, period: StatisticsPeriod, previous: Int) {
 
         binding.tvLastSessions1.text = when(period) {
-            StatisticsPeriod.WEEK -> "сессии за неделю"
-            StatisticsPeriod.MONTH -> "сессии за месяц"
-            StatisticsPeriod.ALL_TIME -> "последние сессии"
+            StatisticsPeriod.WEEK -> getString(R.string.statistics_last_sessions_week)
+            StatisticsPeriod.MONTH -> getString(R.string.statistics_last_sessions_month)
+            StatisticsPeriod.ALL_TIME -> getString(R.string.statistics_last_sessions)
         }
 
         if(sessions.isEmpty()) {
@@ -220,18 +220,18 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             when(period) {
                 StatisticsPeriod.WEEK -> {
                     binding.ivLastSessions.setBackgroundResource(R.drawable.ic_event_busy)
-                    binding.tvLastSessions2.text = "На этой неделе пусто"
-                    binding.tvLastSessions3.text = "На прошлой было $previous сессий"
+                    binding.tvLastSessions2.text = getString(R.string.statistics_no_sessions_week)
+                    binding.tvLastSessions3.text = getString(R.string.statistics_previous_week_sessions, previous)
                 }
                 StatisticsPeriod.MONTH -> {
                     binding.ivLastSessions.setBackgroundResource(R.drawable.ic_event_busy)
-                    binding.tvLastSessions2.text = "В этом месяце пусто"
-                    binding.tvLastSessions3.text = "В прошлом месяце было $previous сессий"
+                    binding.tvLastSessions2.text = getString(R.string.statistics_no_sessions_month)
+                    binding.tvLastSessions3.text = getString(R.string.statistics_previous_sessions_month, previous)
                 }
                 StatisticsPeriod.ALL_TIME -> {
                     binding.ivLastSessions.setBackgroundResource(R.drawable.ic_play)
-                    binding.tvLastSessions2.text = "Ещё нет сессий"
-                    binding.tvLastSessions3.text = "Начни первую — она появится здесь"
+                    binding.tvLastSessions2.text = getString(R.string.statistics_no_sessions)
+                    binding.tvLastSessions3.text = getString(R.string.statistics_start_first_session)
                 }
             }
 
@@ -341,16 +341,20 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private fun renderAllTimeComparisonLabels() {
         val gray = ContextCompat.getColor(requireContext(), R.color.gray_basic)
 
-        binding.tvStatisticsFocusAverageComparison.text = "за всё время"
+        binding.tvStatisticsFocusAverageComparison.text =
+            getString(R.string.statistics_all_time_label)
         binding.tvStatisticsFocusAverageComparison.setTextColor(gray)
 
-        binding.tvStatisticsDetoxPercentComparison.text = "за всё время"
+        binding.tvStatisticsDetoxPercentComparison.text =
+            getString(R.string.statistics_all_time_label)
         binding.tvStatisticsDetoxPercentComparison.setTextColor(gray)
 
-        binding.tvStatisticsSessionsComparison.text = "с первого дня"
+        binding.tvStatisticsSessionsComparison.text =
+            getString(R.string.statistics_since_day_one)
         binding.tvStatisticsSessionsComparison.setTextColor(gray)
 
-        binding.tvStatisticsFocusRecordComparison.text = "↑ лучший за всё время"
+        binding.tvStatisticsFocusRecordComparison.text =
+            getString(R.string.statistics_best_all_time)
         binding.tvStatisticsFocusRecordComparison.setTextColor(
             ContextCompat.getColor(requireContext(), R.color.green_basic)
         )
@@ -410,14 +414,14 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val previousValue = previous ?: 0L
 
         if (period == StatisticsPeriod.ALL_TIME) {
-            textView.text = "за всё время"
+            textView.text = getString(R.string.statistics_all_time_label)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
 
         if (isFirstPeriod) {
             if(shouldHighlightRecordValue && currentValue > 0) {
-                textView.text = "↑ твой первый рекорд"
+                textView.text = getString(R.string.statistics_first_record)
                 textView.setTextColor(ContextCompat.getColor(textView.context, R.color.green_basic))
 
                 return
@@ -436,7 +440,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (allTimeRecord != null && currentValue >= allTimeRecord && currentValue > 0L) {
-            textView.text = "★ новый рекорд"
+            textView.text = getString(R.string.statistics_new_record)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.green_basic))
 
             if (shouldHighlightRecordValue) {
@@ -465,7 +469,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (currentValue == previousValue) {
-            textView.text = "— стабильно"
+            textView.text = getString(R.string.statistics_stable)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
@@ -475,12 +479,12 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val bigDrop = currentValue.toDouble() / previousValue < 0.65 && !shouldHighlightRecordValue
 
         textView.text = if (isBetter) {
-            "↑ +${formatSeconds(difference)} от прошлого"
+            getString(R.string.statistics_better_time, formatSeconds(difference))
         } else {
             if(bigDrop) {
-                "прошлый был пиком"
+                getString(R.string.statistics_previous_peak)
             } else {
-                "↓ −${formatSeconds(difference)} от прошлого"
+                getString(R.string.statistics_worse_time, formatSeconds(difference))
             }
         }
 
@@ -521,7 +525,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         }
 
         if (currentValue == previousValue) {
-            textView.text = "— стабильно"
+            textView.text = getString(R.string.statistics_stable)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
@@ -531,9 +535,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val bigDrop = currentValue.toDouble() / previousValue < 0.65
 
         textView.text = if (isBetter) {
-            "↑ +$difference от прошлого"
+            getString(R.string.statistics_better_sessions, difference)
         } else {
-            if(bigDrop) "меньше обычного" else "↓ −$difference от прошлого"
+            if(bigDrop) getString(R.string.statistics_less_than_usual) else getString(R.string.statistics_worse_sessions, difference)
         }
 
         textView.setTextColor(
@@ -573,16 +577,16 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         if(currentValue == 100.0) {
             textView.text = when(period) {
-                StatisticsPeriod.ALL_TIME -> "идеально ✓"
-                StatisticsPeriod.MONTH -> "идеальный месяц ✓"
-                StatisticsPeriod.WEEK -> "идеальная неделя ✓"
+                StatisticsPeriod.ALL_TIME -> getString(R.string.statistics_perfect)
+                StatisticsPeriod.MONTH -> getString(R.string.statistics_perfect_month)
+                StatisticsPeriod.WEEK -> getString(R.string.statistics_perfect_week)
             }
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.green_basic))
             return
         }
 
         if (currentValue == previousValue) {
-            textView.text = "— стабильно"
+            textView.text = getString(R.string.statistics_stable)
             textView.setTextColor(ContextCompat.getColor(textView.context, R.color.gray_basic))
             return
         }
@@ -592,9 +596,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val bigDrop = currentValue.toDouble() / previousValue < 0.65
 
         textView.text = if (isBetter) {
-            "↑ +${String.format("%.1f", difference)}% от прошлого"
+            getString(R.string.statistics_better_percent, difference)
         } else {
-            if(bigDrop) "обычно у тебя ${String.format("%.1f", previousValue)}%" else "↓ −${String.format("%.1f", difference)}% от прошлого"
+            if(bigDrop) getString(R.string.statistics_usually_percent, previousValue) else getString(R.string.statistics_worse_percent, difference)
         }
 
         textView.setTextColor(
@@ -628,13 +632,13 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
     private fun getFirstPeriodComparisonText(cardType: CardType, period: StatisticsPeriod): String {
         return when (cardType) {
             CardType.FOCUS_RECORD -> when(period) {
-                StatisticsPeriod.WEEK -> "первая неделя"
-                StatisticsPeriod.MONTH -> "первый месяц"
-                StatisticsPeriod.ALL_TIME -> "↑ лучший за всё время"
+                StatisticsPeriod.WEEK -> getString(R.string.statistics_first_week)
+                StatisticsPeriod.MONTH -> getString(R.string.statistics_first_month)
+                StatisticsPeriod.ALL_TIME -> getString(R.string.statistics_best_all_time)
             }
-            CardType.FOCUS_AVERAGE -> "отправная точка"
-            CardType.SESSIONS -> "начало пути"
-            CardType.DETOX_ENDED -> "первый результат"
+            CardType.FOCUS_AVERAGE -> getString(R.string.statistics_starting_point)
+            CardType.SESSIONS -> getString(R.string.statistics_beginning)
+            CardType.DETOX_ENDED -> getString(R.string.statistics_first_result)
         }
     }
 
@@ -642,11 +646,11 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         return when(cardType) {
             CardType.FOCUS_RECORD -> {
                 if(justStarted) {
-                    "цель: ${formatSeconds(previous ?: 0)}"
+                    getString(R.string.statistics_goal, formatSeconds(previous ?: 0))
                 } else {
                     when(period) {
-                        StatisticsPeriod.WEEK -> "прошлая: ${formatSeconds(previous ?: 0)}"
-                        else -> "прошлый: ${formatSeconds(previous ?: 0)}"
+                        StatisticsPeriod.WEEK -> getString(R.string.statistics_previous_week, formatSeconds(previous ?: 0))
+                        else -> getString(R.string.statistics_previous_month, formatSeconds(previous ?: 0))
                     }
                 }
             }
@@ -654,34 +658,34 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 if(justStarted) {
                     if(current == null) {
                         when(period) {
-                            StatisticsPeriod.WEEK -> "начало недели"
-                            else -> "начало месяца"
+                            StatisticsPeriod.WEEK -> getString(R.string.statistics_week_started)
+                            else -> getString(R.string.statistics_month_started)
                         }
-                    } else "это только начало"
+                    } else getString(R.string.statistics_just_started)
                 } else {
-                    "начни сессию"
+                    getString(R.string.statistics_start_session)
                 }
             }
             CardType.SESSIONS -> {
                 if(justStarted) {
                     when(period) {
-                        StatisticsPeriod.WEEK -> "прошлая: ${previous ?: 0}"
-                        else -> "прошлый: ${previous ?: 0}"
+                        StatisticsPeriod.WEEK -> getString(R.string.statistics_previous_sessions_week, previous ?: 0)
+                        else -> getString(R.string.statistics_previous_sessions_month, previous ?: 0)
                     }
                 } else {
-                    "${daysWithoutSession ?: 0} дней без сессий"
+                    getString(R.string.statistics_days_without_sessions, daysWithoutSession ?: 0)
                 }
             }
             CardType.DETOX_ENDED -> {
                 if(justStarted) {
                     if(current == null) {
                         when(period) {
-                            StatisticsPeriod.WEEK -> "начало недели"
-                            else -> "начало месяца"
+                            StatisticsPeriod.WEEK -> getString(R.string.statistics_week_started)
+                            else -> getString(R.string.statistics_month_started)
                         }
-                    } else "рано судить"
+                    } else getString(R.string.statistics_too_early)
                 } else {
-                    "начни сегодня"
+                    getString(R.string.statistics_start_today)
                 }
             }
         }
@@ -697,9 +701,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         selectedChartCardFocusMinutes = 0
         selectedChartCardDetoxMinutes = 0
 
-        binding.tvChartItemSessionCount.text = "${item.sessionsCount} сессий"
-        binding.tvChartItemFocusTime.text = "0 мин"
-        binding.tvChartItemDetoxTime.text = "0 мин"
+        binding.tvChartItemSessionCount.text = getString(R.string.statistics_session_count, item.sessionsCount)
+        binding.tvChartItemFocusTime.text = getString(R.string.statistics_minutes, 0)
+        binding.tvChartItemDetoxTime.text = getString(R.string.statistics_minutes, 0)
 
         binding.cardChosenChartItem.apply {
             animate().cancel()
@@ -782,7 +786,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         selectedChartCardFocusMinutes = item.focusMinutes
         selectedChartCardDetoxMinutes = item.detoxMinutes
 
-        binding.tvChartItemSessionCount.text = "${item.sessionsCount} сессий"
+        binding.tvChartItemSessionCount.text = getString(R.string.statistics_session_count, item.sessionsCount)
     }
 
     private fun animateSelectedChartCardContentChange(updateContent: () -> Unit) {
@@ -1011,17 +1015,17 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private fun getSessionCountTitle(period: StatisticsPeriod): String {
         return when (period) {
-            StatisticsPeriod.WEEK -> "сессий за неделю"
-            StatisticsPeriod.MONTH -> "сессий за месяц"
-            StatisticsPeriod.ALL_TIME -> "всего сессий"
+            StatisticsPeriod.WEEK -> getString(R.string.statistics_last_sessions_week)
+            StatisticsPeriod.MONTH -> getString(R.string.statistics_last_sessions_month)
+            StatisticsPeriod.ALL_TIME -> getString(R.string.statistics_last_sessions)
         }
     }
 
     private fun getTotalFocusTitle(period: StatisticsPeriod): String {
         return when (period) {
-            StatisticsPeriod.WEEK -> "всего фокуса за неделю"
-            StatisticsPeriod.MONTH -> "всего фокуса за месяц"
-            StatisticsPeriod.ALL_TIME -> "всего фокуса за всё время"
+            StatisticsPeriod.WEEK -> getString(R.string.statistics_total_focus_week)
+            StatisticsPeriod.MONTH -> getString(R.string.statistics_total_focus_month)
+            StatisticsPeriod.ALL_TIME -> getString(R.string.statistics_total_focus_all_time)
         }
     }
 
@@ -1030,9 +1034,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         val minutes = totalMinutes % 60
 
         return if (hours == 0) {
-            "$minutes мин"
+            getString(R.string.statistics_minutes, minutes)
         } else {
-            "$hours ч $minutes мин"
+            getString(R.string.statistics_hours_minutes, hours, minutes)
         }
     }
 

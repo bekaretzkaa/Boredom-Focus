@@ -151,8 +151,8 @@ class ConfirmEmailDialogFragment : DialogFragment() {
 
                 binding.ivBackgroundIcon.setImageResource(R.drawable.ic_email)
 
-                binding.tvEmail.text = "Подтвердите email"
-                binding.tvEmailDescription.text = "Мы отправили письмо на"
+                binding.tvEmail.text = getString(R.string.auth_confirm_email_title)
+                binding.tvEmailDescription.text = getString(R.string.auth_confirm_email_description)
             }
 
             AuthUiStatus.EmailNotVerified -> {
@@ -166,9 +166,8 @@ class ConfirmEmailDialogFragment : DialogFragment() {
 
                 binding.ivBackgroundIcon.setImageResource(R.drawable.ic_email_not)
 
-                binding.tvEmail.text = "Email не подтвержден"
-                binding.tvEmailDescription.text =
-                    "Пройдите по ссылке из письма,\nзатем нажмите кнопку снова."
+                binding.tvEmail.text = getString(R.string.auth_confirm_email_not_verified_title)
+                binding.tvEmailDescription.text = getString(R.string.auth_confirm_email_not_verified_description)
             }
 
             else -> Unit

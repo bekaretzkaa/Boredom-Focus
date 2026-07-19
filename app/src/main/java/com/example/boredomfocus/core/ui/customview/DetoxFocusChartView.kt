@@ -58,7 +58,7 @@ class DetoxFocusChartView @JvmOverloads constructor(
 
         textPaint.apply {
             color = Color.parseColor("#666666")
-            textSize = 28f
+            textSize = 36f
             textAlign = Paint.Align.CENTER
         }
     }

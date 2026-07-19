@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getString
 import com.example.boredomfocus.R
 import com.example.boredomfocus.databinding.ViewSessionBarsBinding
 
@@ -44,14 +45,14 @@ class SessionBarsView @JvmOverloads constructor(
                     setCardBackgroundColor(ContextCompat.getColor(context, R.color.green_bg))
                 }
                 binding.tvDescription.apply {
-                    text = "фокус"
                     setTextColor(ContextCompat.getColor(context, R.color.green_basic))
                 }
+                binding.tvDescription.setText(R.string.statistics_focus)
                 binding.viewDetox.setBackgroundResource(R.drawable.gray_empty_square)
                 binding.viewFocus.setBackgroundResource(R.drawable.green_focus_square)
             } else if(focusTime == 0) {
                 binding.tvSessionDetoxWord.apply {
-                    text = "${detoxElapsedSeconds / 60} мин"
+                    text = context.getString(R.string.statistics_minutes, detoxElapsedSeconds / 60)
                     setTextColor(ContextCompat.getColor(context, R.color.red_basic))
                 }
                 binding.tvSessionFocusWord.visibility = GONE
@@ -60,14 +61,14 @@ class SessionBarsView @JvmOverloads constructor(
                     setCardBackgroundColor(ContextCompat.getColor(context, R.color.difficulty_red_bg))
                 }
                 binding.tvDescription.apply {
-                    text = "детокс"
+                    text = context.getString(R.string.statistics_detox)
                     setTextColor(ContextCompat.getColor(context, R.color.red_basic))
                 }
                 binding.viewDetox.setBackgroundResource(R.drawable.red_detox_square)
                 binding.viewFocus.setBackgroundResource(R.drawable.gray_empty_square)
             } else {
                 binding.tvSessionDetoxWord.apply {
-                    text = "${detoxElapsedSeconds / 60} мин"
+                    text = context.getString(R.string.statistics_minutes, detoxElapsedSeconds / 60)
                     setTextColor(ContextCompat.getColor(context, R.color.red_basic))
                 }
                 binding.tvSessionFocusWord.apply {
@@ -89,7 +90,7 @@ class SessionBarsView @JvmOverloads constructor(
                 setCardBackgroundColor(ContextCompat.getColor(context, R.color.difficulty_red_bg))
             }
             binding.tvDescription.apply {
-                text = "прерван"
+                text = context.getString(R.string.statistics_interrupted)
                 setTextColor(ContextCompat.getColor(context, R.color.red_basic))
             }
 
