@@ -32,4 +32,8 @@ interface AppSettingsRepository {
     suspend fun isSessionRunning(): Boolean
 
     suspend fun setSessionRunning(running: Boolean)
+
+    val notificationPermissionRequested: Flow<Boolean>
+
+    suspend fun setNotificationPermissionRequested(requested: Boolean)
 }

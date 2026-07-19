@@ -1,13 +1,9 @@
 package com.example.boredomfocus.feature.settings.presentation
 
-import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +11,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.permission.PermissionViewModel
-import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.core.ui.selector.AnimatedCardGroupSelector
@@ -232,7 +227,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         binding.tvProfile1.text = state.name
                         binding.tvProfile2.text = state.email
 
-                        binding.btnSignIn.text = "Выйти из аккаунта"
+                        binding.btnSignIn.text = getString(R.string.settings_sign_out)
                         binding.btnSignIn.setOnClickListener {
                             SignOutDialogFragment().show(
                                 parentFragmentManager,
@@ -243,10 +238,10 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                         binding.ivPersonIcon.visibility = View.VISIBLE
                         binding.tvPersonIcon.visibility = View.GONE
 
-                        binding.tvProfile1.text = "Гость"
-                        binding.tvProfile2.text = "Прогресс хранится\\nтолько на устройстве"
+                        binding.tvProfile1.text = getString(R.string.settings_guest)
+                        binding.tvProfile2.text = getString(R.string.settings_guest_description)
 
-                        binding.btnSignIn.text = "Войти"
+                        binding.btnSignIn.text = getString(R.string.settings_sign_in)
                         binding.btnSignIn.setOnClickListener {
                             findNavController().navigate(R.id.actionSettingsFragmentToAuthGraph)
                         }
@@ -292,7 +287,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setHour(viewModel.uiState.value.reminderHour)
             .setMinute(viewModel.uiState.value.reminderMinute)
-            .setTitleText("Время напоминания")
+            .setTitleText(getString(R.string.settings_picker_dialog))
             .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
             .build()
 

@@ -7,6 +7,7 @@
     <string name="sign_in_account"><u>Войти</u></string>
 
 
+
     <!-- HOME Fragment -->
     <string name="home_focus_record">Рекорд фокуса</string>
     <string name="home_best_time_without_phone">Лучшее время без телефона</string>
@@ -30,5 +31,159 @@
     <string name="quote_text">«Дисциплина — это выбор между тем, чего хочешь сейчас, и тем, чего хочешь больше всего»</string>
     <string name="quote_author">— Авраам Линкольн</string>
 
+
+
+    <!-- SETTINGS Fragment -->
+    <string name="settings_title">Настройки</string>
+
+    <string name="settings_section_profile">ПРОФИЛЬ</string>
+    <string name="settings_section_session">СЕССИЯ</string>
+    <string name="settings_section_permissions">РАЗРЕШЕНИЯ</string>
+    <string name="settings_section_about">О ПРИЛОЖЕНИИ</string>
+
+    <string name="settings_guest">Гость</string>
+    <string name="settings_guest_description">
+        Прогресс хранится\nтолько на устройстве
+    </string>
+    <string name="settings_sign_in">Войти</string>
+
+    <string name="settings_detox_duration">Длина детокса</string>
+    <string name="settings_detox_duration_description">В минутах</string>
+
+    <string name="settings_difficulty">Сложность</string>
+    <string name="settings_difficulty_description">
+        Управляет ограничением уведомлений
+    </string>
+
+    <string name="settings_beginner">Новичок</string>
+    <string name="settings_beginner_description">все\nуведомления</string>
+
+    <string name="settings_fighter">Боец</string>
+    <string name="settings_fighter_description">только\nважные</string>
+
+    <string name="settings_hardcore">Хардкор</string>
+    <string name="settings_hardcore_description">полная\nтишина</string>
+
+    <string name="settings_do_not_disturb">Режим «Не беспокоить»</string>
+    <string name="settings_do_not_disturb_description">
+        Блокирует уведомления во время сессии
+    </string>
+
+    <string name="settings_daily_reminder">Ежедневное напоминание</string>
+
+    <string name="settings_reminder_time">Время\nнапоминания</string>
+
+    <string name="settings_version">Версия</string>
+
+    <string name="settings_rate_google_play">Оценить в Google Play</string>
+
+    <string name="settings_sign_out">Выйти с аккаунта</string>
+    <string name="settings_picker_dialog">Время напоминания</string>
+
+
+    <!-- SETTINGS DND dialog -->
+    <string name="settings_dnd_title">Режим «Не беспокоить»</string>
+
+    <string name="settings_dnd_description">
+        Во время детокса приложение блокирует уведомления. Для этого нужен особый доступ.
+    </string>
+
+    <string name="settings_dnd_warning">
+        Без этого разрешения уведомления не будут блокироваться во время сессий.
+    </string>
+
+    <string name="settings_dnd_instruction_1">
+        Нажмите «Открыть настройки» ниже
+    </string>
+
+    <string name="settings_dnd_instruction_2">
+        Найдите Boredom Focus в списке
+    </string>
+
+    <string name="settings_dnd_instruction_3">
+        Включите «Разрешить»
+    </string>
+
+    <string name="settings_dnd_open_settings">Открыть настройки</string>
+
+    <string name="settings_dnd_skip">Пропустить</string>
+
+    <string name="settings_dnd_not_granted_title">
+        Доступ не предоставлен
+    </string>
+
+    <string name="settings_dnd_not_granted_description">
+        Можно включить позже в Настройки → Разрешения
+    </string>
+
+    <string name="settings_dnd_try_again">Попробовать снова</string>
+
+    <string name="settings_dnd_continue_without">
+        Продолжить без
+    </string>
+
+
+    <!-- SETTINGS NOTIFICATION dialog -->
+    <string name="settings_notifications_title">
+        Разрешить уведомления
+    </string>
+
+    <string name="settings_notifications_description">
+        Одно напоминание в день — чтобы не забыть про сессию. Никакого спама.
+    </string>
+
+    <string name="settings_notifications_instruction_1">
+        Откройте настройки телефона.
+    </string>
+
+    <string name="settings_notifications_instruction_2">
+        Перейдите в Приложения → Boredom Focus.
+    </string>
+
+    <string name="settings_notifications_instruction_3">
+        Включите уведомления.
+    </string>
+
+    <string name="settings_notifications_allow">
+        Разрешить
+    </string>
+
+    <string name="settings_notifications_not_now">
+        Не сейчас
+    </string>
+
+    <string name="settings_notifications_disabled_title">
+        Уведомления отключены
+    </string>
+
+    <string name="settings_notifications_disabled_description">
+        Разрешение было отклонено. Включите его вручную в настройках телефона.
+    </string>
+
+    <string name="settings_notifications_open_settings">
+        Открыть настройки
+    </string>
+
+    <string name="settings_notifications_skip">
+        Пропустить
+    </string>
+
+
+    <!-- SETTINGS SIGN OUT dialog -->
+    <string name="settings_sign_out_title">
+        Выйти из аккаунта?
+    </string>
+
+    <string name="settings_sign_out_description">
+        Данные останутся на этом устройстве.
+    </string>
+
+    <string name="settings_sign_out_confirm">
+        Выйти
+    </string>
+
+    <string name="settings_sign_out_cancel">
+        Отмена
+    </string>
 
 </resources>

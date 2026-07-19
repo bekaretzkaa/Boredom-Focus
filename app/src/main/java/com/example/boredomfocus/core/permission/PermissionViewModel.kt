@@ -11,15 +11,22 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PermissionViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class PermissionViewModel @Inject constructor(
+    application: Application,
+    private val settingsRepository: AppSettingsRepository,
+    private val permissionManager: PermissionManager
+) : AndroidViewModel(application) {
 
-    private val permissionManager = PermissionManager(application)
     private val _uiState = MutableStateFlow(permissionManager.getPermissionStatus())
     val uiState = _uiState.asStateFlow()
 
@@ -62,4 +69,12 @@ class PermissionViewModel(application: Application) : AndroidViewModel(applicati
             refreshPermissions()
         }
     }
+
+    fun markNotificationPermissionRequested() {
+        viewModelScope.launch {
+            settingsRepository.setNotificationPermissionRequested(true)
+        }
+    }
+
+    val notificationPermissionRequested = settingsRepository.notificationPermissionRequested
 }

@@ -94,11 +94,11 @@ class DndPermissionDialogFragment : DialogFragment() {
 
     private fun showFirstUi() {
         binding.ivBackgroundIcon.setImageResource(R.drawable.ic_dnd)
-        binding.tvEmail.text = "Режим «не беспокоить»"
-        binding.tvEmailDescription.text = "Во время детокса приложение блокирует уведомления. Для этого нужен особый доступ."
+        binding.tvEmail.setText(R.string.settings_dnd_title)
+        binding.tvEmailDescription.setText(R.string.settings_dnd_description)
+        binding.btnConfirmed.setText(R.string.settings_dnd_open_settings)
+        binding.btnChangeEmail.setText(R.string.settings_dnd_skip)
         binding.cardInstruction.visibility = View.VISIBLE
-        binding.btnConfirmed.text = "Открыть настройки"
-        binding.btnChangeEmail.text = "Пропустить"
 
         binding.cardWarning.visibility = View.GONE
 
@@ -110,11 +110,11 @@ class DndPermissionDialogFragment : DialogFragment() {
 
     private fun showSecondUi() {
         binding.ivBackgroundIcon.setImageResource(R.drawable.ic_dnd_off)
-        binding.tvEmail.text = "Доступ не предоставлен"
-        binding.tvEmailDescription.text = "Можно включить позже в Настройки → Разрешения"
+        binding.tvEmail.setText(R.string.settings_dnd_not_granted_title)
+        binding.tvEmailDescription.setText(R.string.settings_dnd_not_granted_description)
+        binding.btnConfirmed.setText(R.string.settings_dnd_try_again)
+        binding.btnChangeEmail.setText(R.string.settings_dnd_continue_without)
         binding.cardInstruction.visibility = View.GONE
-        binding.btnConfirmed.text = "Попробовать снова"
-        binding.btnChangeEmail.text = "Продолжить без"
 
         binding.cardWarning.visibility = View.VISIBLE
 

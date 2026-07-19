@@ -39,6 +39,8 @@ class AppSettingsRepositoryImpl @Inject constructor(
         val PREVIOUS_INTERRUPTION_FILTER = intPreferencesKey("previous_interruption_filter")
 
         val isSessionRunning = booleanPreferencesKey("is_session_running")
+
+        val NOTIFICATION_PERMISSION_REQUESTED = booleanPreferencesKey("notification_permission_requested")
     }
 
     override fun getSettings(): Flow<AppSettings> {
@@ -172,6 +174,17 @@ class AppSettingsRepositoryImpl @Inject constructor(
     override suspend fun setSessionRunning(running: Boolean) {
         dataStore.edit { preferences ->
             preferences[Keys.isSessionRunning] = running
+        }
+    }
+
+    override val notificationPermissionRequested: Flow<Boolean> =
+        dataStore.data.map { prefs ->
+            prefs[Keys.NOTIFICATION_PERMISSION_REQUESTED] ?: false
+        }
+
+    override suspend fun setNotificationPermissionRequested(requested: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[Keys.NOTIFICATION_PERMISSION_REQUESTED] = requested
         }
     }
 }

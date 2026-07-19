@@ -6,6 +6,9 @@ import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 data class PermissionStatus(
     val postNotifications: Boolean,
@@ -14,7 +17,10 @@ data class PermissionStatus(
     val allGranted: Boolean get() = postNotifications && doNotDisturb
 }
 
-class PermissionManager(private val context: Context) {
+@Singleton
+class PermissionManager @Inject constructor(
+    @ApplicationContext private val context: Context
+) {
 
     fun isPostNotificationsGranted(): Boolean {
         return if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

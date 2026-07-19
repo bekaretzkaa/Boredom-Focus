@@ -55,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Режим «не беспокоить»"
+                    android:text="@string/settings_dnd_title"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="26sp"/>
@@ -80,7 +80,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Без этого уведомления не будут блокироваться во время сессий"
+                            android:text="@string/settings_dnd_warning"
                             android:textSize="20sp"
                             android:layout_marginStart="12dp"
                             android:textColor="@color/difficulty_orange"
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Во время детокса приложение блокирует уведомления. Для этого нужен особый доступ."
+                    android:text="@string/settings_dnd_description"
                     android:textAlignment="center"
                     android:textColor="#444444"
                     android:textSize="18sp"/>
@@ -144,24 +144,25 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="Нажмите Открыть настройки ниже"
+                        android:layout_marginStart="12dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="@string/settings_dnd_instruction_1"
                         android:textColor="#666666"
                         android:textSize="18sp"
-                        android:fontFamily="@font/inter_medium"
-                        android:layout_marginStart="12dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/cardOne"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/cardOne"
-                        app:layout_constraintTop_toTopOf="@+id/cardOne"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                        app:layout_constraintTop_toTopOf="@+id/cardOne" />
 
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/cardTwo"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginTop="20dp"
                         app:cardBackgroundColor="#2A2A2A"
                         app:cardCornerRadius="13dp"
-                        android:layout_marginTop="8dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvOne"
+                        app:layout_constraintTop_toBottomOf="@+id/cardOne"
                         app:strokeColor="#2A2A2A">
 
                         <TextView
@@ -180,9 +181,10 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/inter_medium"
-                        android:text="Найдите Boredom Focus в списке"
+                        android:text="@string/settings_dnd_instruction_2"
                         android:textColor="#666666"
                         android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/cardTwo"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/cardTwo"
                         app:layout_constraintTop_toTopOf="@+id/cardTwo" />
@@ -191,11 +193,11 @@
                         android:id="@+id/cardThree"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        android:layout_marginTop="8dp"
                         app:cardBackgroundColor="#2A2A2A"
                         app:cardCornerRadius="13dp"
+                        android:layout_marginTop="20dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTwo"
+                        app:layout_constraintTop_toBottomOf="@+id/cardTwo"
                         app:strokeColor="#2A2A2A">
 
                         <TextView
@@ -214,7 +216,7 @@
                         android:layout_gravity="center"
                         android:layout_marginStart="12dp"
                         android:fontFamily="@font/inter_medium"
-                        android:text="Переключите Разрешить"
+                        android:text="@string/settings_dnd_instruction_3"
                         android:textColor="#666666"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="@+id/cardThree"
@@ -233,7 +235,7 @@
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/inter_bold"
                 android:padding="20dp"
-                android:text="Открыть настройки"
+                android:text="@string/settings_dnd_open_settings"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:cornerRadius="20dp"
@@ -251,7 +253,7 @@
                 android:backgroundTint="#141414"
                 android:fontFamily="@font/inter_bold"
                 android:padding="20dp"
-                android:text="Не сейчас"
+                android:text="@string/settings_dnd_skip"
                 android:textColor="#444444"
                 android:textSize="20sp"
                 app:cornerRadius="20dp"

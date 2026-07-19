@@ -7,6 +7,7 @@
     <string name="sign_in_account"><u>Войти</u></string>
 
 
+
     <!-- HOME Fragment -->
     <string name="home_focus_record">Focus record</string>
     <string name="home_best_time_without_phone">Best time without phone</string>
@@ -29,4 +30,155 @@
 
     <string name="quote_text">"Discipline is choosing between what you want now and what you want most."</string>
     <string name="quote_author">— Abraham Lincoln</string>
+
+
+
+    <!-- SETTINGS Fragment -->
+    <string name="settings_title">Settings</string>
+
+    <string name="settings_section_profile">PROFILE</string>
+    <string name="settings_section_session">SESSION</string>
+    <string name="settings_section_permissions">PERMISSIONS</string>
+    <string name="settings_section_about">ABOUT APP</string>
+
+    <string name="settings_guest">Guest</string>
+    <string name="settings_guest_description">Progress is stored\nonly on this device</string>
+    <string name="settings_sign_in">Sign In</string>
+
+    <string name="settings_detox_duration">Detox Duration</string>
+    <string name="settings_detox_duration_description">In minutes</string>
+
+    <string name="settings_difficulty">Difficulty</string>
+    <string name="settings_difficulty_description">Controls notification restrictions</string>
+
+    <string name="settings_beginner">Beginner</string>
+    <string name="settings_beginner_description">all\nnotifications</string>
+
+    <string name="settings_fighter">Fighter</string>
+    <string name="settings_fighter_description">priority\nonly</string>
+
+    <string name="settings_hardcore">Hardcore</string>
+    <string name="settings_hardcore_description">complete\nsilence</string>
+
+    <string name="settings_do_not_disturb">Do Not Disturb</string>
+    <string name="settings_do_not_disturb_description">
+        Blocks notifications during focus sessions
+    </string>
+
+    <string name="settings_daily_reminder">Daily Reminder</string>
+
+    <string name="settings_reminder_time">Reminder\nTime</string>
+
+    <string name="settings_version">Version</string>
+
+    <string name="settings_rate_google_play">Rate on Google Play</string>
+
+    <string name="settings_sign_out">Sign Out</string>
+    <string name="settings_picker_dialog">Reminder Time</string>
+
+
+    <!-- SETTINGS DND dialog -->
+    <string name="settings_dnd_title">Do Not Disturb</string>
+    <string name="settings_dnd_description">
+        During a focus session, the app blocks notifications. This requires special permission.
+    </string>
+
+    <string name="settings_dnd_warning">
+        Without this permission, notifications won\'t be blocked during focus sessions.
+    </string>
+
+    <string name="settings_dnd_instruction_1">
+        Tap "Open Settings" below
+    </string>
+
+    <string name="settings_dnd_instruction_2">
+        Find Boredom Focus in the list
+    </string>
+
+    <string name="settings_dnd_instruction_3">
+        Turn on "Allow access"
+    </string>
+
+    <string name="settings_dnd_open_settings">Open Settings</string>
+    <string name="settings_dnd_skip">Skip</string>
+
+    <string name="settings_dnd_not_granted_title">
+        Permission Not Granted
+    </string>
+
+    <string name="settings_dnd_not_granted_description">
+        You can enable it later in Settings → Permissions
+    </string>
+
+    <string name="settings_dnd_try_again">Try Again</string>
+
+    <string name="settings_dnd_continue_without">
+        Continue Without
+    </string>
+
+
+    <!-- SETTINGS NOTIFICATION dialog -->
+    <string name="settings_notifications_title">
+        Allow Notifications
+    </string>
+
+    <string name="settings_notifications_description">
+        One reminder a day to help you remember your focus session. No spam.
+    </string>
+
+    <string name="settings_notifications_instruction_1">
+        Open your phone Settings.
+    </string>
+
+    <string name="settings_notifications_instruction_2">
+        Go to Apps → Boredom Focus.
+    </string>
+
+    <string name="settings_notifications_instruction_3">
+        Enable Notifications.
+    </string>
+
+    <string name="settings_notifications_allow">
+        Allow
+    </string>
+
+    <string name="settings_notifications_not_now">
+        Not Now
+    </string>
+
+    <string name="settings_notifications_disabled_title">
+        Notifications Disabled
+    </string>
+
+    <string name="settings_notifications_disabled_description">
+        Permission was denied. Enable it manually in your phone settings.
+    </string>
+
+    <string name="settings_notifications_open_settings">
+        Open Settings
+    </string>
+
+    <string name="settings_notifications_skip">
+        Skip
+    </string>
+
+
+    <!-- SETTINGS SIGN OUT dialog -->
+    <string name="settings_sign_out_title">
+        Sign out?
+    </string>
+
+    <string name="settings_sign_out_description">
+        Your data will remain on this device.
+    </string>
+
+    <string name="settings_sign_out_confirm">
+        Sign Out
+    </string>
+
+    <string name="settings_sign_out_cancel">
+        Cancel
+    </string>
+
+
 </resources>
