@@ -356,4 +356,95 @@
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
 
+
+
+    <!-- DETOX & FOCUS Session -->
+    <!-- DETOX TIMER fragment -->
+    <string name="detox_timer_remaining">осталось</string>
+    <string name="detox_timer_finish">финиш!</string>
+    <string name="detox_timer_exit_blocked">выйти с детокса</string>
+
+
+    <!-- DETOX COMPLETED fragment -->
+    <string name="detox_completed_session">сессия детокса</string>
+    <string name="detox_completed_finished">пройден полностью</string>
+    <string name="detox_completed_message">ты просидел в тишине весь таймер</string>
+
+    <string name="detox_completed_next">дальше</string>
+    <string name="detox_completed_focus_title">Сколько продержишься без телефона?</string>
+    <string name="detox_completed_focus_subtitle">Сейчас начнётся секундомер фокуса. Твой рекорд — %1$s.</string>
+
+    <string name="detox_completed_start_focus">Начать фокус</string>
+    <string name="detox_completed_skip_home">Пропустить, на главную</string>
+
+
+    <!-- DETOX INTERRUPTED fragment -->
+    <string name="detox_interrupted_session">сессия детокса</string>
+    <string name="detox_interrupted_status">прервана</string>
+
+    <string name="detox_interrupted_time_message">из %1$s — вышел раньше времени</string>
+
+    <string name="detox_interrupted_again">всё ещё можно</string>
+    <string name="detox_interrupted_again_title">Попробовать ещё раз?</string>
+    <string name="detox_interrupted_again_subtitle">Сессия не засчитана, но день ещё не закончен.</string>
+
+    <string name="detox_interrupted_restart">Начать заново</string>
+    <string name="detox_interrupted_home">На главную</string>
+
+
+    <!-- FOCUS STOPWATCH fragment -->
+    <string name="focus_stopwatch_badge_first_focus">● ПЕРВЫЙ ФОКУС</string>
+    <string name="focus_stopwatch_badge_focus">● ФОКУС</string>
+    <string name="focus_stopwatch_badge_better_than_last">✓ ЛУЧШЕ ПРОШЛОЙ СЕССИИ</string>
+    <string name="focus_stopwatch_badge_week_record">✓ РЕКОРД НЕДЕЛИ</string>
+    <string name="focus_stopwatch_badge_month_record">✓ РЕКОРД МЕСЯЦА</string>
+    <string name="focus_stopwatch_badge_all_time_record">★ НОВЫЙ РЕКОРД</string>
+
+    <string name="focus_stopwatch_session">сессия</string>
+    <string name="focus_stopwatch_week">неделя</string>
+    <string name="focus_stopwatch_month">месяц</string>
+    <string name="focus_stopwatch_record">рекорд</string>
+
+    <string name="focus_stopwatch_explanation_first_focus">Первая фокус-сессия — рекорды появятся после завершения</string>
+    <string name="focus_stopwatch_explanation_first_week_month">Первая сессия недели и месяца — рекорды появятся после завершения</string>
+    <string name="focus_stopwatch_explanation_first_week">Первая сессия недели — недельный рекорд появится после завершения</string>
+    <string name="focus_stopwatch_explanation_first_month">Первая сессия месяца — месячный рекорд появится после завершения</string>
+
+    <string name="focus_stopwatch_target_week_record">цель — рекорд недели</string>
+    <string name="focus_stopwatch_target_first_session">первая фокус-сессия</string>
+    <string name="focus_stopwatch_target_focus">фокус</string>
+    <string name="focus_stopwatch_target_discomfort_zone">∞ зона некомфорта</string>
+    <string name="focus_stopwatch_target_completed">"✓ цель пройдена"</string>
+
+    <string name="focus_stopwatch_zone">• ЗОНА НЕКОМФОРТА</string>
+
+    <string name="focus_stopwatch_flash_last_title">Лучше чем в прошлый раз!</string>
+    <string name="focus_stopwatch_flash_last_subtitle">Теперь цель — следующий рекорд</string>
+
+    <string name="focus_stopwatch_flash_week_title">Лучший результат недели!</string>
+    <string name="focus_stopwatch_flash_week_subtitle">Теперь цель — рекорд месяца</string>
+
+    <string name="focus_stopwatch_flash_month_title">Лучший результат месяца!</string>
+    <string name="focus_stopwatch_flash_month_subtitle">Остался один барьер — побей рекорд всего времени</string>
+
+    <string name="focus_stopwatch_flash_all_time_title">Новый рекорд всего времени!</string>
+    <string name="focus_stopwatch_flash_all_time_subtitle">Ты в неизведанной территории — продолжай!</string>
+
+    <string name="focus_stopwatch_stop_button">Остановить фокус</string>
+
+    <string name="focus_stopwatch_comparison">+%1$s от %2$s ↑</string>
+    <string name="focus_stopwatch_target">цель — %1$s</string>
+
+    <string name="focus_stopwatch_target_last_session">прошлую сессию</string>
+    <string name="focus_stopwatch_target_all_time_record">абсолютный рекорд</string>
+
+    <string name="focus_stopwatch_comparison_last_session">прошлой сессии</string>
+    <string name="focus_stopwatch_comparison_week_record">рекорда недели</string>
+    <string name="focus_stopwatch_comparison_month_record">рекорда месяца</string>
+    <string name="focus_stopwatch_comparison_all_time_record">абсолютного рекорда</string>
+
+    <string name="focus_stopwatch_goal">цель</string>
+    <string name="focus_stopwatch_goals">цели</string>
+
+    <string name="focus_stopwatch_target_month_record">рекорд месяца</string>
 </resources>

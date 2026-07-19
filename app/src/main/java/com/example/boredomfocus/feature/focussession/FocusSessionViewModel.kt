@@ -214,10 +214,10 @@ class FocusSessionViewModel @Inject constructor(
 
 //                    TEST
 //                    focusUiState = state.focusUiState.copy(
-//                        previousFocusSeconds = 5,
-//                        weekFocusRecord = null,
-//                        monthFocusRecord = null,
-//                        focusRecord = 10
+//                        previousFocusSeconds = 10,
+//                        weekFocusRecord = 20,
+//                        monthFocusRecord = 30,
+//                        focusRecord = 40
 //                    )
                 )
             }

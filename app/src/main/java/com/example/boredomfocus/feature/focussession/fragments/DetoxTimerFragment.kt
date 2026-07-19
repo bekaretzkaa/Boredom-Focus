@@ -75,9 +75,9 @@ class DetoxTimerFragment : Fragment(R.layout.fragment_detox_timer) {
                     )
 
                     binding.tvDetoxTimer2.text = if (isFinishing) {
-                        "финиш!"
+                        getString(R.string.detox_timer_finish)
                     } else {
-                        "осталось"
+                        getString(R.string.detox_timer_remaining)
                     }
                 }
             }

@@ -16,7 +16,7 @@
         android:fontFamily="@font/inter_medium"
         android:gravity="center"
         android:maxLines="1"
-        android:text="✓ рекорд недели"
+        android:text="@string/focus_stopwatch_badge_week_record"
         android:textAllCaps="true"
         android:textColor="@color/green_basic"
         android:textSize="15sp"
@@ -79,7 +79,7 @@
                 android:id="@+id/tvSession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="сессия"
+                android:text="@string/focus_stopwatch_session"
                 android:textColor="@color/green_basic"
                 android:textSize="15sp"/>
 
@@ -110,7 +110,7 @@
                 android:id="@+id/tvWeek"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="неделя"
+                android:text="@string/focus_stopwatch_week"
                 android:textColor="@color/white"
                 android:textSize="15sp"/>
 
@@ -141,7 +141,7 @@
                 android:id="@+id/tvMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="месяц"
+                android:text="@string/focus_stopwatch_month"
                 android:textColor="@color/gray_focus"
                 android:textSize="15sp"/>
 
@@ -172,7 +172,7 @@
                 android:id="@+id/tvAllTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="рекорд"
+                android:text="@string/focus_stopwatch_record"
                 android:textColor="@color/gray_focus"
                 android:textSize="15sp"/>
 
@@ -201,7 +201,7 @@
             android:fontFamily="@font/inter_medium"
             android:paddingHorizontal="14dp"
             android:paddingVertical="10dp"
-            android:text="Первая сессия недели — недельный рекорд появится после завершения"
+            android:text="@string/focus_stopwatch_explanation_first_week"
             android:textColor="@color/gray_basic"
             android:textSize="13sp" />
 
@@ -215,7 +215,7 @@
         android:ellipsize="end"
         android:fontFamily="@font/inter_medium"
         android:maxLines="1"
-        android:text="цель — рекорд недели"
+        android:text="@string/focus_stopwatch_target_week_record"
         android:textColor="@color/gray_basic"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvFocusTargetTime"
@@ -299,7 +299,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Лучше чем в прошлый раз!"
+                    android:text="@string/focus_stopwatch_flash_last_title"
                     android:textColor="@color/green_basic"
                     android:textSize="18sp" />
 
@@ -308,7 +308,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="Теперь цель — рекорд недели"
+                    android:text="@string/focus_stopwatch_flash_last_subtitle"
                     android:textColor="@color/gray_basic"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -337,7 +337,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fontFamily="@font/inter_medium"
-            android:text="• зона некомфорта"
+            android:text="@string/focus_stopwatch_zone"
             android:textAllCaps="true"
             android:textColor="@color/green_basic"
             android:textSize="14sp"
@@ -354,7 +354,7 @@
         android:backgroundTint="#141414"
         android:fontFamily="@font/inter_bold"
         android:padding="20dp"
-        android:text="Остановить фокус"
+        android:text="@string/focus_stopwatch_stop_button"
         android:textColor="#666666"
         android:textSize="20sp"
         app:cornerRadius="12dp"

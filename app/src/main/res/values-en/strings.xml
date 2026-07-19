@@ -352,4 +352,94 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
 
+
+
+    <!-- DETOX & FOCUS Session -->
+    <!-- DETOX TIMER fragment -->
+    <string name="detox_timer_remaining">remaining</string>
+    <string name="detox_timer_finish">finish!</string>
+    <string name="detox_timer_exit_blocked">exit detox</string>
+
+
+    <!-- DETOX COMPLETED fragment -->
+    <string name="detox_completed_session">detox session</string>
+    <string name="detox_completed_finished">completed</string>
+    <string name="detox_completed_message">You stayed away from your phone for the entire timer.</string>
+
+    <string name="detox_completed_next">what\'s next</string>
+    <string name="detox_completed_focus_title">How long can you stay away from your phone?</string>
+    <string name="detox_completed_focus_subtitle">Your focus stopwatch is about to begin. Your record is %1$s.</string>
+
+    <string name="detox_completed_start_focus">Start Focus</string>
+    <string name="detox_completed_skip_home">Skip to Home</string>
+
+
+    <!-- DETOX INTERRUPTED fragment -->
+    <string name="detox_interrupted_session">detox session</string>
+    <string name="detox_interrupted_status">interrupted</string>
+
+    <string name="detox_interrupted_time_message">of %1$s — you exited early</string>
+
+    <string name="detox_interrupted_again">it\'s not too late</string>
+    <string name="detox_interrupted_again_title">Try again?</string>
+    <string name="detox_interrupted_again_subtitle">This session wasn\'t counted, but the day isn\'t over yet.</string>
+
+    <string name="detox_interrupted_restart">Start Again</string>
+    <string name="detox_interrupted_home">Home</string>
+
+
+    <string name="focus_stopwatch_badge_first_focus">● FIRST FOCUS</string>
+    <string name="focus_stopwatch_badge_focus">● FOCUS</string>
+    <string name="focus_stopwatch_badge_better_than_last">✓ BETTER THAN LAST SESSION</string>
+    <string name="focus_stopwatch_badge_week_record">✓ WEEKLY RECORD</string>
+    <string name="focus_stopwatch_badge_month_record">✓ MONTHLY RECORD</string>
+    <string name="focus_stopwatch_badge_all_time_record">★ NEW RECORD</string>
+
+    <string name="focus_stopwatch_session">session</string>
+    <string name="focus_stopwatch_week">week</string>
+    <string name="focus_stopwatch_month">month</string>
+    <string name="focus_stopwatch_record">record</string>
+
+    <string name="focus_stopwatch_explanation_first_focus">Your first focus session — records will appear after you finish it</string>
+    <string name="focus_stopwatch_explanation_first_week_month">First session of the week and month — records will appear after you finish it</string>
+    <string name="focus_stopwatch_explanation_first_week">First session of the week — the weekly record will appear after you finish it</string>
+    <string name="focus_stopwatch_explanation_first_month">First session of the month — the monthly record will appear after you finish it</string>
+
+    <string name="focus_stopwatch_target_week_record">weekly record</string>
+    <string name="focus_stopwatch_target_last_session">last session</string>
+    <string name="focus_stopwatch_target_first_session">first focus session</string>
+    <string name="focus_stopwatch_target_focus">focus</string>
+    <string name="focus_stopwatch_target_discomfort_zone">∞ discomfort zone</string>
+    <string name="focus_stopwatch_target_all_time_record">all-time record</string>
+    <string name="focus_stopwatch_target_completed">"✓ target completed"</string>
+
+    <string name="focus_stopwatch_zone">• DISCOMFORT ZONE</string>
+
+    <string name="focus_stopwatch_flash_last_title">Better than last time!</string>
+    <string name="focus_stopwatch_flash_last_subtitle">Now aim for the next record</string>
+
+    <string name="focus_stopwatch_flash_week_title">Best result this week!</string>
+    <string name="focus_stopwatch_flash_week_subtitle">Now aim for the monthly record</string>
+
+    <string name="focus_stopwatch_flash_month_title">Best result this month!</string>
+    <string name="focus_stopwatch_flash_month_subtitle">Only one barrier left — beat your all-time record</string>
+
+    <string name="focus_stopwatch_flash_all_time_title">New all-time record!</string>
+    <string name="focus_stopwatch_flash_all_time_subtitle">You\'re in uncharted territory — keep going!</string>
+
+    <string name="focus_stopwatch_stop_button">Stop Focus</string>
+
+    <string name="focus_stopwatch_comparison">+%1$s vs %2$s ↑</string>
+    <string name="focus_stopwatch_target">goal — %1$s</string>
+
+    <string name="focus_stopwatch_comparison_last_session">last session</string>
+    <string name="focus_stopwatch_comparison_week_record">weekly record</string>
+    <string name="focus_stopwatch_comparison_month_record">monthly record</string>
+    <string name="focus_stopwatch_comparison_all_time_record">all-time record</string>
+
+    <string name="focus_stopwatch_goal">goal</string>
+    <string name="focus_stopwatch_goals">goals</string>
+
+    <string name="focus_stopwatch_target_month_record">monthly record</string>
+
 </resources>

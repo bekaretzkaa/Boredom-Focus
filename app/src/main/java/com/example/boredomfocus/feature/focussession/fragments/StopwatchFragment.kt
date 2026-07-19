@@ -106,36 +106,36 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
     }
 
     private enum class MilestoneType(
-        val targetName: String,
-        val passedName: String,
-        val comparisonName: String,
+        val targetRes: Int,
+        val passedRes: Int,
+        val comparisonRes: Int,
         val priority: Int
     ) {
         LAST_SESSION(
-            targetName = "прошлая сессия",
-            passedName = "прошлую сессию",
-            comparisonName = "прошлой сессии",
+            targetRes = R.string.focus_stopwatch_target_last_session,
+            passedRes = R.string.focus_stopwatch_target_last_session,
+            comparisonRes = R.string.focus_stopwatch_comparison_last_session,
             priority = 1
         ),
 
         WEEK(
-            targetName = "рекорд недели",
-            passedName = "рекорд недели",
-            comparisonName = "рекорда недели",
+            targetRes = R.string.focus_stopwatch_target_week_record,
+            passedRes = R.string.focus_stopwatch_target_week_record,
+            comparisonRes = R.string.focus_stopwatch_comparison_week_record,
             priority = 2
         ),
 
         MONTH(
-            targetName = "рекорд месяца",
-            passedName = "рекорд месяца",
-            comparisonName = "рекорда месяца",
+            targetRes = R.string.focus_stopwatch_target_month_record,
+            passedRes = R.string.focus_stopwatch_target_month_record,
+            comparisonRes = R.string.focus_stopwatch_comparison_month_record,
             priority = 3
         ),
 
         ALL_TIME(
-            targetName = "абсолютный рекорд",
-            passedName = "абсолютный рекорд",
-            comparisonName = "абсолютного рекорда",
+            targetRes = R.string.focus_stopwatch_target_all_time_record,
+            passedRes = R.string.focus_stopwatch_target_all_time_record,
+            comparisonRes = R.string.focus_stopwatch_comparison_all_time_record,
             priority = 4
         )
     }
@@ -277,27 +277,27 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
 
         val badgeText = when {
             allTargetsMissing -> {
-                "● первый фокус"
+                getString(R.string.focus_stopwatch_badge_first_focus)
             }
 
             MilestoneType.ALL_TIME in doneTypes -> {
-                "★ НОВЫЙ РЕКОРД"
+                getString(R.string.focus_stopwatch_badge_all_time_record)
             }
 
             strongestDoneTypes.isNotEmpty() -> {
                 val strongest = strongestDoneTypes.strongest()
 
                 when (strongest) {
-                    MilestoneType.LAST_SESSION -> "✓ лучше прошлой сессии"
-                    MilestoneType.WEEK -> "✓ рекорд недели"
-                    MilestoneType.MONTH -> "✓ рекорд месяца"
-                    MilestoneType.ALL_TIME -> "★ НОВЫЙ РЕКОРД"
-                    null -> "✓ цель пройдена"
+                    MilestoneType.LAST_SESSION -> getString(R.string.focus_stopwatch_badge_better_than_last)
+                    MilestoneType.WEEK -> getString(R.string.focus_stopwatch_badge_week_record)
+                    MilestoneType.MONTH -> getString(R.string.focus_stopwatch_badge_month_record)
+                    MilestoneType.ALL_TIME -> getString(R.string.focus_stopwatch_badge_all_time_record)
+                    null -> getString(R.string.focus_stopwatch_target_completed)
                 }
             }
 
             else -> {
-                "● фокус"
+                getString(R.string.focus_stopwatch_badge_focus)
             }
         }
 
@@ -308,7 +308,7 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
 
         val comparisonText = strongestDoneGroup.firstOrNull()?.targetSeconds?.let { targetSeconds ->
             val diff = focusSeconds - targetSeconds
-            "+${diff.formatAsTimer()} от ${strongestDoneTypes.toComparisonText()} ↑"
+            getString(R.string.focus_stopwatch_comparison, diff.formatAsTimer(), strongestDoneTypes.toComparisonText())
         }
 
         val targetText: String
@@ -320,7 +320,7 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
 
         when {
             allTargetsMissing -> {
-                targetText = "первая фокус-сессия"
+                targetText = getString(R.string.statistics_start_first_session)
                 targetTime = "—"
                 targetTimeColor = white
                 progressPercent = 0f
@@ -332,7 +332,7 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
                 val targetSeconds = activeMilestones.first().targetSeconds ?: 0L
                 val activeTypes = activeMilestones.map { it.type }
 
-                targetText = "цель — ${activeTypes.toTargetText()}"
+                targetText = getString(R.string.focus_stopwatch_target, activeTypes.toTargetText())
                 targetTime = targetSeconds.formatAsTimer()
 
                 val activeContainsAllTime = activeTypes.contains(MilestoneType.ALL_TIME)
@@ -349,7 +349,7 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
             }
 
             allAvailableTargetsDone -> {
-                targetText = "∞ зона некомфорта"
+                targetText = getString(R.string.focus_stopwatch_target_discomfort_zone)
                 targetTime = "∞"
                 targetTimeColor = green
                 progressPercent = 100f
@@ -358,7 +358,7 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
             }
 
             else -> {
-                targetText = "фокус"
+                targetText = getString(R.string.focus_stopwatch_target_focus)
                 targetTime = "—"
                 targetTimeColor = white
                 progressPercent = 0f
@@ -404,20 +404,20 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
         val noAllTime = allTimeRecordSeconds == null
 
         if (noLastSession && noWeek && noMonth && noAllTime) {
-            return "Первая фокус-сессия — рекорды появятся после завершения"
+            return getString(R.string.focus_stopwatch_explanation_first_focus)
         }
 
         return when {
             noWeek && noMonth -> {
-                "Первая сессия недели и месяца — рекорды появятся после завершения"
+                getString(R.string.focus_stopwatch_explanation_first_week_month)
             }
 
             noWeek -> {
-                "Первая сессия недели — недельный рекорд появится после завершения"
+                getString(R.string.focus_stopwatch_explanation_first_week)
             }
 
             noMonth -> {
-                "Первая сессия месяца — месячный рекорд появится после завершения"
+                getString(R.string.focus_stopwatch_explanation_first_month)
             }
 
             else -> null
@@ -450,21 +450,18 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
     }
 
     private fun List<MilestoneType>.toTargetText(): String {
-        val strongest = strongest() ?: return "фокус"
-
-        return strongest.targetName
+        val strongest = strongest() ?: return getString(R.string.focus_stopwatch_target_focus)
+        return getString(strongest.targetRes)
     }
 
     private fun List<MilestoneType>.toPassedText(): String {
-        val strongest = strongest() ?: return "цель"
-
-        return strongest.passedName
+        val strongest = strongest() ?: return getString(R.string.focus_stopwatch_goal)
+        return getString(strongest.passedRes)
     }
 
     private fun List<MilestoneType>.toComparisonText(): String {
-        val strongest = strongest() ?: return "цели"
-
-        return strongest.comparisonName
+        val strongest = strongest() ?: return getString(R.string.focus_stopwatch_goals)
+        return getString(strongest.comparisonRes)
     }
 
     private fun renderFocusState(state: FocusVisualState) = with(binding) {
@@ -506,32 +503,32 @@ class StopwatchFragment : Fragment(R.layout.fragment_stopwatch) {
             MilestoneType.LAST_SESSION -> {
                 FlashMessage(
                     icon = "🔥",
-                    title = "Лучше чем в прошлый раз!",
-                    subtitle = "Теперь цель — следующий рекорд"
+                    title = getString(R.string.focus_stopwatch_flash_last_title),
+                    subtitle = getString(R.string.focus_stopwatch_flash_last_subtitle)
                 )
             }
 
             MilestoneType.WEEK -> {
                 FlashMessage(
                     icon = "⚡",
-                    title = "Лучший результат недели!",
-                    subtitle = "Теперь цель — рекорд месяца"
+                    title = getString(R.string.focus_stopwatch_flash_week_title),
+                    subtitle = getString(R.string.focus_stopwatch_flash_week_subtitle)
                 )
             }
 
             MilestoneType.MONTH -> {
                 FlashMessage(
                     icon = "💪",
-                    title = "Лучший результат месяца!",
-                    subtitle = "Остался один барьер — побей рекорд всего времени"
+                    title = getString(R.string.focus_stopwatch_flash_month_title),
+                    subtitle = getString(R.string.focus_stopwatch_flash_month_subtitle)
                 )
             }
 
             MilestoneType.ALL_TIME -> {
                 FlashMessage(
                     icon = "🏆",
-                    title = "Новый рекорд всего времени!",
-                    subtitle = "Ты в неизведанной территории — продолжай!"
+                    title = getString(R.string.focus_stopwatch_flash_all_time_title),
+                    subtitle = getString(R.string.focus_stopwatch_flash_all_time_subtitle)
                 )
             }
         }

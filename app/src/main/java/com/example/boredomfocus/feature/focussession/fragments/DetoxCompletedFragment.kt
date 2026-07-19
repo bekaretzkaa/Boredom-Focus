@@ -58,7 +58,7 @@ class DetoxCompletedFragment : Fragment(R.layout.fragment_detox_completed) {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect { state ->
                     binding.tvDetoxTime1.text = formatSeconds(state.detoxUiState.selectedDetoxSeconds)
-                    binding.tvNextText2.text = "Сейчас начнётся секундомер фокуса. Твой рекорд — ${formatSeconds(state.focusUiState.focusRecord)}."
+                    binding.tvNextText2.text = getString(R.string.detox_completed_focus_subtitle, formatSeconds(state.focusUiState.focusRecord))
                 }
             }
         }
