@@ -69,29 +69,29 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
                     val focusOnly = state.detoxUiState.detoxElapsedSeconds <= 0
                     if(!focusOnly) {
                         binding.cardDetox.visibility = View.VISIBLE
-                        binding.tvDetoxTime.text = "${state.detoxUiState.selectedDetoxSeconds / 60} мин ✓"
+                        binding.tvDetoxTime.text = getString(R.string.focus_result_detox_completed, state.detoxUiState.selectedDetoxSeconds / 60)
                     } else {
                         binding.cardDetox.visibility = View.GONE
                     }
                     val streakCount = state.streakCount
-                    binding.tvStreakCount.text = "$streakCount ${daysWord(streakCount)} подряд"
+                    binding.tvStreakCount.text = getString(R.string.focus_result_streak_days, streakCount, daysWord(streakCount))
 
-                    binding.tvFocusComparisonWord.text = "рекорд всего времени"
+                    binding.tvFocusComparisonWord.text = getString(R.string.focus_result_all_time_record)
                     binding.tvFocusComparisonTime.text = formatSeconds(state.focusUiState.focusRecord ?: 0)
 
                     when(state.focusUiState.focusSeconds) {
                         in 0..(state.focusUiState.previousFocusSeconds ?: 0) -> {
                             binding.cardSessionComparison.setCardBackgroundColor(grayBg)
                             binding.tvSessionComparison.apply {
-                                text = "•  сессия завершена"
+                                text = getString(R.string.focus_result_session_completed)
                                 setTextColor(grayText)
                             }
                             binding.tvFocusTime.setTextColor(white)
                             binding.tvFocusComparison.apply {
-                                text = "на ${formatSeconds((state.focusUiState.previousFocusSeconds ?: 0) - state.focusUiState.focusSeconds)} меньше прошлой сессий"
+                                text = getString(R.string.focus_result_less_than_last_session, formatSeconds((state.focusUiState.previousFocusSeconds ?: 0) - state.focusUiState.focusSeconds))
                                 setTextColor(grayText)
                             }
-                            binding.tvFocusComparisonWord.text = "прошлая сессия"
+                            binding.tvFocusComparisonWord.text = getString(R.string.focus_result_previous_session)
                             binding.tvFocusComparisonTime.text = formatSeconds(state.focusUiState.previousFocusSeconds ?: 0)
 
                             binding.llTargets.visibility = View.GONE
@@ -99,45 +99,47 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
                         in (state.focusUiState.previousFocusSeconds ?: 0)..(state.focusUiState.weekFocusRecord ?: 0) -> {
                             binding.cardSessionComparison.setCardBackgroundColor(greenBg)
                             binding.tvSessionComparison.apply {
-                                text = "↑ лучше прошлой сессии"
+                                text = getString(R.string.focus_result_better_than_last_session)
                                 setTextColor(greenText)
                             }
                             binding.tvFocusTime.setTextColor(greenText)
                             binding.tvFocusComparison.apply {
-                                text = "+${formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.previousFocusSeconds ?: 0))} от прошлой сессии"
+                                text = getString(R.string.focus_result_vs_last_session, formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.previousFocusSeconds ?: 0)))
                                 setTextColor(greenText)
                             }
                             binding.cardSession.visibility = View.VISIBLE
-                            binding.tvFocusComparisonWord.text = "рекорд недели"
+                            binding.tvFocusComparisonWord.text = getString(R.string.focus_result_weekly_record)
                             binding.tvFocusComparisonTime.text = formatSeconds(state.focusUiState.weekFocusRecord ?: 0)
                         }
                         in (state.focusUiState.weekFocusRecord ?: 0)..(state.focusUiState.monthFocusRecord ?: 0) -> {
                             val weekNull = state.focusUiState.weekFocusRecord == null
                             binding.cardSessionComparison.setCardBackgroundColor(greenBg)
                             binding.tvSessionComparison.apply {
-                                text = if(weekNull) "↑ лучше прошлой сессии" else "↑ рекорд недели"
+                                text = if(weekNull) getString(R.string.focus_result_better_than_last_session) else getString(R.string.focus_result_week_record)
                                 setTextColor(greenText)
                             }
                             binding.tvFocusTime.setTextColor(greenText)
                             binding.tvFocusComparison.apply {
-                                text = if(weekNull) "+${formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.previousFocusSeconds ?: 0))} от прошлой сессии" else "+${formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.weekFocusRecord ?: 0))} от рекорда недели"
+                                text = if(weekNull) getString(R.string.focus_result_vs_last_session, formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.previousFocusSeconds ?: 0)))
+                                else getString(R.string.focus_result_vs_week_record, formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.weekFocusRecord ?: 0)))
                                 setTextColor(greenText)
                             }
                             binding.cardSession.visibility = View.VISIBLE
                             binding.cardWeek.visibility = View.VISIBLE
-                            binding.tvFocusComparisonWord.text = if(weekNull) "прошлая сессия" else "рекорд месяца"
+                            binding.tvFocusComparisonWord.text = if(weekNull) getString(R.string.focus_result_previous_session) else getString(R.string.focus_result_month_card)
                             binding.tvFocusComparisonTime.text = formatSeconds(state.focusUiState.monthFocusRecord ?: 0)
                         }
                         in (state.focusUiState.monthFocusRecord ?: 0)..(state.focusUiState.focusRecord) -> {
                             val monthNull = state.focusUiState.monthFocusRecord == null
                             binding.cardSessionComparison.setCardBackgroundColor(greenBg)
                             binding.tvSessionComparison.apply {
-                                text = if(monthNull) "↑ лучше прошлой сессии" else "↑ рекорд месяца"
+                                text = if(monthNull) getString(R.string.focus_result_better_than_last_session) else getString(R.string.focus_result_month_record)
                                 setTextColor(greenText)
                             }
                             binding.tvFocusTime.setTextColor(greenText)
                             binding.tvFocusComparison.apply {
-                                text = if(monthNull) "+${formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.previousFocusSeconds ?: 0))} от прошлой сессии" else "+${formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.monthFocusRecord ?: 0))} от рекорда месяца"
+                                text = if(monthNull) getString(R.string.focus_result_vs_last_session, formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.previousFocusSeconds ?: 0)))
+                                else getString(R.string.focus_result_vs_month_record, formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.monthFocusRecord ?: 0)))
                                 setTextColor(greenText)
                             }
                             binding.cardSession.visibility = View.VISIBLE
@@ -147,12 +149,12 @@ class FocusResultFragment : Fragment(R.layout.fragment_focus_result) {
                         else -> {
                             binding.cardSessionComparison.setCardBackgroundColor(greenBg)
                             binding.tvSessionComparison.apply {
-                                text = "★ новый абсолютный рекорд"
+                                text = getString(R.string.focus_result_new_all_time_record)
                                 setTextColor(greenText)
                             }
                             binding.tvFocusTime.setTextColor(greenText)
                             binding.tvFocusComparison.apply {
-                                text = "+${formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.focusRecord ?: 0))} от предыдущего рекорда"
+                                text = getString(R.string.focus_result_vs_previous_record, formatSeconds(state.focusUiState.focusSeconds - (state.focusUiState.previousFocusSeconds ?: 0)))
                                 setTextColor(greenText)
                             }
                             binding.cardSession.visibility = View.VISIBLE

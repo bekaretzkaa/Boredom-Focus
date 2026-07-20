@@ -153,9 +153,9 @@ class SessionSettingsBottomSheet : BottomSheetDialogFragment() {
         val shouldAnimate = previousFocusOnly != null && previousFocusOnly != focusOnly
 
         binding.btnStart.text = if (focusOnly) {
-            "Начать фокус"
+            getString(R.string.session_settings_start_focus)
         } else {
-            "Начать детокс"
+            getString(R.string.session_settings_start_detox)
         }
 
         setDurationEnabled(!focusOnly)

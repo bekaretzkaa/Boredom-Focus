@@ -442,4 +442,132 @@
 
     <string name="focus_stopwatch_target_month_record">monthly record</string>
 
+
+    <!-- FOCUS RESULT fragment -->
+    <string name="focus_result_title">focus result</string>
+
+    <string name="focus_result_session_completed">• session completed</string>
+    <string name="focus_result_better_than_last_session">↑ better than last session</string>
+    <string name="focus_result_week_record">↑ weekly record</string>
+    <string name="focus_result_month_record">↑ monthly record</string>
+    <string name="focus_result_new_all_time_record">★ new all-time record</string>
+
+    <string name="focus_result_focus_time">focus time</string>
+
+    <string name="focus_result_less_than_last_session">%1$s below last session</string>
+    <string name="focus_result_less_than_week_record">%1$s below weekly record</string>
+
+    <string name="focus_result_vs_last_session">+%1$s vs last session</string>
+    <string name="focus_result_vs_week_record">+%1$s vs weekly record</string>
+    <string name="focus_result_vs_month_record">+%1$s vs monthly record</string>
+    <string name="focus_result_vs_previous_record">+%1$s vs previous record</string>
+
+    <string name="focus_result_previous_session">last session</string>
+    <string name="focus_result_weekly_record">weekly record</string>
+    <string name="focus_result_monthly_record">monthly record</string>
+    <string name="focus_result_all_time_record">all-time record</string>
+
+    <string name="focus_result_session_card">last\nsession</string>
+    <string name="focus_result_week_card">weekly\nrecord</string>
+    <string name="focus_result_month_card">monthly\nrecord</string>
+    <string name="focus_result_record_card">all-time\nrecord</string>
+
+    <string name="focus_result_detox">detox</string>
+    <string name="focus_result_detox_completed">%1$d min ✓</string>
+
+    <string name="focus_result_streak">streak</string>
+    <string name="focus_result_streak_days">%1$d %2$s in a row</string>
+
+    <string name="focus_result_home">Home</string>
+
+
+    <!-- STOP DETOX dialog -->
+    <string name="stop_detox_title">Stop detox?</string>
+    <string name="stop_detox_description">You\'re almost there. This session won\'t be counted.</string>
+
+    <string name="stop_detox_elapsed">elapsed</string>
+    <string name="stop_detox_remaining">remaining</string>
+
+    <string name="stop_detox_button_stop">Stop</string>
+    <string name="stop_detox_button_continue">Continue</string>
+
+
+    <!-- STOP FOCUS dialog -->
+    <string name="stop_focus_title">Stop focus?</string>
+    <string name="stop_focus_description">Your time will be saved. It\'s an honest result.</string>
+
+    <string name="stop_focus_current">current</string>
+    <string name="stop_focus_record">record</string>
+
+    <string name="stop_focus_previous_session">last session</string>
+    <string name="stop_focus_week_record">weekly record</string>
+    <string name="stop_focus_month_record">monthly record</string>
+    <string name="stop_focus_all_time_record">all-time record</string>
+
+    <string name="stop_focus_button_stop">Stop &amp; Save</string>
+    <string name="stop_focus_button_continue">Continue</string>
+
+
+
+    <!-- SESSION SETTINGS -->
+    <!-- SESSION SETTINGS bottom sheet -->
+    <string name="session_settings_title">Session Settings</string>
+    <string name="session_settings_subtitle">You can change these later in Settings</string>
+
+    <string name="session_settings_detox_duration">Detox Duration</string>
+    <string name="session_settings_difficulty">Difficulty</string>
+
+    <string name="session_settings_duration_5">5 min</string>
+    <string name="session_settings_duration_7">7 min</string>
+    <string name="session_settings_duration_10">10 min</string>
+    <string name="session_settings_duration_15">15 min</string>
+
+    <string name="session_settings_difficulty_beginner">Beginner</string>
+    <string name="session_settings_difficulty_beginner_description">all\nnotifications</string>
+
+    <string name="session_settings_difficulty_fighter">Fighter</string>
+    <string name="session_settings_difficulty_fighter_description">important\nonly</string>
+
+    <string name="session_settings_difficulty_hardcore">Hardcore</string>
+    <string name="session_settings_difficulty_hardcore_description">total\nsilence</string>
+
+    <string name="session_settings_focus_only_title">Focus Only</string>
+    <string name="session_settings_focus_only_description">Without a detox timer</string>
+
+    <string name="session_settings_start_detox">Start Detox</string>
+    <string name="session_settings_start_focus">Start Focus</string>
+
+    <string name="session_settings_cancel">Cancel</string>
+
+
+    <!-- SESSION WARNING dialog -->
+
+    <string name="session_warning_title">Start session?</string>
+
+    <string name="session_warning_button_start">Start Session</string>
+    <string name="session_warning_button_cancel">Cancel</string>
+
+    <string name="session_warning_level_beginner">Level: Beginner</string>
+    <string name="session_warning_level_fighter">Level: Fighter</string>
+    <string name="session_warning_level_hardcore">Level: Hardcore</string>
+    <string name="session_warning_level_error">Error</string>
+
+    <string name="session_warning_beginner_description">At this level, Do Not Disturb stays off during both detox and focus sessions.</string>
+    <string name="session_warning_beginner_instruction">Calls and notifications will arrive as usual.</string>
+
+    <string name="session_warning_fighter_description">Do Not Disturb (Priority) will be enabled during detox and focus sessions.</string>
+    <string name="session_warning_fighter_instruction">Priority calls and messages are allowed.\n\nAll other notifications are blocked.</string>
+
+    <string name="session_warning_hardcore_description">Do Not Disturb (None) will be enabled during detox. It switches to Priority during the focus session.</string>
+    <string name="session_warning_hardcore_instruction">All calls and notifications are blocked.\n\nEven favorite contacts are not allowed.</string>
+
+    <string name="session_warning_permission_title">Enable Do Not Disturb</string>
+    <string name="session_warning_permission_description">This difficulty requires Do Not Disturb, but it is currently disabled in your phone settings.</string>
+
+    <string name="session_warning_permission_retry">Check Again</string>
+    <string name="session_warning_permission_settings">Open Settings</string>
+
+    <string name="session_warning_step_1">Tap "Open Settings" below.</string>
+    <string name="session_warning_step_2">Find Boredom Focus in the list.</string>
+    <string name="session_warning_step_3">Turn on "Allow".</string>
 </resources>

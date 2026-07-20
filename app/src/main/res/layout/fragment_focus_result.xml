@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="результат фокуса"
+        android:text="@string/focus_result_title"
         android:textAllCaps="true"
         android:textColor="#444444"
         android:textSize="16sp"
@@ -44,7 +44,7 @@
             android:gravity="center"
             android:paddingHorizontal="16dp"
             android:paddingVertical="6dp"
-            android:text="•  сессия завершена"
+            android:text="@string/focus_result_session_completed"
             android:textColor="@color/green_basic"
             android:textSize="16sp" />
 
@@ -76,7 +76,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:text="фокусное время"
+                android:text="@string/focus_result_focus_time"
                 android:textAllCaps="true"
                 android:textColor="@color/gray_basic"
                 android:textSize="16sp" />
@@ -144,7 +144,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="прошлая\nсессия"
+                    android:text="@string/focus_result_session_card"
                     android:textAlignment="center"
                     android:textColor="@color/green_basic"
                     android:textSize="13sp" />
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="рекорд\nнедели"
+                    android:text="@string/focus_result_week_card"
                     android:textAlignment="center"
                     android:textColor="@color/green_basic"
                     android:textSize="13sp" />
@@ -222,7 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="рекорд\nмесяца"
+                    android:text="@string/focus_result_monthly_record"
                     android:textAlignment="center"
                     android:textColor="@color/green_basic"
                     android:textSize="13sp" />
@@ -260,7 +260,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="абсолютный\nрекорд"
+                    android:text="@string/focus_result_all_time_record"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="13sp" />
@@ -305,7 +305,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="детокс"
+                    android:text="@string/focus_result_detox"
                     android:textColor="@color/gray_basic"
                     android:textSize="16sp" />
 
@@ -342,7 +342,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="рекорд всего времени"
+                    android:text="@string/focus_result_all_time_record"
                     android:textColor="@color/gray_basic"
                     android:textSize="16sp" />
 
@@ -389,7 +389,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_medium"
-                    android:text="стрик"
+                    android:text="@string/focus_result_streak"
                     android:textColor="@color/gray_basic"
                     android:textSize="16sp" />
                 <TextView
@@ -419,7 +419,7 @@
         android:backgroundTint="@color/white"
         android:fontFamily="@font/inter_medium"
         android:paddingVertical="16dp"
-        android:text="На главную"
+        android:text="@string/focus_result_home"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="16dp"

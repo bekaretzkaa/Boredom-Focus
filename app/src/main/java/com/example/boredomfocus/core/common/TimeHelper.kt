@@ -193,14 +193,18 @@ fun getYearMonthByOffset(
 }
 
 fun daysWord(n: Int): String {
-    val lastTwo = n % 100
-    val lastOne = n % 10
+    return if (Locale.getDefault().language == "ru") {
+        val lastTwo = n % 100
+        val lastOne = n % 10
 
-    return when {
-        lastTwo in 11..14 -> "дней"
-        lastOne == 1 -> "день"
-        lastOne in 2..4 -> "дня"
-        else -> "дней"
+        when {
+            lastTwo in 11..14 -> "дней"
+            lastOne == 1 -> "день"
+            lastOne in 2..4 -> "дня"
+            else -> "дней"
+        }
+    } else {
+        if (n == 1) "day" else "days"
     }
 }
 

@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="Настроить сессию"
+        android:text="@string/session_settings_title"
         android:textColor="@color/white"
         android:textSize="26sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="Можно изменить в настройках"
+        android:text="@string/session_settings_subtitle"
         android:textColor="#444444"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
-        android:text="Длина детокса"
+        android:text="@string/session_settings_detox_duration"
         android:textAllCaps="true"
         android:textColor="#444444"
         android:textSize="18sp"
@@ -64,7 +64,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="5 мин"
+                android:text="@string/session_settings_duration_5"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -81,7 +81,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="7 мин"
+                android:text="@string/session_settings_duration_7"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -98,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="10 мин"
+                android:text="@string/session_settings_duration_10"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -115,7 +115,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="15 мин"
+                android:text="@string/session_settings_duration_15"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -127,7 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
-        android:text="Сложность"
+        android:text="@string/session_settings_difficulty"
         android:textAllCaps="true"
         android:textColor="#444444"
         android:textSize="18sp"
@@ -170,7 +170,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Новичок"
+                    android:text="@string/session_settings_difficulty_beginner"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -181,7 +181,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="все\nуведомления"
+                    android:text="@string/session_settings_difficulty_beginner_description"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -215,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Боец"
+                    android:text="@string/session_settings_difficulty_fighter"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -226,7 +226,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="только\nважное"
+                    android:text="@string/session_settings_difficulty_fighter_description"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -259,7 +259,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Хардкор"
+                    android:text="@string/session_settings_difficulty_hardcore"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -270,7 +270,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="полная\nтишина"
+                    android:text="@string/session_settings_difficulty_hardcore_description"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -335,7 +335,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="Только фокус"
+                android:text="@string/session_settings_focus_only_title"
                 android:textColor="#888888"
                 android:textSize="22sp"
                 app:layout_constraintStart_toEndOf="@+id/flFocusBackground"
@@ -347,7 +347,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/inter_medium"
-                android:text="Без детокс-таймера"
+                android:text="@string/session_settings_focus_only_description"
                 android:textColor="#333333"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/flFocusBackground"
@@ -391,7 +391,7 @@
         android:backgroundTint="@color/white"
         android:fontFamily="@font/inter_bold"
         android:padding="22dp"
-        android:text="Начать детокс"
+        android:text="@string/session_settings_start_detox"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="12dp"
@@ -412,7 +412,7 @@
         android:backgroundTint="#0D0D0D"
         android:fontFamily="@font/inter_bold"
         android:padding="22dp"
-        android:text="Отмена"
+        android:text="@string/session_settings_cancel"
         android:textColor="#444444"
         android:textSize="20sp"
         app:strokeColor="#1A1A1A"

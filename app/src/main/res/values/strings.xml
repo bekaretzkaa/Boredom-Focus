@@ -447,4 +447,133 @@
     <string name="focus_stopwatch_goals">цели</string>
 
     <string name="focus_stopwatch_target_month_record">рекорд месяца</string>
+
+
+    <!-- FOCUS RESULT fragment -->
+    <string name="focus_result_title">результат фокуса</string>
+
+    <string name="focus_result_session_completed">• сессия завершена</string>
+    <string name="focus_result_better_than_last_session">↑ лучше прошлой сессии</string>
+    <string name="focus_result_week_record">↑ рекорд недели</string>
+    <string name="focus_result_month_record">↑ рекорд месяца</string>
+    <string name="focus_result_new_all_time_record">★ новый абсолютный рекорд</string>
+
+    <string name="focus_result_focus_time">фокусное время</string>
+
+    <string name="focus_result_less_than_last_session">на %1$s меньше прошлой сессии</string>
+    <string name="focus_result_less_than_week_record">на %1$s меньше рекорда недели</string>
+
+    <string name="focus_result_vs_last_session">+%1$s от прошлой сессии</string>
+    <string name="focus_result_vs_week_record">+%1$s от рекорда недели</string>
+    <string name="focus_result_vs_month_record">+%1$s от рекорда месяца</string>
+    <string name="focus_result_vs_previous_record">+%1$s от предыдущего рекорда</string>
+
+    <string name="focus_result_previous_session">прошлая сессия</string>
+    <string name="focus_result_weekly_record">рекорд недели</string>
+    <string name="focus_result_monthly_record">рекорд месяца</string>
+    <string name="focus_result_all_time_record">рекорд всего времени</string>
+
+    <string name="focus_result_session_card">прошлая\nсессия</string>
+    <string name="focus_result_week_card">рекорд\nнедели</string>
+    <string name="focus_result_month_card">рекорд\nмесяца</string>
+    <string name="focus_result_record_card">абсолютный\nрекорд</string>
+
+    <string name="focus_result_detox">детокс</string>
+    <string name="focus_result_detox_completed">%1$d мин ✓</string>
+
+    <string name="focus_result_streak">стрик</string>
+    <string name="focus_result_streak_days">%1$d %2$s подряд</string>
+
+    <string name="focus_result_home">На главную</string>
+
+
+    <!-- STOP DETOX dialog -->
+    <string name="stop_detox_title">Прервать детокс?</string>
+    <string name="stop_detox_description">Ты почти у цели. Сессия не будет засчитана.</string>
+
+    <string name="stop_detox_elapsed">прошло</string>
+    <string name="stop_detox_remaining">осталось</string>
+
+    <string name="stop_detox_button_stop">Прервать</string>
+    <string name="stop_detox_button_continue">Продолжить</string>
+
+
+    <!-- STOP FOCUS dialog -->
+    <string name="stop_focus_title">Остановить фокус?</string>
+    <string name="stop_focus_description">Время будет сохранено. Это честный результат.</string>
+
+    <string name="stop_focus_current">сейчас</string>
+    <string name="stop_focus_record">рекорд</string>
+
+    <string name="stop_focus_previous_session">прошлая сессия</string>
+    <string name="stop_focus_week_record">рекорд недели</string>
+    <string name="stop_focus_month_record">рекорд месяца</string>
+    <string name="stop_focus_all_time_record">абсолютный рекорд</string>
+
+    <string name="stop_focus_button_stop">Остановить и сохранить</string>
+    <string name="stop_focus_button_continue">Продолжить</string>
+
+
+
+    <!-- SESSION SETTINGS -->
+    <!-- SESSION SETTINGS bottom sheet -->
+    <string name="session_settings_title">Настроить сессию</string>
+    <string name="session_settings_subtitle">Можно изменить в настройках</string>
+
+    <string name="session_settings_detox_duration">Длина детокса</string>
+    <string name="session_settings_difficulty">Сложность</string>
+
+    <string name="session_settings_duration_5">5 мин</string>
+    <string name="session_settings_duration_7">7 мин</string>
+    <string name="session_settings_duration_10">10 мин</string>
+    <string name="session_settings_duration_15">15 мин</string>
+
+    <string name="session_settings_difficulty_beginner">Новичок</string>
+    <string name="session_settings_difficulty_beginner_description">все\nуведомления</string>
+
+    <string name="session_settings_difficulty_fighter">Боец</string>
+    <string name="session_settings_difficulty_fighter_description">только\nважное</string>
+
+    <string name="session_settings_difficulty_hardcore">Хардкор</string>
+    <string name="session_settings_difficulty_hardcore_description">полная\nтишина</string>
+
+    <string name="session_settings_focus_only_title">Только фокус</string>
+    <string name="session_settings_focus_only_description">Без детокс-таймера</string>
+
+    <string name="session_settings_start_detox">Начать детокс</string>
+    <string name="session_settings_start_focus">Начать фокус</string>
+
+    <string name="session_settings_cancel">Отмена</string>
+
+
+    <!-- SESSION WARNING dialog -->
+
+    <string name="session_warning_title">Начать сессию?</string>
+
+    <string name="session_warning_button_start">Начать сессию</string>
+    <string name="session_warning_button_cancel">Отмена</string>
+
+    <string name="session_warning_level_beginner">Уровень: Новичок</string>
+    <string name="session_warning_level_fighter">Уровень: Боец</string>
+    <string name="session_warning_level_hardcore">Уровень: Хардкор</string>
+    <string name="session_warning_level_error">Ошибка</string>
+
+    <string name="session_warning_beginner_description">На этом уровне Do Not Disturb остается выключенным — во время детокса и фокуса</string>
+    <string name="session_warning_beginner_instruction">Все звонки и уведомления будут приходить как обычно</string>
+
+    <string name="session_warning_fighter_description">Включится Do Not Disturb Priority — на детокс и фокус</string>
+    <string name="session_warning_fighter_instruction">Избранные звонки и сообщения приходят\n\nОстальные уведомления — заблокированы</string>
+
+    <string name="session_warning_hardcore_description">Включится Do Not Disturb None — на детокс. Для фокуса переключится на Priority</string>
+    <string name="session_warning_hardcore_instruction">Все уведомления и звонки — заблокированы\n\nДаже избранные контакты — без исключений</string>
+
+    <string name="session_warning_permission_title">Включите Do Not Disturb</string>
+    <string name="session_warning_permission_description">Для этого уровня нужен режим Do Not Disturb, а он сейчас выключен в настройках телефона.</string>
+
+    <string name="session_warning_permission_retry">Проверить снова</string>
+    <string name="session_warning_permission_settings">Открыть настройки</string>
+
+    <string name="session_warning_step_1">Нажмите «Открыть настройки» ниже</string>
+    <string name="session_warning_step_2">Найдите Boredom Focus в списке</string>
+    <string name="session_warning_step_3">Переключите «Разрешить»</string>
 </resources>

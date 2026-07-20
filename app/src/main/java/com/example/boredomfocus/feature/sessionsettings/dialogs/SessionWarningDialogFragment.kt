@@ -131,8 +131,8 @@ class SessionWarningDialogFragment : DialogFragment() {
                         dismiss()
                     }
 
-                    binding.btnStart.text = "Начать сессию"
-                    binding.btnCancel.text = "Отмена"
+                    binding.btnStart.text = getString(R.string.session_warning_button_start)
+                    binding.btnCancel.text = getString(R.string.session_warning_button_cancel)
                     binding.cardInstruction.visibility = View.VISIBLE
                     binding.cardSettings.visibility = View.GONE
 
@@ -155,50 +155,50 @@ class SessionWarningDialogFragment : DialogFragment() {
     private fun showBeginnerUi() {
         binding.cardDifficulty.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.green_bg))
         binding.cardDifficulty.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
-        binding.tvDifficulty.text = "Уровень: Новичок"
+        binding.tvDifficulty.text = getString(R.string.session_warning_level_beginner)
         binding.tvDifficulty.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_basic))
 
-        binding.tvSessionDescription.text = "На этом уровне Do Not Disturb остается выключенным - во время детокса и фокуса"
-        binding.tvInstruction.text = "Все звонки и уведомления будут приходить как обычно"
+        binding.tvSessionDescription.text = getString(R.string.session_warning_beginner_description)
+        binding.tvInstruction.text = getString(R.string.session_warning_beginner_instruction)
         binding.tvInstruction.textAlignment = View.TEXT_ALIGNMENT_CENTER
     }
 
     private fun showFighterUi() {
         binding.cardDifficulty.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.difficulty_orange_bg))
         binding.cardDifficulty.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.difficulty_orange))
-        binding.tvDifficulty.text = "Уровень: Боец"
+        binding.tvDifficulty.text = getString(R.string.session_warning_level_fighter)
         binding.tvDifficulty.setTextColor(ContextCompat.getColor(requireContext(), R.color.difficulty_orange))
 
-        binding.tvSessionDescription.text = "Включится Do Not Disturb Priority - на детокс и фокус"
-        binding.tvInstruction.text = "Избранные звонки и сообщения приходят\n\nОстальные уведомления - заблокированы"
+        binding.tvSessionDescription.text = getString(R.string.session_warning_fighter_description)
+        binding.tvInstruction.text = getString(R.string.session_warning_fighter_instruction)
         binding.tvInstruction.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
     }
 
     private fun showHardcoreUi() {
         binding.cardDifficulty.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.difficulty_red_bg))
         binding.cardDifficulty.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
-        binding.tvDifficulty.text = "Уровень: Хардкор"
+        binding.tvDifficulty.text = getString(R.string.session_warning_level_hardcore)
         binding.tvDifficulty.setTextColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
 
-        binding.tvSessionDescription.text = "Включится Do Not Disturb None - на детокс. Для фокуса переключится на Priority"
-        binding.tvInstruction.text = "Все уведомления и звонки - заблокированы\n\nДаже избранные контакты - без исключений"
+        binding.tvSessionDescription.text = getString(R.string.session_warning_hardcore_description)
+        binding.tvInstruction.text = getString(R.string.session_warning_hardcore_instruction)
         binding.tvInstruction.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
     }
 
     private fun showPermissionDnd() {
         binding.cardDifficulty.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.difficulty_red_bg))
         binding.cardDifficulty.setStrokeColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
-        binding.tvDifficulty.text = "Ошибка"
+        binding.tvDifficulty.text = getString(R.string.session_warning_level_error)
         binding.tvDifficulty.setTextColor(ContextCompat.getColor(requireContext(), R.color.red_basic))
 
-        binding.tvStart.text = "Включите Do Not Disturb"
-        binding.tvSessionDescription.text = "Для этого уровня нужен режим Do Not Disturb, а он сейчас выключен в настройках телефона."
+        binding.tvStart.text = getString(R.string.session_warning_permission_title)
+        binding.tvSessionDescription.text = getString(R.string.session_warning_permission_description)
 
         binding.cardInstruction.visibility = View.GONE
         binding.cardSettings.visibility = View.VISIBLE
 
-        binding.btnStart.text = "Проверить снова"
-        binding.btnCancel.text = "Открыть настройки"
+        binding.btnStart.text = getString(R.string.session_warning_permission_retry)
+        binding.btnCancel.text = getString(R.string.session_warning_permission_settings)
 
         binding.btnStart.setOnClickListener {
             permissionViewModel.refreshPermissions()
