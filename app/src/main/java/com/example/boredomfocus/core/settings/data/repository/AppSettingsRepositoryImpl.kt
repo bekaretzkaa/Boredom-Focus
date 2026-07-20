@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.example.boredomfocus.core.settings.domain.model.AppLanguage
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
@@ -41,6 +42,8 @@ class AppSettingsRepositoryImpl @Inject constructor(
         val isSessionRunning = booleanPreferencesKey("is_session_running")
 
         val NOTIFICATION_PERMISSION_REQUESTED = booleanPreferencesKey("notification_permission_requested")
+
+        val LANGUAGE = stringPreferencesKey("language")
     }
 
     override fun getSettings(): Flow<AppSettings> {
@@ -185,6 +188,21 @@ class AppSettingsRepositoryImpl @Inject constructor(
     override suspend fun setNotificationPermissionRequested(requested: Boolean) {
         dataStore.edit { prefs ->
             prefs[Keys.NOTIFICATION_PERMISSION_REQUESTED] = requested
+        }
+    }
+
+    override fun getLanguage(): Flow<AppLanguage> {
+        return dataStore.data.map { prefs ->
+            when(prefs[Keys.LANGUAGE]) {
+                "ru" -> AppLanguage.RU
+                else -> AppLanguage.EN
+            }
+        }
+    }
+
+    override suspend fun saveLanguage(language: AppLanguage) {
+        dataStore.edit { prefs ->
+            prefs[Keys.LANGUAGE] = language.tag
         }
     }
 }

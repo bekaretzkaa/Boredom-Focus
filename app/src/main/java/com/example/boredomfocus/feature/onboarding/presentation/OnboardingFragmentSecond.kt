@@ -64,16 +64,16 @@ class OnboardingFragmentSecond : Fragment(R.layout.onboarding_fragment_second) {
         val permissionsList = listOf(
             PermissionItem(
                 "dnd",
-                "Режим «Не беспокоить»",
-                "Блокирует уведомления во время детокса. Без этого смысл пропадает.",
+                getString(R.string.onboarding_two_permission_dnd_title),
+                getString(R.string.onboarding_two_permission_dnd_description),
                 R.drawable.ic_notification_off,
                 R.drawable.bg_ic_notification_off,
                 status.doNotDisturb
             ),
             PermissionItem(
                 "notifications",
-                "Уведомления",
-                "Ежедневное напоминание о сессии. Только одно, обещаем.",
+                getString(R.string.onboarding_two_permission_notifications_title),
+                getString(R.string.onboarding_two_permission_notifications_description),
                 R.drawable.ic_notification,
                 R.drawable.bg_ic_notification,
                 status.postNotifications

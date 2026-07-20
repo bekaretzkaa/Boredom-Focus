@@ -11,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.permission.PermissionViewModel
+import com.example.boredomfocus.core.settings.domain.model.AppLanguage
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
 import com.example.boredomfocus.core.ui.selector.AnimatedCardGroupSelector
@@ -51,6 +52,16 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
 
         binding.timeCard.setOnClickListener {
             showTimePickerDialog()
+        }
+
+        binding.tgLanguage.addOnButtonCheckedListener { _, checkedId, isChecked ->
+
+            if (!isChecked || isRenderingLanguage) return@addOnButtonCheckedListener
+
+            when (checkedId) {
+                R.id.btnRu -> viewModel.changeLanguage(AppLanguage.RU)
+                R.id.btnEn -> viewModel.changeLanguage(AppLanguage.EN)
+            }
         }
     }
 
@@ -183,6 +194,8 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         }
     }
 
+    private var isRenderingLanguage = false
+
     private fun renderSettings(state: SettingsUiState) {
         isRenderingFromSettings = true
 
@@ -206,6 +219,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         } finally {
             isRenderingFromSettings = false
         }
+
+        isRenderingLanguage = true
+
+        when (state.language) {
+            AppLanguage.RU -> binding.tgLanguage.check(R.id.btnRu)
+            AppLanguage.EN -> binding.tgLanguage.check(R.id.btnEn)
+        }
+
+        isRenderingLanguage = false
 
         binding.tvSettingsNotificationTimeWord2.text = String.format(Locale.getDefault(), "%02d:%02d", state.reminderHour, state.reminderMinute)
     }

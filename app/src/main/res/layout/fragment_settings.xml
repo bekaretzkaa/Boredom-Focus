@@ -728,13 +728,105 @@
                     android:paddingVertical="20dp">
 
                     <FrameLayout
-                        android:id="@+id/flSettingsInfoIconContainer"
+                        android:id="@+id/flSettingsLanguageIconContainer"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
                         android:background="@drawable/bg_ic_lock"
-                        app:layout_constraintBottom_toTopOf="@id/viewAppLine"
+                        app:layout_constraintBottom_toTopOf="@id/viewAppLine1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/ivSettingsLanguageIcon"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_language" />
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvSettingsLanguageWord1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/inter_medium"
+                        android:text="@string/settings_language"
+                        android:textColor="#C3C3C3"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toEndOf="@id/flSettingsLanguageIconContainer"
+                        app:layout_constraintEnd_toStartOf="@id/tgLanguage"
+                        app:layout_constraintTop_toTopOf="@id/flSettingsLanguageIconContainer"
+                        app:layout_constraintBottom_toBottomOf="@id/flSettingsLanguageIconContainer"/>
+
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/tgLanguage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        app:layout_constraintTop_toTopOf="@id/flSettingsLanguageIconContainer"
+                        app:layout_constraintBottom_toBottomOf="@id/flSettingsLanguageIconContainer"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnRu"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:minWidth="0dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="RU"
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            android:textColor="@color/language_button_text"
+
+                            app:strokeColor="@color/language_button_stroke"
+                            app:strokeWidth="1dp"
+
+                            app:backgroundTint="#161616"
+
+                            android:paddingHorizontal="0dp"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnEn"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:minWidth="0dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:text="EN"
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            android:textColor="@color/language_button_text"
+
+                            app:strokeColor="@color/language_button_stroke"
+                            app:strokeWidth="1dp"
+
+                            app:backgroundTint="#161616"
+
+                            android:paddingHorizontal="0dp"/>
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    <View
+                        android:id="@+id/viewAppLine1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#1A1A1A"
+                        app:layout_constraintTop_toBottomOf="@id/flSettingsLanguageIconContainer"/>
+
+                    <FrameLayout
+                        android:id="@+id/flSettingsInfoIconContainer"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_ic_lock"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/viewAppLine1">
 
                         <ImageView
                             android:id="@+id/ivSettingsInfoIcon"
@@ -770,7 +862,7 @@
                         app:layout_constraintTop_toTopOf="@+id/tvSettingsInfoWord1" />
 
                     <View
-                        android:id="@+id/viewAppLine"
+                        android:id="@+id/viewAppLine2"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="16dp"
@@ -788,7 +880,7 @@
                         android:background="@drawable/bg_ic_lock"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/viewAppLine">
+                        app:layout_constraintTop_toBottomOf="@id/viewAppLine2">
 
                         <ImageView
                             android:id="@+id/ivSettingsStarIcon"

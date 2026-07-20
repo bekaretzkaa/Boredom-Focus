@@ -1,8 +1,11 @@
 package com.example.boredomfocus.feature.settings.presentation
 
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.boredomfocus.core.notification.ReminderScheduler
+import com.example.boredomfocus.core.settings.domain.model.AppLanguage
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
@@ -31,8 +34,9 @@ class SettingsViewModel @Inject constructor(
     val uiState: StateFlow<SettingsUiState> =
         combine(
             appSettingsRepository.getSettings(),
-            authRepository.getCurrentUser()
-        ) { settings, user ->
+            authRepository.getCurrentUser(),
+            appSettingsRepository.getLanguage()
+        ) { settings, user, language ->
             SettingsUiState(
                 isLoading = false,
                 detoxDuration = settings.detoxDuration,
@@ -41,7 +45,8 @@ class SettingsViewModel @Inject constructor(
                 name = user?.name ?: "",
                 email = user?.email ?: "",
                 reminderHour = settings.reminderHour,
-                reminderMinute = settings.reminderMinute
+                reminderMinute = settings.reminderMinute,
+                language = language
             )
         }.stateIn(
             viewModelScope,
@@ -81,6 +86,16 @@ class SettingsViewModel @Inject constructor(
             } else {
                 reminderScheduler.cancel()
             }
+        }
+    }
+
+    fun changeLanguage(language: AppLanguage) {
+        viewModelScope.launch {
+            appSettingsRepository.saveLanguage(language)
+
+            AppCompatDelegate.setApplicationLocales(
+                LocaleListCompat.forLanguageTags(language.tag)
+            )
         }
     }
 }

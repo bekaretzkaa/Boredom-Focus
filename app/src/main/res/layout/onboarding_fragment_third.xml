@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="Настрой под себя"
+        android:text="@string/onboarding_three_title"
         android:textAllCaps="true"
         android:textColor="#999999"
         android:textSize="24sp"
@@ -25,7 +25,7 @@
         android:id="@+id/tvOnboarding3Difficulty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Сложность"
+        android:text="@string/onboarding_three_difficulty"
         android:fontFamily="@font/inter_regular"
         android:textSize="18sp"
         android:textColor="#888888"
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Новичок"
+                    android:text="@string/onboarding_three_difficulty_beginner"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -79,7 +79,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="все\nуведомления"
+                    android:text="@string/onboarding_three_difficulty_beginner_desc"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Боец"
+                    android:text="@string/onboarding_three_difficulty_fighter"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -124,7 +124,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="только\nважное"
+                    android:text="@string/onboarding_three_difficulty_fighter_desc"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -157,7 +157,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:text="Хардкор"
+                    android:text="@string/onboarding_three_difficulty_hardcore"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
 
@@ -168,7 +168,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/inter_regular"
                     android:gravity="center"
-                    android:text="полная\nтишина"
+                    android:text="@string/onboarding_three_difficulty_hardcore_desc"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 
@@ -184,7 +184,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_regular"
         android:paddingBottom="8dp"
-        android:text="Длина детокса"
+        android:text="@string/onboarding_three_detox_duration"
         android:textColor="#888888"
         android:textSize="18sp"
         android:layout_marginTop="12dp"
@@ -212,7 +212,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="5 мин"
+                android:text="@string/onboarding_three_duration_5"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -229,7 +229,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="7 мин"
+                android:text="@string/onboarding_three_duration_7"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -246,7 +246,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="10 мин"
+                android:text="@string/onboarding_three_duration_10"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -263,7 +263,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/inter_medium"
                 android:gravity="center"
-                android:text="15 мин"
+                android:text="@string/onboarding_three_duration_15"
                 android:textSize="18sp" />
 
         </com.google.android.material.card.MaterialCardView>
@@ -275,7 +275,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/inter_medium"
-        android:text="Всё можно изменить в настройках позже"
+        android:text="@string/onboarding_three_description"
         android:textAlignment="center"
         android:textColor="#555555"
         android:textSize="18sp"
@@ -298,7 +298,7 @@
         android:backgroundTint="#0D0D0D"
         android:fontFamily="@font/inter_bold"
         android:paddingVertical="16dp"
-        android:text="Начать"
+        android:text="@string/onboarding_three_start"
         android:textColor="@color/white"
         android:textSize="24sp"
         app:cornerRadius="12dp"

@@ -76,6 +76,8 @@
     <string name="settings_sign_out">Выйти с аккаунта</string>
     <string name="settings_picker_dialog">Время напоминания</string>
 
+    <string name="settings_language">Язык</string>
+
 
     <!-- SETTINGS DND dialog -->
     <string name="settings_dnd_title">Режим «Не беспокоить»</string>
@@ -576,4 +578,52 @@
     <string name="session_warning_step_1">Нажмите «Открыть настройки» ниже</string>
     <string name="session_warning_step_2">Найдите Boredom Focus в списке</string>
     <string name="session_warning_step_3">Переключите «Разрешить»</string>
+
+
+
+    <!-- ONBOARDING -->
+    <!-- ONBOARDING ONE fragment -->
+    <string name="onboarding_one_title">Твой мозг зависим.\nЭто меняется сейчас.</string>
+
+    <string name="onboarding_one_description">Каждое уведомление — доза дофамина. Приложение поможет тебе научиться сидеть в тишине и не тянуться к телефону.</string>
+
+    <string name="onboarding_one_button_continue">Понятно</string>
+    <string name="onboarding_one_button_skip">Пропустить</string>
+
+
+    <!-- ONBOARDING TWO fragment -->
+    <string name="onboarding_two_title">Нужны разрешения</string>
+
+    <string name="onboarding_two_button_allow">Разрешить</string>
+    <string name="onboarding_two_button_later">Потом</string>
+
+    <string name="onboarding_two_permission_dnd_title">Режим «Не беспокоить»</string>
+    <string name="onboarding_two_permission_dnd_description">Блокирует уведомления во время детокса. Без этого смысл пропадает.</string>
+
+    <string name="onboarding_two_permission_notifications_title">Уведомления</string>
+    <string name="onboarding_two_permission_notifications_description">Ежедневное напоминание о сессии. Только одно, обещаем.</string>
+
+
+    <!-- ONBOARDING THREE fragment-->
+
+    <string name="onboarding_three_title">Настрой под себя</string>
+
+    <string name="onboarding_three_difficulty">Сложность</string>
+    <string name="onboarding_three_difficulty_beginner">Новичок</string>
+    <string name="onboarding_three_difficulty_beginner_desc">все\nуведомления</string>
+    <string name="onboarding_three_difficulty_fighter">Боец</string>
+    <string name="onboarding_three_difficulty_fighter_desc">только\nважное</string>
+    <string name="onboarding_three_difficulty_hardcore">Хардкор</string>
+    <string name="onboarding_three_difficulty_hardcore_desc">полная\nтишина</string>
+
+    <string name="onboarding_three_detox_duration">Длина детокса</string>
+
+    <string name="onboarding_three_duration_5">5 мин</string>
+    <string name="onboarding_three_duration_7">7 мин</string>
+    <string name="onboarding_three_duration_10">10 мин</string>
+    <string name="onboarding_three_duration_15">15 мин</string>
+
+    <string name="onboarding_three_description">Всё можно изменить в настройках позже</string>
+
+    <string name="onboarding_three_start">Начать</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.boredomfocus.feature.settings.presentation
 
+import com.example.boredomfocus.core.settings.domain.model.AppLanguage
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
 
@@ -11,5 +12,6 @@ data class SettingsUiState(
     val name: String = "",
     val email: String = "",
     val reminderHour: Int = 21,
-    val reminderMinute: Int = 0
+    val reminderMinute: Int = 0,
+    val language: AppLanguage = AppLanguage.RU
 )

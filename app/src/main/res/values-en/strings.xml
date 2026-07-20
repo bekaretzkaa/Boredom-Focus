@@ -74,6 +74,7 @@
     <string name="settings_sign_out">Sign Out</string>
     <string name="settings_picker_dialog">Reminder Time</string>
 
+    <string name="settings_language">Language</string>
 
     <!-- SETTINGS DND dialog -->
     <string name="settings_dnd_title">Do Not Disturb</string>
@@ -570,4 +571,52 @@
     <string name="session_warning_step_1">Tap "Open Settings" below.</string>
     <string name="session_warning_step_2">Find Boredom Focus in the list.</string>
     <string name="session_warning_step_3">Turn on "Allow".</string>
+
+
+
+    <!-- ONBOARDING -->
+    <!-- ONBOARDING ONE fragment -->
+    <string name="onboarding_one_title">Your brain is addicted.\nThat changes today.</string>
+
+    <string name="onboarding_one_description">Every notification is a dopamine hit. This app will help you get comfortable with silence and stop reaching for your phone.</string>
+
+    <string name="onboarding_one_button_continue">Got it</string>
+    <string name="onboarding_one_button_skip">Skip</string>
+
+
+    <!-- ONBOARDING TWO fragment -->
+    <string name="onboarding_two_title">Permissions Required</string>
+
+    <string name="onboarding_two_button_allow">Allow</string>
+    <string name="onboarding_two_button_later">Later</string>
+
+    <string name="onboarding_two_permission_dnd_title">Do Not Disturb</string>
+    <string name="onboarding_two_permission_dnd_description">Blocks notifications during detox sessions. Without it, the experience loses its purpose.</string>
+
+    <string name="onboarding_two_permission_notifications_title">Notifications</string>
+    <string name="onboarding_two_permission_notifications_description">A single daily reminder for your session. Just one, we promise.</string>
+
+
+    <!-- ONBOARDING THREE fragment -->
+
+    <string name="onboarding_three_title">Customize Your Experience</string>
+
+    <string name="onboarding_three_difficulty">Difficulty</string>
+    <string name="onboarding_three_difficulty_beginner">Beginner</string>
+    <string name="onboarding_three_difficulty_beginner_desc">all\nnotifications</string>
+    <string name="onboarding_three_difficulty_fighter">Fighter</string>
+    <string name="onboarding_three_difficulty_fighter_desc">important\nonly</string>
+    <string name="onboarding_three_difficulty_hardcore">Hardcore</string>
+    <string name="onboarding_three_difficulty_hardcore_desc">complete\nsilence</string>
+
+    <string name="onboarding_three_detox_duration">Detox Duration</string>
+
+    <string name="onboarding_three_duration_5">5 min</string>
+    <string name="onboarding_three_duration_7">7 min</string>
+    <string name="onboarding_three_duration_10">10 min</string>
+    <string name="onboarding_three_duration_15">15 min</string>
+
+    <string name="onboarding_three_description">You can change everything later in Settings</string>
+
+    <string name="onboarding_three_start">Start</string>
 </resources>

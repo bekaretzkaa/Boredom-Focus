@@ -1,5 +1,6 @@
 package com.example.boredomfocus.core.settings.domain.repository
 
+import com.example.boredomfocus.core.settings.domain.model.AppLanguage
 import com.example.boredomfocus.core.settings.domain.model.AppSettings
 import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
 import com.example.boredomfocus.core.settings.domain.model.Difficulty
@@ -36,4 +37,8 @@ interface AppSettingsRepository {
     val notificationPermissionRequested: Flow<Boolean>
 
     suspend fun setNotificationPermissionRequested(requested: Boolean)
+
+    fun getLanguage(): Flow<AppLanguage>
+
+    suspend fun saveLanguage(language: AppLanguage)
 }
