@@ -58,7 +58,7 @@ class FocusSessionService : Service() {
     private val _uiState = MutableStateFlow(FocusSessionUiState())
     val uiState: StateFlow<FocusSessionUiState> = _uiState.asStateFlow()
 
-    private val _events = Channel<FocusSessionEvent>(Channel.Factory.BUFFERED)
+    private val _events = Channel<FocusSessionEvent>(Channel.BUFFERED)
     val events: Flow<FocusSessionEvent> = _events.receiveAsFlow()
 
     private var difficulty: Difficulty = Difficulty.BEGINNER
@@ -294,7 +294,7 @@ class FocusSessionService : Service() {
             val channel = NotificationChannel(
                 CHANNEL_ID, "Сессия детокса/фокуса", NotificationManager.IMPORTANCE_LOW
             )
-            Context.getSystemService(NotificationManager::class.java).createNotificationChannel(channel)
+            getSystemService(NotificationManager::class.java)?.createNotificationChannel(channel)
         }
     }
     private fun buildNotification(text: String): Notification =
@@ -306,8 +306,8 @@ class FocusSessionService : Service() {
             .setOnlyAlertOnce(true)
             .build()
     private fun updateNotification(text: String) {
-        Context.getSystemService(NotificationManager::class.java)
-            .notify(NOTIFICATION_ID, buildNotification(text))
+        getSystemService(NotificationManager::class.java)
+            ?.notify(NOTIFICATION_ID, buildNotification(text))
     }
     companion object {
         private const val NOTIFICATION_ID = 1001
@@ -328,7 +328,7 @@ class FocusSessionService : Service() {
                     dndManager.onSessionEnd()
                     settingsRepository.setSessionRunning(false)
                 }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
             } finally {
                 stopForeground(STOP_FOREGROUND_REMOVE)
                 stopSelf()

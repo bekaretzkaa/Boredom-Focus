@@ -428,7 +428,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <com.example.boredomfocus.feature.focussession.views.ConfettiView
+    <com.example.boredomfocus.feature.focussession.presentation.views.ConfettiView
         android:id="@+id/confettiView"
         android:layout_width="0dp"
         android:layout_height="0dp"
