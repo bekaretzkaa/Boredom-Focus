@@ -40,11 +40,11 @@
 
         <dialog
             android:id="@+id/notificationPermissionDialogFragment"
-            android:name="com.example.boredomfocus.feature.settings.dialogs.NotificationPermissionDialogFragment"/>
+            android:name="com.example.boredomfocus.feature.settings.presentation.dialogs.NotificationPermissionDialogFragment"/>
 
         <dialog
             android:id="@+id/dndPermissionDialogFragment"
-            android:name="com.example.boredomfocus.feature.settings.dialogs.DndPermissionDialogFragment"/>
+            android:name="com.example.boredomfocus.feature.settings.presentation.dialogs.DndPermissionDialogFragment"/>
     </navigation>
 
     <navigation
@@ -53,7 +53,7 @@
 
         <dialog
             android:id="@+id/authFragment"
-            android:name="com.example.boredomfocus.feature.auth.AuthDialogFragment">
+            android:name="com.example.boredomfocus.feature.auth.presentation.AuthDialogFragment">
 
             <action
                 android:id="@+id/actionAuthFragmentToConfirmEmailFragment"
@@ -62,7 +62,7 @@
 
         <dialog
             android:id="@+id/confirmEmailFragment"
-            android:name="com.example.boredomfocus.feature.auth.ConfirmEmailDialogFragment"/>
+            android:name="com.example.boredomfocus.feature.auth.presentation.ConfirmEmailDialogFragment"/>
 
     </navigation>
 
@@ -72,12 +72,12 @@
 
         <argument
             android:name="detoxDuration"
-            app:argType="com.example.boredomfocus.core.settings.domain.model.DetoxDuration"
+            app:argType="com.example.boredomfocus.core.appconfig.domain.model.DetoxDuration"
             android:defaultValue="FIVE_MINUTES"/>
 
         <argument
             android:name="difficulty"
-            app:argType="com.example.boredomfocus.core.settings.domain.model.Difficulty"
+            app:argType="com.example.boredomfocus.core.appconfig.domain.model.Difficulty"
             android:defaultValue="BEGINNER"/>
 
         <argument
@@ -88,7 +88,7 @@
         <!-- Detox Timer -->
         <fragment
             android:id="@+id/detoxTimerFragment"
-            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxTimerFragment">
+            android:name="com.example.boredomfocus.feature.focussession.presentation.fragments.DetoxTimerFragment">
 
             <action
                 android:id="@+id/actionDetoxTimerFragmentToStopDetoxDialogFragment"
@@ -106,7 +106,7 @@
         <!-- Detox Stop Confirm dialog -->
         <dialog
             android:id="@+id/stopDetoxDialogFragment"
-            android:name="com.example.boredomfocus.feature.focussession.dialogs.StopDetoxDialogFragment">
+            android:name="com.example.boredomfocus.feature.focussession.presentation.dialogs.StopDetoxDialogFragment">
 
             <action
                 android:id="@+id/actionStopDetoxDialogFragmentToDetoxInterruptedFragment"
@@ -118,7 +118,7 @@
         <!-- Detox Completed -->
         <fragment
             android:id="@+id/detoxCompletedFragment"
-            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxCompletedFragment">
+            android:name="com.example.boredomfocus.feature.focussession.presentation.fragments.DetoxCompletedFragment">
 
             <action
                 android:id="@+id/actionDetoxCompletedFragmentToStopwatchFragment"
@@ -130,7 +130,7 @@
         <!-- Detox Interrupted -->
         <fragment
             android:id="@+id/detoxInterruptedFragment"
-            android:name="com.example.boredomfocus.feature.focussession.fragments.DetoxInterruptedFragment">
+            android:name="com.example.boredomfocus.feature.focussession.presentation.fragments.DetoxInterruptedFragment">
 
             <action
                 android:id="@+id/actionDetoxInterruptedFragmentToDetoxTimerFragment"
@@ -142,7 +142,7 @@
         <!-- Focus Stopwatch -->
         <fragment
             android:id="@+id/stopwatchFragment"
-            android:name="com.example.boredomfocus.feature.focussession.fragments.StopwatchFragment">
+            android:name="com.example.boredomfocus.feature.focussession.presentation.fragments.StopwatchFragment">
 
             <action
                 android:id="@+id/actionStopwatchFragmentToStopFocusDialogFragment"
@@ -152,7 +152,7 @@
         <!-- Focus Stop Confirm dialog -->
         <dialog
             android:id="@+id/stopFocusDialogFragment"
-            android:name="com.example.boredomfocus.feature.focussession.dialogs.StopFocusDialogFragment">
+            android:name="com.example.boredomfocus.feature.focussession.presentation.dialogs.StopFocusDialogFragment">
 
             <action
                 android:id="@+id/actionStopFocusDialogFragmentToFocusResultFragment"
@@ -164,7 +164,7 @@
         <!-- Focus Result Fragment -->
         <fragment
             android:id="@+id/focusResultFragment"
-            android:name="com.example.boredomfocus.feature.focussession.fragments.FocusResultFragment"/>
+            android:name="com.example.boredomfocus.feature.focussession.presentation.fragments.FocusResultFragment"/>
     </navigation>
 
 </navigation>

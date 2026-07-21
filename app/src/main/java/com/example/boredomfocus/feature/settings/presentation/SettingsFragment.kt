@@ -11,13 +11,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.permission.PermissionViewModel
-import com.example.boredomfocus.core.settings.domain.model.AppLanguage
-import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
-import com.example.boredomfocus.core.settings.domain.model.Difficulty
+import com.example.boredomfocus.core.appconfig.domain.model.AppLanguage
+import com.example.boredomfocus.core.appconfig.domain.model.DetoxDuration
+import com.example.boredomfocus.core.appconfig.domain.model.Difficulty
 import com.example.boredomfocus.core.ui.selector.AnimatedCardGroupSelector
 import com.example.boredomfocus.core.ui.selector.AnimatedCardSelector
 import com.example.boredomfocus.databinding.FragmentSettingsBinding
-import com.example.boredomfocus.feature.settings.dialogs.SignOutDialogFragment
+import com.example.boredomfocus.feature.settings.presentation.dialogs.SignOutDialogFragment
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint

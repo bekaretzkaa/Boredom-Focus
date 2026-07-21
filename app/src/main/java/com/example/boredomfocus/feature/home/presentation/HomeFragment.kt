@@ -1,7 +1,6 @@
 package com.example.boredomfocus.feature.home.presentation
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -12,8 +11,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.boredomfocus.R
 import com.example.boredomfocus.core.common.formatSeconds
-import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
-import com.example.boredomfocus.core.settings.domain.model.Difficulty
+import com.example.boredomfocus.core.appconfig.domain.model.DetoxDuration
+import com.example.boredomfocus.core.appconfig.domain.model.Difficulty
 import com.example.boredomfocus.databinding.FragmentHomeBinding
 import com.example.boredomfocus.feature.sessionsettings.presentation.SessionSettingsBottomSheet
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +20,7 @@ import kotlinx.coroutines.launch
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import androidx.core.view.doOnPreDraw
-import com.example.boredomfocus.feature.sessionsettings.dialogs.SessionWarningDialogFragment
+import com.example.boredomfocus.feature.sessionsettings.presentation.dialogs.SessionWarningDialogFragment
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {

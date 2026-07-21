@@ -2,9 +2,9 @@ package com.example.boredomfocus.core.permission
 
 import android.app.NotificationManager
 import android.content.Context
-import com.example.boredomfocus.core.settings.domain.model.Difficulty
-import com.example.boredomfocus.core.settings.domain.model.SessionPhase
-import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
+import com.example.boredomfocus.core.appconfig.domain.model.Difficulty
+import com.example.boredomfocus.core.appconfig.domain.model.SessionPhase
+import com.example.boredomfocus.core.appconfig.domain.repository.AppSettingsRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject

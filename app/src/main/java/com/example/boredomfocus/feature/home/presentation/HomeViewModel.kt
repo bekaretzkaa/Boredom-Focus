@@ -3,9 +3,8 @@ package com.example.boredomfocus.feature.home.presentation
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.boredomfocus.core.common.epochDayToDayOfWeekIndex
 import com.example.boredomfocus.core.common.getCalendarWeekRangeDay
-import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
+import com.example.boredomfocus.core.appconfig.domain.repository.AppSettingsRepository
 import com.example.boredomfocus.data.local.entity.DailyStatsEntity
 import com.example.boredomfocus.domain.repository.DailyStatsRepository
 import com.example.boredomfocus.domain.repository.SessionRepository

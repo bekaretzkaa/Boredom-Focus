@@ -1,7 +1,7 @@
 package com.example.boredomfocus.feature.sessionsettings.presentation
 
-import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
-import com.example.boredomfocus.core.settings.domain.model.Difficulty
+import com.example.boredomfocus.core.appconfig.domain.model.DetoxDuration
+import com.example.boredomfocus.core.appconfig.domain.model.Difficulty
 
 data class SessionSettingsUiState(
     val isLoading: Boolean = true,

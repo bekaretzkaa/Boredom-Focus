@@ -2,9 +2,9 @@ package com.example.boredomfocus.feature.onboarding.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
-import com.example.boredomfocus.core.settings.domain.model.Difficulty
-import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
+import com.example.boredomfocus.core.appconfig.domain.model.DetoxDuration
+import com.example.boredomfocus.core.appconfig.domain.model.Difficulty
+import com.example.boredomfocus.core.appconfig.domain.repository.AppSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#0D0D0D"
     android:padding="24dp"
-    tools:context=".feature.focussession.fragments.DetoxInterruptedFragment">
+    tools:context=".feature.focussession.presentation.fragments.DetoxInterruptedFragment">
 
     <TextView
         android:id="@+id/tvDetoxSession"

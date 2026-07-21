@@ -2,8 +2,8 @@ package com.example.boredomfocus.data.repository
 
 import com.example.boredomfocus.domain.model.AuthUser
 import com.example.boredomfocus.domain.repository.AuthRepository
-import com.example.boredomfocus.feature.auth.AuthError
-import com.example.boredomfocus.feature.auth.AuthResult
+import com.example.boredomfocus.feature.auth.presentation.AuthError
+import com.example.boredomfocus.feature.auth.presentation.AuthResult
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException

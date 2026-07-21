@@ -1,8 +1,8 @@
 package com.example.boredomfocus.feature.settings.presentation
 
-import com.example.boredomfocus.core.settings.domain.model.AppLanguage
-import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
-import com.example.boredomfocus.core.settings.domain.model.Difficulty
+import com.example.boredomfocus.core.appconfig.domain.model.AppLanguage
+import com.example.boredomfocus.core.appconfig.domain.model.DetoxDuration
+import com.example.boredomfocus.core.appconfig.domain.model.Difficulty
 
 data class SettingsUiState(
     val isLoading: Boolean = true,

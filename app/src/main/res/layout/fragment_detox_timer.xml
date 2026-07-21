@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#0D0D0D"
     android:padding="24dp"
-    tools:context=".feature.focussession.fragments.DetoxTimerFragment">
+    tools:context=".feature.focussession.presentation.fragments.DetoxTimerFragment">
 
     <com.example.boredomfocus.core.ui.customview.CircularProgressView
         android:id="@+id/progressViewDetoxTimer"

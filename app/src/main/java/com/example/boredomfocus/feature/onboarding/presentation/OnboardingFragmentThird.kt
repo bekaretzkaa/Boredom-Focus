@@ -4,18 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.boredomfocus.R
-import com.example.boredomfocus.core.settings.domain.model.AppSettings
-import com.example.boredomfocus.core.settings.domain.model.DetoxDuration
-import com.example.boredomfocus.core.settings.domain.model.Difficulty
+import com.example.boredomfocus.core.appconfig.domain.model.DetoxDuration
+import com.example.boredomfocus.core.appconfig.domain.model.Difficulty
 import com.example.boredomfocus.core.ui.selector.AnimatedCardGroupSelector
 import com.example.boredomfocus.core.ui.selector.AnimatedCardSelector
 import com.example.boredomfocus.databinding.OnboardingFragmentThirdBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class OnboardingFragmentThird : Fragment(R.layout.onboarding_fragment_third) {

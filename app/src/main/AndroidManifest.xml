@@ -47,7 +47,7 @@
         </receiver>
 
         <service
-            android:name=".feature.focussession.FocusSessionService"
+            android:name=".feature.focussession.service.FocusSessionService"
             android:exported="false"
             android:foregroundServiceType="specialUse">
             <property

@@ -1,7 +1,7 @@
 package com.example.boredomfocus.core.di
 
-import com.example.boredomfocus.core.settings.data.repository.AppSettingsRepositoryImpl
-import com.example.boredomfocus.core.settings.domain.repository.AppSettingsRepository
+import com.example.boredomfocus.core.appconfig.data.repository.AppSettingsRepositoryImpl
+import com.example.boredomfocus.core.appconfig.domain.repository.AppSettingsRepository
 import com.example.boredomfocus.data.repository.AddSessionRepositoryImpl
 import com.example.boredomfocus.data.repository.DailyStatsRepositoryImpl
 import com.example.boredomfocus.data.repository.SessionRepositoryImpl
