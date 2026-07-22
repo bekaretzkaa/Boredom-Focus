@@ -28,10 +28,11 @@
         android:id="@+id/tvStreak2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
         android:text="1:58:00"
         android:textColor="@color/white"
-        android:textSize="92sp"
+        android:textSize="100sp"
+        android:textAlignment="center"
+        android:fontFamily="sans-serif-medium"
         app:layout_constraintBottom_toTopOf="@+id/tvStreak3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -50,7 +51,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvStreak2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStreak2"
+        app:layout_constraintBottom_toTopOf="@id/cardWeek"/>
 
     <LinearLayout
         android:id="@+id/cardWeek"
