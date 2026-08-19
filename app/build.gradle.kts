@@ -37,6 +37,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -49,7 +55,9 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.googleid)
 
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
     testImplementation(libs.mockk)
     testImplementation(libs.turbine)
     androidTestImplementation(libs.androidx.espresso.core)
