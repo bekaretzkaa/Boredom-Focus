@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.googleid)
+    implementation(libs.androidx.lifecycle.viewmodel.savedstate)
 
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.junit5)
