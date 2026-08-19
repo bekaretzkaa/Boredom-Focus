@@ -74,10 +74,10 @@ class FocusSessionViewModel @Inject constructor(
             if (focusOnly) {
                 service!!.startFocusStopwatch()
             } else {
-//                service!!.startDetoxTimer((detoxDuration.minutes * 60).toLong())
+                service!!.startDetoxTimer((detoxDuration.minutes * 60).toLong())
 
 //                TEST
-                service!!.startDetoxTimer(10)
+//                service!!.startDetoxTimer(20)
             }
         }
 
@@ -194,20 +194,20 @@ class FocusSessionViewModel @Inject constructor(
 
             _uiState.update { state ->
                 state.copy(
-//                    focusUiState = state.focusUiState.copy(
-//                        focusRecord = record ?: 0,
-//                        previousFocusSeconds = previousFocus,
-//                        weekFocusRecord = focusRecords.currentWeek,
-//                        monthFocusRecord = focusRecords.currentMonth,
-//                    )
+                    focusUiState = state.focusUiState.copy(
+                        focusRecord = record ?: 0,
+                        previousFocusSeconds = previousFocus,
+                        weekFocusRecord = focusRecords.currentWeek,
+                        monthFocusRecord = focusRecords.currentMonth,
+                    )
 
 //                    TEST
-                    focusUiState = state.focusUiState.copy(
-                        previousFocusSeconds = 20,
-                        weekFocusRecord = 160,
-                        monthFocusRecord = 2000,
-                        focusRecord = 3000
-                    )
+//                    focusUiState = state.focusUiState.copy(
+//                        previousFocusSeconds = 10,
+//                        weekFocusRecord = 20,
+//                        monthFocusRecord = 30,
+//                        focusRecord = 40
+//                    )
                 )
             }
         }
